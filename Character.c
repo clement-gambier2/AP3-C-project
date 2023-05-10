@@ -3,14 +3,23 @@
 // santé = hp ; défense = def ;  attaque = dmg  Sante max = p_max
 
 
+#include <stdio.h>
 #include "Character.h"
 
 void init_character(Character *perso, int hp_max, int hp, int def, int dmg, int key) {
+    printf("\n%s\n", "On passe par la");
+    printf("%d %d %d %d %d", hp_max, hp, def, dmg, key);
+
     perso->hp_max = hp_max;
+    printf("%s\n hp_max", "On passe par là");
     perso->hp = hp;
+    printf("%s\n hp", "On passe par là");
     perso->def = def;
+    printf("%s\n def", "On passe par là");
     perso->dmg = dmg;
+    printf("%s\n dmg", "On passe par là");
     perso->key = key;
+    printf("%s\n key", "On passe par là");
 }
 void modify_hp(Character *perso, int delta) {
     // vérifier si les HP actuels sont inférieurs ou égaux à la limite maximale de HP
@@ -29,6 +38,7 @@ void modify_hp(Character *perso, int delta) {
     }
 }
 
+/*
 int main (){
 
     Character perso1;
@@ -49,3 +59,4 @@ int main (){
     return 0;
 
 };
+*/

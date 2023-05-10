@@ -7,7 +7,7 @@
 
 #endif //AP3_C_PROJECT_CHARACTER_H
 
-typedef struct {
+typedef struct Character_{
     int hp_max;
     int hp;
     int def;
@@ -15,8 +15,10 @@ typedef struct {
     int key; // uniquement pour les personnages
 } Character;
 
-typedef struct {
+typedef struct Enemy_{
     int hp;
     int def;
     int dmg;
 } Enemy;
+
+void init_character(Character *perso, int hp_max, int hp, int def, int dmg, int key);
