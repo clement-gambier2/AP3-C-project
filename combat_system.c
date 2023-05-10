@@ -26,7 +26,7 @@ int fight(struct character character, struct enemy enemy) {
     if (enemy.hp <= 0) {
         printf("%s", "Combat Win");
         character.dmg += 1;
-        character.hp += 1;
+        character.hp_max += 1;
         return 1;
     }
 
