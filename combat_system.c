@@ -1,25 +1,5 @@
-//
-// Created by Tristan on 10/05/2023.
-//
-
 #include "combat_system.h"
 #include "Character.h"
-#include <stdio.h>
-
-/*
-typedef struct {
-    int hp_max;
-    int hp;
-    int def;
-    int dmg;
-    int key; // uniquement pour les personnages
-} Character;
-
-typedef struct {
-    int hp;
-    int def;
-    int dmg;
-} Enemy;*/
 
 /**
  * Fight system that modify player and enemy statistics.
@@ -27,20 +7,19 @@ typedef struct {
  * This is only one turn of the fight.
  * @param character - struct character
  * @param enemy - struct enemy
- * @return 1-0 - isCombatWin
- *//*
+ * @return -1 = Player's dead | 0 = Nobody's dead | 1 = Enemy's dead
+ */
 int fight(Character *character, Enemy *enemy) {
     // Player turn
     int enemyHurtPoints = character->dmg - enemy->def;
     if (enemyHurtPoints < 1) {
-        enemy->hp -= 1;
+        enemy_reduce_hp(enemy, 1);
     } else {
-        enemy->hp -= enemyHurtPoints;
+        enemy_reduce_hp(enemy, enemyHurtPoints);
     }
 
     // Check if the enemy is dead
     if (enemy->hp <= 0) {
-        printf("%s", "Combat Win");
         character->dmg += 1;
         character->hp_max += 1;
         return 1;
@@ -49,31 +28,15 @@ int fight(Character *character, Enemy *enemy) {
     // Enemy turn
     int characterHurtPoints = enemy->dmg - character->def;
     if (characterHurtPoints < 1) {
-        character->hp -= 1;
+        char_reduce_hp(character, 1);
     } else {
-        character->hp -= characterHurtPoints;
+        char_reduce_hp(character, characterHurtPoints);
     }
 
-    return 0;
-}*/
-
-
-int main() {
-    printf("%s", "HelloWorld!");
-    Character *perso1;
-
-    init_character(perso1, 10, 10, 1, 2, 0);
-    printf("%s", "On a fini l'initialisation");
-
-    perso1->hp_max += 1;
-
-    // affichage des stats du personnage
-    printf("Stats du personnage :\n");
-    printf("Pv MAX : %d\n", perso1->hp_max);
-    printf("Santé : %d\n", perso1->hp);
-    printf("Défense : %d\n", perso1->def);
-    printf("Attaque : %d\n", perso1->dmg);
-    printf("Clé : %d\n", perso1->key);
+    // Check if the player is dead
+    if (character->hp <= 0) {
+        return -1;
+    }
 
     return 0;
 }

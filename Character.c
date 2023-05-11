@@ -1,62 +1,78 @@
-//
-// Created by alexa on 10/05/2023.
-// santé = hp ; défense = def ;  attaque = dmg  Sante max = p_max
-
-
-#include <stdio.h>
+#include <malloc.h>
 #include "Character.h"
 
-void init_character(Character *perso, int hp_max, int hp, int def, int dmg, int key) {
-    printf("\n%s\n", "On passe par la");
-    printf("%d %d %d %d %d", hp_max, hp, def, dmg, key);
+/**
+ * Used to create a new playable character
+ * @param hp_max - Maximum health points for the player
+ * @param hp - Health points of the player
+ * @param def - Defense points of the player
+ * @param dmg - Damage points of the player
+ * @param key - Number of keys detained by the player
+ * @return Character *
+ */
+Character * createCharacter(int hp_max, int hp, int def, int dmg, int key) {
+    Character * newCharacter = (Character *) malloc(sizeof (struct Character_));
+    newCharacter->hp_max = hp_max;
+    newCharacter->hp = hp;
+    newCharacter->def = def;
+    newCharacter->dmg = dmg;
+    newCharacter->key = key;
 
-    perso->hp_max = hp_max;
-    printf("%s\n hp_max", "On passe par là");
-    perso->hp = hp;
-    printf("%s\n hp", "On passe par là");
-    perso->def = def;
-    printf("%s\n def", "On passe par là");
-    perso->dmg = dmg;
-    printf("%s\n dmg", "On passe par là");
-    perso->key = key;
-    printf("%s\n key", "On passe par là");
-}
-void modify_hp(Character *perso, int delta) {
-    // vérifier si les HP actuels sont inférieurs ou égaux à la limite maximale de HP
-    if (perso->hp >= perso->hp_max) {
-        // si les HP actuels sont déjà à leur maximum, ne pas effectuer de modifications
-        return;
-    }
-
-    // ajouter la valeur delta aux HP actuels
-    perso->hp += delta;
-
-    // vérifier si les HP actuels sont supérieurs à la limite maximale de HP
-    if (perso->hp > perso->hp_max) {
-        // si les HP actuels sont supérieurs à la limite maximale de HP, les ramener à la limite maximale
-        perso->hp = perso->hp_max;
-    }
+    return newCharacter;
 }
 
-/*
-int main (){
+/**
+ * Used to create a new enemy
+ * @param hp - Health points for the enemy
+ * @param def - Defense points of the enemy
+ * @param dmg - Damage points of the enemy
+ * @return Enemy *
+ */
+Enemy * createEnemy(int hp, int def, int dmg) {
+    Enemy * newEnemy = (Enemy *) malloc(sizeof (struct Enemy_));
+    newEnemy->hp = hp;
+    newEnemy->def = def;
+    newEnemy->dmg = dmg;
 
-    Character perso1;
+    return newEnemy;
+}
 
-    init_character(&perso1, 10, 10, 1, 2, 0);
+/**
+ * Used to reduce Health Points for a character
+ * @param player - The player
+ * @param delta - The amount of Health Points to remove
+ */
+void char_reduce_hp(Character * player, int delta) {
+    player->hp -= delta;
+}
 
-    perso1.hp_max += 1;
-    modify_hp(&perso1, 3);
+/**
+ * Used to increase Health Points for a character
+ * @param player - The player
+ * @param delta - The amount of Health Points to add
+ */
+void char_add_hp(Character * player, int delta) {
+    if (player->hp + delta > player->hp_max) {
+        player->hp = player->hp_max;
+    } else {
+        player->hp += delta;
+    }
+}
 
-    // affichage des stats du personnage
-    printf("Stats du personnage :\n");
-    printf("Pv MAX : %d\n", perso1.hp_max);
-    printf("Santé : %d\n", perso1.hp);
-    printf("Défense : %d\n", perso1.def);
-    printf("Attaque : %d\n", perso1.dmg);
-    printf("Clé : %d\n", perso1.key);
+/**
+ * Used to reduce Health Points for an enemy
+ * @param enemy - The enemy
+ * @param delta - The amount of Health Points to remove
+ */
+void enemy_reduce_hp(Enemy * enemy, int delta) {
+    enemy->hp -= delta;
+}
 
-    return 0;
-
-};
-*/
+/**
+ * Used to add Health Points for an enemy
+ * @param enemy - The enemy
+ * @param delta - The amount of Health Points to add
+ */
+void enemy_add_hp(Enemy * enemy, int delta) {
+    enemy->hp += delta;
+}
