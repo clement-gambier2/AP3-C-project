@@ -7,33 +7,29 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Create a window
+    //We start by creating a window
     SDL_Window* window = SDL_CreateWindow("AP3-C-Project",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
                                           640, 480,
                                           SDL_WINDOW_SHOWN);
 
-    // Create a renderer
+    //Then we need to render
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
-    // Set the drawing color to black
+    // Create a black background
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-
-    // Clear the screen to black
     SDL_RenderClear(renderer);
 
-    // Set the drawing color to red
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-
     // Draw a red square in the center of the screen
-    SDL_Rect rect = { (640 - 50) / 2, (480 - 50) / 2, 50, 50 };
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_Rect rect = { (640 - 30) / 2, (480 - 30) / 2, 30, 30 };
     SDL_RenderFillRect(renderer, &rect);
 
-    // Present the renderer to the screen
+    // We print the render to the window
     SDL_RenderPresent(renderer);
 
-    // Wait for events
+    // Here we are waiting for events
     SDL_Event event;
     int running = 1;
     while (running) {
@@ -43,12 +39,50 @@ int main(int argc, char *argv[]) {
                     running = 0;
                     break;
                 case SDL_KEYDOWN:
-                    if (event.key.keysym.sym == SDLK_q) {
-                        running = 0;
+                    switch (event.key.keysym.sym) {
+                        case SDLK_q:
+                            running = 0;
+                            break;
+                        case SDLK_UP:
+                            rect.y -= 10;
+                            break;
+                        case SDLK_DOWN:
+                            rect.y += 10;
+                            break;
+                        case SDLK_LEFT:
+                            rect.x -= 10;
+                            break;
+                        case SDLK_RIGHT:
+                            rect.x += 10;
+                            break;
                     }
                     break;
             }
         }
+
+
+        // We create a grid
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+        // Draw vertical lines
+        for (int x = 0; x <= 640; x += 30) {
+            SDL_RenderDrawLine(renderer, x, 0, x, 480);
+        }
+        // Draw horizontal lines
+        for (int y = 0; y <= 480; y += 30) {
+            SDL_RenderDrawLine(renderer, 0, y, 640, y);
+        }
+
+        // Draw a red square
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_RenderFillRect(renderer, &rect);
+
+        // Present the renderer to the screen
+        SDL_RenderPresent(renderer);
+
         SDL_Delay(10);
     }
 
