@@ -1,5 +1,4 @@
 #include "combat_system.h"
-#include "Character.h"
 
 /**
  * Fight system that modify player and enemy statistics.
@@ -13,9 +12,9 @@ int fight(Character *character, Enemy *enemy) {
     // Player turn
     int enemyHurtPoints = character->dmg - enemy->def;
     if (enemyHurtPoints < 1) {
-        enemy_reduce_hp(enemy, 1);
+        enemy_decrement_hp(enemy, 1);
     } else {
-        enemy_reduce_hp(enemy, enemyHurtPoints);
+        enemy_decrement_hp(enemy, enemyHurtPoints);
     }
 
     // Check if the enemy is dead
@@ -28,9 +27,9 @@ int fight(Character *character, Enemy *enemy) {
     // Enemy turn
     int characterHurtPoints = enemy->dmg - character->def;
     if (characterHurtPoints < 1) {
-        char_reduce_hp(character, 1);
+        char_decrement_hp(character, 1);
     } else {
-        char_reduce_hp(character, characterHurtPoints);
+        char_decrement_hp(character, characterHurtPoints);
     }
 
     // Check if the player is dead

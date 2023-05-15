@@ -28,11 +28,12 @@ Character * createCharacter(int hp_max, int hp, int def, int dmg, int key) {
  * @param dmg - Damage points of the enemy
  * @return Enemy *
  */
-Enemy * createEnemy(int hp, int def, int dmg) {
+Enemy * createEnemy(int hp, int def, int dmg, int isDead) {
     Enemy * newEnemy = (Enemy *) malloc(sizeof (struct Enemy_));
     newEnemy->hp = hp;
     newEnemy->def = def;
     newEnemy->dmg = dmg;
+    newEnemy->isDead = isDead;
 
     return newEnemy;
 }
@@ -42,7 +43,7 @@ Enemy * createEnemy(int hp, int def, int dmg) {
  * @param player - The player
  * @param delta - The amount of Health Points to remove
  */
-void char_reduce_hp(Character * player, int delta) {
+void char_decrement_hp(Character * player, int delta) {
     player->hp -= delta;
 }
 
@@ -51,7 +52,7 @@ void char_reduce_hp(Character * player, int delta) {
  * @param player - The player
  * @param delta - The amount of Health Points to add
  */
-void char_add_hp(Character * player, int delta) {
+void char_increment_hp(Character * player, int delta) {
     if (player->hp + delta > player->hp_max) {
         player->hp = player->hp_max;
     } else {
@@ -64,8 +65,11 @@ void char_add_hp(Character * player, int delta) {
  * @param enemy - The enemy
  * @param delta - The amount of Health Points to remove
  */
-void enemy_reduce_hp(Enemy * enemy, int delta) {
+void enemy_decrement_hp(Enemy * enemy, int delta) {
     enemy->hp -= delta;
+    if (enemy->hp <= 0) {
+        enemy->isDead = 1;
+    }
 }
 
 /**
@@ -73,6 +77,6 @@ void enemy_reduce_hp(Enemy * enemy, int delta) {
  * @param enemy - The enemy
  * @param delta - The amount of Health Points to add
  */
-void enemy_add_hp(Enemy * enemy, int delta) {
+void enemy_increment_hp(Enemy * enemy, int delta) {
     enemy->hp += delta;
 }
