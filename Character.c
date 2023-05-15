@@ -8,15 +8,17 @@
  * @param def - Defense points of the player
  * @param dmg - Damage points of the player
  * @param key - Number of keys detained by the player
+ * @param potion - Number of potions detained by the player
  * @return Character *
  */
-Character * createCharacter(int hp_max, int hp, int def, int dmg, int key) {
+Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion) {
     Character * newCharacter = (Character *) malloc(sizeof (struct Character_));
     newCharacter->hp_max = hp_max;
     newCharacter->hp = hp;
     newCharacter->def = def;
     newCharacter->dmg = dmg;
     newCharacter->key = key;
+    newCharacter->potion = potion;
 
     return newCharacter;
 }
