@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "game/game.h"
+#include "combat/combat.h"
+#include "map/map.h"
 
 int main() {
     // Initialize SDL2
@@ -19,10 +21,25 @@ int main() {
     //Then we need to render
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
-    TTF_Font* font = TTF_OpenFont("../assets/fonts/antique.ttf", 24); // Load font from file
-    displayMenu(renderer, font); // Call displayMenu with loaded font
-    TTF_CloseFont(font); // Free font when you're done using it
-    //launchGame(renderer);
+    //TTF_Font* font = TTF_OpenFont("../assets/fonts/antique.ttf", 24); // Load font from file
+    //displayMenu(renderer, font); // Call displayMenu with loaded font
+    //TTF_CloseFont(font); // Free font when you're done using it
+
+    //TODO: debug this (there is a segfault)
+    //I also change the type of initMap because it will be easier to use it.
+    buildMapFromFile("niveau 1.level");
+    //char** map = initMap();
+    //displayMap(map);
+
+    Character c = *createCharacter(10,10,2,3,0);
+    Enemy e = *createEnemy(5,2,1,0);
+    fight(&c,&e);
+    fight(&c,&e);
+    fight(&c,&e);
+    printf("Character hp: %d\n", c.hp);
+    printf("Enemy hp: %d\n", e.hp);
+    launchGame(renderer);
+
 
 
     // Cleanup SDL2

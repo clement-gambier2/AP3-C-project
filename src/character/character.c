@@ -1,5 +1,5 @@
 #include <malloc.h>
-#include "Character.h"
+#include "character.h"
 
 /**
  * Used to create a new playable character
