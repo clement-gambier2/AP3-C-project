@@ -1,3 +1,9 @@
+# Files generated during the compilation
+*.o
+*.out
+*.exe
+bin/
+src/obj/
+
+# Other
 .idea
-cmake-build-debug
-.vs
