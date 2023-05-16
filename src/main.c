@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "game/game.h"
+#include "mapManagement/mapManagement.h"
 
 int main() {
     // Initialize SDL2
@@ -19,10 +20,13 @@ int main() {
     //Then we need to render
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
-    TTF_Font* font = TTF_OpenFont("../assets/fonts/antique.ttf", 24); // Load font from file
-    displayMenu(renderer, font); // Call displayMenu with loaded font
-    TTF_CloseFont(font); // Free font when you're done using it
+    //TTF_Font* font = TTF_OpenFont("../assets/fonts/antique.ttf", 24); // Load font from file
+    //displayMenu(renderer, font); // Call displayMenu with loaded font
+    //TTF_CloseFont(font); // Free font when you're done using it
     //launchGame(renderer);
+    //initMap();
+    //char ** map = buildMapFromFile("niveau 1.level");
+    //draw_map(renderer);
 
 
     // Cleanup SDL2

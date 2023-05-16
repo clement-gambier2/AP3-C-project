@@ -4,6 +4,35 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <SDL2/SDL.h>
+
+/**
+ * Test for displaying an image in the window
+ * @param renderer
+ */
+void draw_map(SDL_Renderer * renderer) {
+    SDL_Event event;
+    int running = 1;
+    while (running) {
+        // Path from main.c
+        SDL_Surface * image = SDL_LoadBMP("src/assets/images/floor_tile.bmp");
+        SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
+        SDL_Rect dstrect = { 0, 0, 30, 30 };
+        SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+
+        SDL_RenderPresent(renderer);
+
+        SDL_DestroyTexture(texture);
+        SDL_FreeSurface(image);
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    running = 0;
+                    break;
+            }
+        }
+    }
+}
 
 /**
  *buildMapFromFile build the matrix with the map given in param
