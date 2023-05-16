@@ -8,6 +8,12 @@ int main() {
         printf("Failed to initialize SDL2: %s\n", SDL_GetError());
         return 1;
     }
+    // Initialisation de SDL_ttf
+    if (TTF_Init() != 0) {
+        printf("Erreur lors de l'initialisation de SDL_ttf : %s\n", TTF_GetError());
+        SDL_Quit();
+        return 1;
+    }
 
     //We start by creating a window
     SDL_Window* window = SDL_CreateWindow("AP3-C-Project",
@@ -19,10 +25,15 @@ int main() {
     //Then we need to render
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
-    TTF_Font* font = TTF_OpenFont("../assets/fonts/antique.ttf", 24); // Load font from file
-    displayMenu(renderer, font); // Call displayMenu with loaded font
-    TTF_CloseFont(font); // Free font when you're done using it
-    //launchGame(renderer);
+    int choice = displayMenu(renderer); // Call displayMenu with loaded font
+    while(choice == 2){
+        credits(renderer);
+        choice = displayMenu(renderer);
+    }
+
+    if(choice == 1) {
+        launchGame(renderer);
+    }
 
 
     // Cleanup SDL2
