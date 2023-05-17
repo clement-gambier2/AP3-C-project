@@ -40,7 +40,7 @@ int main() {
       //char** map = initMap();
       //displayMap(map);
 
-      Character c = *createCharacter(10,10,2,3,0);
+      Character c = *createCharacter(10,10,2,3,0,0);
       Enemy e = *createEnemy(5,2,1,0);
       fight(&c,&e);
       fight(&c,&e);
