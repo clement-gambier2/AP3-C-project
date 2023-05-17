@@ -1,12 +1,8 @@
 //
 // Created by clement on 13/05/23.
 //
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 #include "game.h"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
 
 /**
  * launchGame is the function that launches the game
@@ -19,7 +15,7 @@ void launchGame(SDL_Renderer* renderer){
 
     // Draw a red square in the center of the screen
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_Rect rect = { (640 - 30) / 2, (480 - 30) / 2, 30, 30 };
+    SDL_Rect rect = { (SCREEN_WINDOW - 30) / 2, (SCREEN_WINDOW - 30) / 2, 30, 30 };
     SDL_RenderFillRect(renderer, &rect);
 
     // We print the render to the window
@@ -86,19 +82,25 @@ void launchGame(SDL_Renderer* renderer){
 }
 
 
+/**
+ * createText is the function that creates the text
+ * @param text
+ * @param font
+ * @param color
+ * @return SDL_Surface*
+ */
 SDL_Surface* createText(const char* text, TTF_Font* font, SDL_Color color) {
     return TTF_RenderText_Solid(font, text, color);
 }
 
 
+
 /**
  * displayMenu is the function that displays the menu
  * @param renderer
+ * @return int
  */
-
 int displayMenu(SDL_Renderer* renderer) {
-    SDL_Color whiteColor = { 255, 255, 255, 255 };
-    SDL_Color greenColor = { 0, 255, 0, 255 };
     TTF_Font* font = TTF_OpenFont("src/assets/fonts/antique.ttf", 25);
 
     struct TextData {
@@ -120,7 +122,7 @@ int displayMenu(SDL_Renderer* renderer) {
     int isSelected = 1;
 
     for (int i = 0; i < numTexts; i++) {
-        texts[i].surface = createText(texts[i].text, font, whiteColor);
+        texts[i].surface = createText(texts[i].text, font, WHITE_COLOR);
         texts[i].texture = SDL_CreateTextureFromSurface(renderer, texts[i].surface);
 
         texts[i].rect.w = texts[i].surface->w;
@@ -129,10 +131,10 @@ int displayMenu(SDL_Renderer* renderer) {
 
     int textHeight = texts[0].rect.h;
     int totalTextHeight = numTexts * textHeight;
-    int startY = (SCREEN_HEIGHT - totalTextHeight) / 2;
+    int startY = (SCREEN_WINDOW - totalTextHeight) / 2;
 
     for (int i = 0; i < numTexts; i++) {
-        texts[i].rect.x = (SCREEN_WIDTH - texts[i].rect.w) / 2;
+        texts[i].rect.x = (SCREEN_WINDOW - texts[i].rect.w) / 2;
         texts[i].rect.y = startY + i * textHeight;
     }
 
@@ -173,12 +175,12 @@ int displayMenu(SDL_Renderer* renderer) {
         for (int i = 0; i < numTexts; i++) {
             if (i == isSelected) {
                 SDL_FreeSurface(texts[i].surface);
-                texts[i].surface = createText(texts[i].text, font, greenColor);
+                texts[i].surface = createText(texts[i].text, font, GREEN_COLOR);
                 SDL_DestroyTexture(texts[i].texture);
                 texts[i].texture = SDL_CreateTextureFromSurface(renderer, texts[i].surface);
             } else {
                 SDL_FreeSurface(texts[i].surface);
-                texts[i].surface = createText(texts[i].text, font, whiteColor);
+                texts[i].surface = createText(texts[i].text, font, WHITE_COLOR);
                 SDL_DestroyTexture(texts[i].texture);
                 texts[i].texture = SDL_CreateTextureFromSurface(renderer, texts[i].surface);
             }
@@ -200,8 +202,6 @@ int displayMenu(SDL_Renderer* renderer) {
 
 
 int credits(SDL_Renderer* renderer) {
-    SDL_Color whiteColor = { 255, 255, 255, 255 };
-    SDL_Color greenColor = { 0, 255, 0, 255 };
     TTF_Font* font = TTF_OpenFont("src/assets/fonts/roboto.ttf", 25);
 
     struct TextData {
@@ -216,7 +216,7 @@ int credits(SDL_Renderer* renderer) {
             {"Fumiere Tristan", NULL, NULL, {0, 100, 0, 0}},
             {"Gambier Clement", NULL, NULL, {0, 200, 0, 0}},
             {"Gine Alexandre", NULL, NULL, {0, 300, 0, 0}},
-            {"Gressier Gabriel", NULL, NULL, {SCREEN_WIDTH/2, 400, 0, 0}},
+            {"Gressier Gabriel", NULL, NULL, {SCREEN_WINDOW/2, 400, 0, 0}},
             {"Date de derniere modification : ", NULL, NULL, {0, 500, 0, 0}},
             {"le 17 mai 2023", NULL, NULL, {0, 600, 0, 0}},
             {"Retour", NULL, NULL, {0, 700, 0, 0}}
@@ -227,19 +227,18 @@ int credits(SDL_Renderer* renderer) {
     int isSelected = 7;
 
     for (int i = 0; i < numTexts; i++) {
-        texts[i].surface = createText(texts[i].text, font, whiteColor);
+        texts[i].surface = createText(texts[i].text, font, WHITE_COLOR);
         texts[i].texture = SDL_CreateTextureFromSurface(renderer, texts[i].surface);
-
         texts[i].rect.w = texts[i].surface->w;
         texts[i].rect.h = texts[i].surface->h;
     }
 
     int textHeight = texts[0].rect.h;
     int totalTextHeight = numTexts * textHeight;
-    int startY = (SCREEN_HEIGHT - totalTextHeight) / 2;
+    int startY = (SCREEN_WINDOW - totalTextHeight) / 2;
 
     for (int i = 0; i < numTexts; i++) {
-        texts[i].rect.x = (SCREEN_WIDTH - texts[i].rect.w) / 2;
+        texts[i].rect.x = (SCREEN_WINDOW - texts[i].rect.w) / 2;
         texts[i].rect.y = startY + i * textHeight;
     }
 
@@ -264,12 +263,12 @@ int credits(SDL_Renderer* renderer) {
         for (int i = 0; i < numTexts; i++) {
             if (i == isSelected) {
                 SDL_FreeSurface(texts[i].surface);
-                texts[i].surface = createText(texts[i].text, font, greenColor);
+                texts[i].surface = createText(texts[i].text, font, GREEN_COLOR);
                 SDL_DestroyTexture(texts[i].texture);
                 texts[i].texture = SDL_CreateTextureFromSurface(renderer, texts[i].surface);
             } else {
                 SDL_FreeSurface(texts[i].surface);
-                texts[i].surface = createText(texts[i].text, font, whiteColor);
+                texts[i].surface = createText(texts[i].text, font, WHITE_COLOR);
                 SDL_DestroyTexture(texts[i].texture);
                 texts[i].texture = SDL_CreateTextureFromSurface(renderer, texts[i].surface);
             }

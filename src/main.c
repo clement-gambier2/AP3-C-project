@@ -3,6 +3,7 @@
 #include "game/game.h"
 #include "combat/combat.h"
 #include "map/map.h"
+#include "const/const.h"
 
 int main() {
     // Initialize SDL2
@@ -21,7 +22,7 @@ int main() {
     SDL_Window* window = SDL_CreateWindow("AP3-C-Project",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
-                                          640, 480,
+                                          SCREEN_WINDOW, SCREEN_WINDOW,
                                           SDL_WINDOW_SHOWN);
 
     //Then we need to render
@@ -58,8 +59,6 @@ int main() {
         SDL_Quit();
         return 0;
     }
-
-
 
 
 
