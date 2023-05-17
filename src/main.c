@@ -27,9 +27,9 @@ int main() {
 
     //TODO: debug this (there is a segfault)
     //I also change the type of initMap because it will be easier to use it.
-    buildMapFromFile("niveau 1.level");
-    //char** map = initMap();
-    //displayMap(map);
+    //buildMapFromFile("niveau 1.level");
+    char** map = initMap();
+    displayMap(map);
 
     Character c = *createCharacter(10,10,2,3,0);
     Enemy e = *createEnemy(5,2,1,0);
