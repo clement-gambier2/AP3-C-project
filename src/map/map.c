@@ -34,15 +34,38 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
         // Floor
         SDL_Surface * floor_image = SDL_LoadBMP("src/assets/img/floor_tile.bmp");
         SDL_Texture * floor_texture = SDL_CreateTextureFromSurface(renderer, floor_image);
+        // Wall
+        SDL_Surface * wall_image = SDL_LoadBMP("src/assets/img/wall_tile.bmp");
+        SDL_Texture * wall_texture = SDL_CreateTextureFromSurface(renderer, wall_image);
+        // Power Up Attack
+        SDL_Surface * pu_attack_image = SDL_LoadBMP("src/assets/img/power_up_attack_layout.bmp");
+        SDL_Texture * pu_attack_texture = SDL_CreateTextureFromSurface(renderer, pu_attack_image);
+        // Power Up Defense
+        SDL_Surface * pu_defense_image = SDL_LoadBMP("src/assets/img/power_up_defense_layout.bmp");
+        SDL_Texture * pu_defense_texture = SDL_CreateTextureFromSurface(renderer, pu_defense_image);
+        // Power Up HP Max
+        SDL_Surface * pu_hp_image = SDL_LoadBMP("src/assets/img/power_up_hp_max_layout.bmp");
+        SDL_Texture * pu_hp_texture = SDL_CreateTextureFromSurface(renderer, pu_hp_image);
+        // Potion
+        //SDL_Surface * potion_image = SDL_LoadBMP("src/assets/img/");
+        //SDL_Texture * potion_texture = SDL_CreateTextureFromSurface(renderer, pu_attack_image);
+        // Key
 
-        for (int i = 0; i < 30; i = i++) {
+        for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++) {
+                SDL_Rect rect = { (i * 30), (j * 30), 30, 30 };
+                // Print floor to avoid black screens
+                SDL_RenderCopy(renderer, floor_texture, NULL, &rect);
+
+
                 // TODO : Faire un switch pour attribuer la bonne texture à chaque case + importer des assets
 
                 // For test : print only floor tiles
-
-                SDL_Rect rect = { (i * 30), (j * 30), 30, 30 };
-                SDL_RenderCopy(renderer, floor_texture, NULL, &rect);
+                if (i%2 == 0) {
+                    SDL_RenderCopy(renderer, pu_defense_texture, NULL, &rect);
+                } else {
+                    SDL_RenderCopy(renderer, wall_texture, NULL, &rect);
+                }
             }
         }
 
@@ -51,8 +74,22 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
 
         // TODO : Supprimer toutes les images et textures chargées dans l'algo
         // Delete all texture and images
+        // Floor
         SDL_DestroyTexture(floor_texture);
         SDL_FreeSurface(floor_image);
+        // Wall
+        SDL_DestroyTexture(wall_texture);
+        SDL_FreeSurface(wall_image);
+        // Power Up Attack 
+        SDL_DestroyTexture(pu_attack_texture);
+        SDL_FreeSurface(pu_attack_image);
+        // Power Up Defense
+        SDL_DestroyTexture(pu_defense_texture);
+        SDL_FreeSurface(pu_defense_image);
+        // Power Up HP Max
+        SDL_DestroyTexture(pu_hp_texture);
+        SDL_FreeSurface(pu_hp_image);
+        
 
         // TODO : Supprimer cette section, elle ne sert qu'à des tests d'affichage pour éviter que ça crash
         while (SDL_PollEvent(&event)) {
