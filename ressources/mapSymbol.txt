@@ -1,0 +1,20 @@
+Chaque case ne peut contenir qu’une seule chose à la fois :
+— Un mur intraversable
+— Une porte
+— Un objet
+— Une clé
+— Une potion
+— Un powerup
+— Le personnage
+— Un adversaire
+— Un passage vers une autre salle
+Comme chaque case ne peut comporter qu’une seule chose à la fois, il est possible de sim-
+plement afficher en console un tableau de 30x30 caractères en fonction du contenu de la case.
+
+— Mur : #
+— Porte:o
+— Clé:!
+— Potion : §
+— Bonus d’attaque, défense, points de vie : 1, 2, 3 respectivement
+— Monstres : A, B, C...
+— Sortiedepièce:?

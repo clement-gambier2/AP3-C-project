@@ -1,4 +1,4 @@
-#include "combat_system.h"
+#include "combat.h"
 
 /**
  * Fight system that modify player and enemy statistics.

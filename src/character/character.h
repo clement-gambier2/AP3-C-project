@@ -9,6 +9,7 @@ typedef struct Character_ {
     int def;
     int dmg;
     int key;
+    int potion;
 } Character;
 
 typedef struct Enemy_{
@@ -18,7 +19,7 @@ typedef struct Enemy_{
     int isDead;
 } Enemy;
 
-Character * createCharacter(int hp_max, int hp, int def, int dmg, int key);
+Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion);
 void char_decrement_hp(Character * player, int delta);
 void char_increment_hp(Character * player, int delta);
 

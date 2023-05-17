@@ -1,9 +1,9 @@
-# Fichiers générés par la compilation
+# Files generated during the compilation
 *.o
 *.out
 *.exe
-
-# Fichiers générés par la création de l'exécutable
 bin/
 src/obj/
-.idea/
+
+# Other
+.idea
