@@ -1,0 +1,9 @@
+# Files generated during the compilation
+*.o
+*.out
+*.exe
+bin/
+src/obj/
+
+# Other
+.idea

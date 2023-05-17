@@ -1,22 +1,18 @@
+//
+// Created by clement on 13/05/23.
+//
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include "game.h"
 
-int main(int argc, char *argv[]) {
-    // Initialize SDL2
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("Failed to initialize SDL2: %s\n", SDL_GetError());
-        return 1;
-    }
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
 
-    //We start by creating a window
-    SDL_Window* window = SDL_CreateWindow("AP3-C-Project",
-                                          SDL_WINDOWPOS_CENTERED,
-                                          SDL_WINDOWPOS_CENTERED,
-                                          640, 480,
-                                          SDL_WINDOW_SHOWN);
-
-    //Then we need to render
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
-
+/**
+ * launchGame is the function that launches the game
+ * @param renderer
+ */
+void launchGame(SDL_Renderer* renderer){
     // Create a black background
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
@@ -86,10 +82,34 @@ int main(int argc, char *argv[]) {
         SDL_Delay(10);
     }
 
-    // Cleanup SDL2
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+}
 
-    return 0;
+/**
+ * displayMenu is the function that displays the menu
+ * @param renderer
+ * @param font
+ */
+void displayMenu(SDL_Renderer* renderer, TTF_Font* font){
+    // Create a black background
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+
+    // We print the render to the window
+    SDL_RenderPresent(renderer);
+
+    // Here we are waiting for events
+    SDL_Event event;
+    int running = 1;
+    while (running) {
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    running = 0;
+                    break;
+            }
+        }
+        // Present the renderer to the screen
+        SDL_RenderPresent(renderer);
+        SDL_Delay(10);
+    }
 }
