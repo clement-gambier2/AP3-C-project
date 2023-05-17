@@ -32,19 +32,19 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
     while (running) {
         // TODO : Charger toutes les images et les convertir en textures pour les utiliser plus tard dans l'algo
         // Floor
-        SDL_Surface * floor_image = SDL_LoadBMP("src/assets/img/floor_tile.bmp");
+        SDL_Surface * floor_image = SDL_LoadBMP("src/assets/img/bmp/floor_tile.bmp");
         SDL_Texture * floor_texture = SDL_CreateTextureFromSurface(renderer, floor_image);
         // Wall
-        SDL_Surface * wall_image = SDL_LoadBMP("src/assets/img/wall_tile.bmp");
+        SDL_Surface * wall_image = SDL_LoadBMP("src/assets/img/bmp/wall_tile.bmp");
         SDL_Texture * wall_texture = SDL_CreateTextureFromSurface(renderer, wall_image);
         // Power Up Attack
-        SDL_Surface * pu_attack_image = SDL_LoadBMP("src/assets/img/power_up_attack_layout.bmp");
+        SDL_Surface * pu_attack_image = SDL_LoadBMP("src/assets/img/bmp/power_up_attack_layout.bmp");
         SDL_Texture * pu_attack_texture = SDL_CreateTextureFromSurface(renderer, pu_attack_image);
         // Power Up Defense
-        SDL_Surface * pu_defense_image = SDL_LoadBMP("src/assets/img/power_up_defense_layout.bmp");
+        SDL_Surface * pu_defense_image = SDL_LoadBMP("src/assets/img/bmp/power_up_defense_layout.bmp");
         SDL_Texture * pu_defense_texture = SDL_CreateTextureFromSurface(renderer, pu_defense_image);
         // Power Up HP Max
-        SDL_Surface * pu_hp_image = SDL_LoadBMP("src/assets/img/power_up_hp_max_layout.bmp");
+        SDL_Surface * pu_hp_image = SDL_LoadBMP("src/assets/img/bmp/power_up_hp_max_layout.bmp");
         SDL_Texture * pu_hp_texture = SDL_CreateTextureFromSurface(renderer, pu_hp_image);
         // Potion
         //SDL_Surface * potion_image = SDL_LoadBMP("src/assets/img/");
@@ -84,14 +84,14 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
 
                     break;
                 case '1': // Power Up Attack
-
+                    SDL_RenderCopy(renderer, pu_attack_texture, NULL, &rect);
                     break;
                 case '2': // Power Up Defense
-
+                    SDL_RenderCopy(renderer, pu_defense_texture, NULL, &rect);
                     break;
                 case '3': // Power Up HP Max
-
-                    break;
+                    SDL_RenderCopy(renderer, pu_hp_texture, NULL, &rect);
+                        break;
                 default:
                     break;
                 }
