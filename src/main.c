@@ -10,6 +10,12 @@ int main() {
         printf("Failed to initialize SDL2: %s\n", SDL_GetError());
         return 1;
     }
+    // Initialisation de SDL_ttf
+    if (TTF_Init() != 0) {
+        printf("Erreur lors de l'initialisation de SDL_ttf : %s\n", TTF_GetError());
+        SDL_Quit();
+        return 1;
+    }
 
     //We start by creating a window
     SDL_Window* window = SDL_CreateWindow("AP3-C-Project",
@@ -21,24 +27,31 @@ int main() {
     //Then we need to render
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
-    //TTF_Font* font = TTF_OpenFont("../assets/fonts/antique.ttf", 24); // Load font from file
-    //displayMenu(renderer, font); // Call displayMenu with loaded font
-    //TTF_CloseFont(font); // Free font when you're done using it
+    int choice = displayMenu(renderer); // Call displayMenu with loaded font
+    while(choice == 2){
+        credits(renderer);
+        choice = displayMenu(renderer);
+    }
 
-    //TODO: debug this (there is a segfault)
-    //I also change the type of initMap because it will be easier to use it.
-    buildMapFromFile("niveau 1.level");
-    //char** map = initMap();
-    //displayMap(map);
+    if(choice == 1) {
+      //TODO: debug this (there is a segfault)
+      //I also change the type of initMap because it will be easier to use it.
+      //buildMapFromFile("niveau 1.level");
+      //char** map = initMap();
+      //displayMap(map);
 
-    Character c = *createCharacter(10,10,2,3,0);
-    Enemy e = *createEnemy(5,2,1,0);
-    fight(&c,&e);
-    fight(&c,&e);
-    fight(&c,&e);
-    printf("Character hp: %d\n", c.hp);
-    printf("Enemy hp: %d\n", e.hp);
-    launchGame(renderer);
+      Character c = *createCharacter(10,10,2,3,0);
+      Enemy e = *createEnemy(5,2,1,0);
+      fight(&c,&e);
+      fight(&c,&e);
+      fight(&c,&e);
+      printf("Character hp: %d\n", c.hp);
+      printf("Enemy hp: %d\n", e.hp);
+      launchGame(renderer);
+    }
+    
+    
+    
 
 
 
