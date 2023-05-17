@@ -3,8 +3,10 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include "../const/const.h"
 
 void launchGame(SDL_Renderer* renderer);
-void displayMenu(SDL_Renderer* renderer, TTF_Font* font);
+int displayMenu(SDL_Renderer* renderer);
+int credits(SDL_Renderer* renderer);
 
 #endif // GAME_H

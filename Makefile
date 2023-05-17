@@ -19,6 +19,10 @@ GAME_OBJS = $(patsubst $(SRCDIR)/game/%.c,$(OBJDIR)/game/%.o,$(GAME_SRCS))
 MAP_SRCS = $(wildcard $(SRCDIR)/map/*.c)
 MAP_OBJS = $(patsubst $(SRCDIR)/map/%.c,$(OBJDIR)/map/%.o,$(MAP_SRCS))
 
+CONST_SRCS = $(wildcard $(SRCDIR)/const/*.c)
+CONST_OBJS = $(patsubst $(SRCDIR)/const/%.c,$(OBJDIR)/const/%.o,$(CONST_SRCS))
+
+
 MAIN_SRCS = $(wildcard $(SRCDIR)/*.c)
 MAIN_OBJS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(MAIN_SRCS))
 
@@ -28,8 +32,8 @@ TARGET = $(BINDIR)/main
 
 all: $(TARGET)
 
-$(TARGET): $(GAME_OBJS) $(CHARACTER_OBJS) $(COMBAT_OBJS) $(MAP_OBJS) $(MAIN_OBJS)
-	$(CC) $(CFLAGS) $(GAME_OBJS) $(CHARACTER_OBJS) $(COMBAT_OBJS) $(MAP_OBJS) $(MAIN_OBJS) -o $(TARGET) $(LIBS)
+$(TARGET): $(GAME_OBJS) $(CHARACTER_OBJS) $(COMBAT_OBJS) $(MAP_OBJS) $(CONST_OBJS) $(MAIN_OBJS)
+	$(CC) $(CFLAGS) $(GAME_OBJS) $(CHARACTER_OBJS) $(COMBAT_OBJS) $(MAP_OBJS) $(CONST_OBJS) $(MAIN_OBJS) -o $(TARGET) $(LIBS)
 
 $(OBJDIR)/game/%.o: $(SRCDIR)/game/%.c
 	@mkdir -p $(@D)
@@ -44,6 +48,10 @@ $(OBJDIR)/combat/%.o: $(SRCDIR)/combat/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/map/%.o: $(SRCDIR)/map/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/const/%.o: $(SRCDIR)/const/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
