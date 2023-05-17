@@ -35,11 +35,12 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
         SDL_Surface * floor_image = SDL_LoadBMP("src/assets/img/floor_tile.bmp");
         SDL_Texture * floor_texture = SDL_CreateTextureFromSurface(renderer, floor_image);
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 30; i = i++) {
             for (int j = 0; j < 30; j++) {
                 // TODO : Faire un switch pour attribuer la bonne texture à chaque case + importer des assets
 
                 // For test : print only floor tiles
+
                 SDL_Rect rect = { (i * 30), (j * 30), 30, 30 };
                 SDL_RenderCopy(renderer, floor_texture, NULL, &rect);
             }
