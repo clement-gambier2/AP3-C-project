@@ -20,7 +20,7 @@
     fclose(fichier);
 
     return map;
-}
+}*/
 
 /**
 * Test for displaying an image in the window
@@ -57,15 +57,47 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
                 // Print floor to avoid black screens
                 SDL_RenderCopy(renderer, floor_texture, NULL, &rect);
 
+                switch (map[i][j])
+                {
+                case '#': // Wall
+                    SDL_RenderCopy(renderer, wall_texture, NULL, &rect);
+                    break;
+                case 'p': // Potion TODO : Changer pour potion texture
+                    SDL_RenderCopy(renderer, pu_hp_texture, NULL, &rect);
+                    break;
+                case 'A': // Enemy 1
+
+                    break;
+                case 'B': // Enemy 2
+
+                    break;
+                case 'C': // Enemy 3
+
+                    break;
+                case '?': // Room exit
+
+                    break;
+                case '!': // key
+
+                    break;
+                case 'o': // door
+
+                    break;
+                case '1': // Power Up Attack
+
+                    break;
+                case '2': // Power Up Defense
+
+                    break;
+                case '3': // Power Up HP Max
+
+                    break;
+                default:
+                    break;
+                }
+
 
                 // TODO : Faire un switch pour attribuer la bonne texture à chaque case + importer des assets
-
-                // For test : print only floor tiles
-                if (i%2 == 0) {
-                    SDL_RenderCopy(renderer, pu_defense_texture, NULL, &rect);
-                } else {
-                    SDL_RenderCopy(renderer, wall_texture, NULL, &rect);
-                }
             }
         }
 
@@ -89,7 +121,7 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
         // Power Up HP Max
         SDL_DestroyTexture(pu_hp_texture);
         SDL_FreeSurface(pu_hp_image);
-        
+
 
         // TODO : Supprimer cette section, elle ne sert qu'à des tests d'affichage pour éviter que ça crash
         while (SDL_PollEvent(&event)) {
@@ -102,7 +134,7 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
     }
 }
 
-
+/*
 char * putInATab(char * map){
     FILE *fichier;
     int cpt=0;
@@ -133,7 +165,7 @@ char * putInAFile(char * tab, char * map){
     }
     fclose(fichier);
     return map;
-}
+}*/
 
 /**
  *buildMapFromFile build the matrix with the map given in param
@@ -167,7 +199,7 @@ char** buildMapFromFile(char * map){
  * initMap set level 1
  */
 char** initMap(){
-    return buildMapFromFile("niveau1Prof.level");
+    return buildMapFromFile("src/map/niveau1Prof.level");
 }
 
 /**
@@ -183,9 +215,4 @@ void displayMap(char ** map){
         }
         printf("\n");
     }
-}
-
-int main(){
-    char ** map= buildMapFromFile("niveau 1.level");
-    displayMap(map);
 }

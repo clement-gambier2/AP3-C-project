@@ -25,10 +25,11 @@ int main() {
     //displayMenu(renderer, font); // Call displayMenu with loaded font
     //TTF_CloseFont(font); // Free font when you're done using it
 
-    drawMap(renderer, NULL);
+    
 
-    //char ** map = initMap();
-    //displayMap(map);
+    char ** map = initMap();
+    drawMap(renderer, map);
+    // displayMap(map);
 
 
     // Cleanup SDL2
