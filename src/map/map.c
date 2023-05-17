@@ -106,17 +106,17 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
 char * putInATab(char * map){
     FILE *fichier;
     int cpt=0;
-    char monCaracter;
+    char tmp;
     char * tmp;
     tmp=(char*)malloc(900 * sizeof(char));
 
     fichier = fopen(map, "r+");
     while(cpt<900) {
-        monCaracter= fgetc(fichier);
-        if(monCaracter!=EOF){
-            if(monCaracter=='#'||monCaracter=='1'||monCaracter=='2'||monCaracter=='3'||monCaracter=='A'||monCaracter=='B'||monCaracter=='C'||monCaracter=='!'||monCaracter=='p'||monCaracter=='<'||monCaracter=='>'||monCaracter=='^'||monCaracter=='v'||monCaracter==' '){
-                tmp[cpt]=(char)monCaracter;
-                printf("%c",(char)monCaracter);
+        tmp= fgetc(fichier);
+        if(tmp!=EOF){
+            if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '){
+                tmp[cpt]=(char)tmp;
+                printf("%c",(char)tmp);
                 cpt+=1;
             }
         }
@@ -149,11 +149,13 @@ char** buildMapFromFile(char * map){
     for (int i = 0; i < 30; i++)//for each line of the file
     {
         laMap[i]=(char*)malloc(30 * sizeof(char));
-        for (int y = 0; y < 30; y++)//for each column of the file
+        for (int y = 0; y < 32; y++)//for each column of the file
         {
             tmp = fgetc(fp);
-            if(tmp!=EOF){
-                laMap[i][y]=(char)tmp;
+            if(tmp!=EOF && y< 30){
+                //if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '||tmp=='?'||tmp=='o'||tmp=='#\n') {
+                    laMap[i][y] = (char) tmp;
+                //}
             }
         }
     }
@@ -165,7 +167,7 @@ char** buildMapFromFile(char * map){
  * initMap set level 1
  */
 char** initMap(){
-    return buildMapFromFile("niveau 1.level");
+    return buildMapFromFile("niveau1Prof.level");
 }
 
 /**
@@ -181,4 +183,9 @@ void displayMap(char ** map){
         }
         printf("\n");
     }
+}
+
+int main(){
+    char ** map= buildMapFromFile("niveau 1.level");
+    displayMap(map);
 }
