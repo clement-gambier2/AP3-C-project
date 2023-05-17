@@ -28,9 +28,12 @@ int main() {
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
     int choice = displayMenu(renderer); // Call displayMenu with loaded font
+
     while(choice == 2){
-        credits(renderer);
-        choice = displayMenu(renderer);
+        choice = credits(renderer);
+        if (choice != 3){
+            choice = displayMenu(renderer);
+        }
     }
 
     if(choice == 1) {
@@ -48,6 +51,12 @@ int main() {
       printf("Character hp: %d\n", c.hp);
       printf("Enemy hp: %d\n", e.hp);
       launchGame(renderer);
+    }
+    else if(choice == 3){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 0;
     }
     
     

@@ -136,12 +136,11 @@ int displayMenu(SDL_Renderer* renderer) {
     }
 
     SDL_Event event;
-    int quit = 0;
 
-    while (!quit) {
+    while (1) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
-                quit = 1;
+                return 3;
             } else if (event.type == SDL_KEYDOWN) {
                 switch (event.key.keysym.sym) {
                     case SDLK_UP:
@@ -244,12 +243,11 @@ int credits(SDL_Renderer* renderer) {
     }
 
     SDL_Event event;
-    int quit = 0;
 
-    while (!quit) {
+    while (1) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
-                quit = 1;
+                return 3;
             } else if (event.type == SDL_KEYDOWN) {
                 switch (event.key.keysym.sym) {
                     case SDLK_RETURN:
