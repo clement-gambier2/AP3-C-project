@@ -30,26 +30,44 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
     SDL_Event event;
     int running = 1;
     while (running) {
-        // TODO : Charger toutes les images et les convertir en textures pour les utiliser plus tard dans l'algo
+        // TODO : Faire un script de chargement des images dynamique et les stocker dans un const
         // Floor
-        SDL_Surface * floor_image = SDL_LoadBMP("src/assets/img/bmp/floor_tile.bmp");
+        SDL_Surface * floor_image = SDL_LoadBMP("src/assets/img/bmp/floor_2.bmp");
         SDL_Texture * floor_texture = SDL_CreateTextureFromSurface(renderer, floor_image);
         // Wall
-        SDL_Surface * wall_image = SDL_LoadBMP("src/assets/img/bmp/wall_tile.bmp");
+        SDL_Surface * wall_image = SDL_LoadBMP("src/assets/img/bmp/wall.bmp");
         SDL_Texture * wall_texture = SDL_CreateTextureFromSurface(renderer, wall_image);
         // Power Up Attack
-        SDL_Surface * pu_attack_image = SDL_LoadBMP("src/assets/img/bmp/power_up_attack_layout.bmp");
+        SDL_Surface * pu_attack_image = SDL_LoadBMP("src/assets/img/bmp/pu_attack.bmp");
         SDL_Texture * pu_attack_texture = SDL_CreateTextureFromSurface(renderer, pu_attack_image);
         // Power Up Defense
-        SDL_Surface * pu_defense_image = SDL_LoadBMP("src/assets/img/bmp/power_up_defense_layout.bmp");
+        SDL_Surface * pu_defense_image = SDL_LoadBMP("src/assets/img/bmp/pu_defense.bmp");
         SDL_Texture * pu_defense_texture = SDL_CreateTextureFromSurface(renderer, pu_defense_image);
         // Power Up HP Max
-        SDL_Surface * pu_hp_image = SDL_LoadBMP("src/assets/img/bmp/power_up_hp_max_layout.bmp");
+        SDL_Surface * pu_hp_image = SDL_LoadBMP("src/assets/img/bmp/pu_hp.bmp");
         SDL_Texture * pu_hp_texture = SDL_CreateTextureFromSurface(renderer, pu_hp_image);
         // Potion
-        //SDL_Surface * potion_image = SDL_LoadBMP("src/assets/img/");
-        //SDL_Texture * potion_texture = SDL_CreateTextureFromSurface(renderer, pu_attack_image);
-        // Key
+        SDL_Surface * potion_image = SDL_LoadBMP("src/assets/img/bmp/potion.bmp");
+        SDL_Texture * potion_texture = SDL_CreateTextureFromSurface(renderer, potion_image);
+        // Enemy A
+        SDL_Surface * enemy_A_image = SDL_LoadBMP("src/assets/img/bmp/enemy_A.bmp");
+        SDL_Texture * enemy_A_texture = SDL_CreateTextureFromSurface(renderer, enemy_A_image);
+        // Enemy B
+        SDL_Surface * enemy_B_image = SDL_LoadBMP("src/assets/img/bmp/enemy_B.bmp");
+        SDL_Texture * enemy_B_texture = SDL_CreateTextureFromSurface(renderer, enemy_B_image);
+        // Enemy C
+        SDL_Surface * enemy_C_image = SDL_LoadBMP("src/assets/img/bmp/enemy_C.bmp");
+        SDL_Texture * enemy_C_texture = SDL_CreateTextureFromSurface(renderer, enemy_C_image);
+        // Single Door North
+        SDL_Surface * closed_door_N_image = SDL_LoadBMP("src/assets/img/bmp/closed_single_door_N.bmp");
+        SDL_Texture * closed_door_N_texture = SDL_CreateTextureFromSurface(renderer, closed_door_N_image);
+        SDL_Surface * open_door_N_image = SDL_LoadBMP("src/assets/img/bmp/open_single_door_N.bmp");
+        SDL_Texture * open_door_N_texture = SDL_CreateTextureFromSurface(renderer, open_door_N_image);
+        // Single Door West
+        SDL_Surface * closed_door_W_image = SDL_LoadBMP("src/assets/img/bmp/closed_single_door_E.bmp");
+        SDL_Texture * closed_door_W_texture = SDL_CreateTextureFromSurface(renderer, closed_door_W_image);
+        SDL_Surface * open_door_W_image = SDL_LoadBMP("src/assets/img/bmp/open_single_door_E.bmp");
+        SDL_Texture * open_door_W_texture = SDL_CreateTextureFromSurface(renderer, open_door_W_image);
 
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++) {
@@ -57,22 +75,22 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
                 // Print floor to avoid black screens
                 SDL_RenderCopy(renderer, floor_texture, NULL, &rect);
 
-                switch (map[i][j])
+                switch (map[j][i])
                 {
                 case '#': // Wall
                     SDL_RenderCopy(renderer, wall_texture, NULL, &rect);
                     break;
-                case 'p': // Potion TODO : Changer pour potion texture
-                    SDL_RenderCopy(renderer, pu_hp_texture, NULL, &rect);
+                case 'p': // Potion
+                    SDL_RenderCopy(renderer, potion_texture, NULL, &rect);
                     break;
                 case 'A': // Enemy 1
-
+                    SDL_RenderCopy(renderer, enemy_A_texture, NULL, &rect);
                     break;
                 case 'B': // Enemy 2
-
+                    SDL_RenderCopy(renderer, enemy_B_texture, NULL, &rect);
                     break;
                 case 'C': // Enemy 3
-
+                    SDL_RenderCopy(renderer, enemy_C_texture, NULL, &rect);
                     break;
                 case '?': // Room exit
 
@@ -81,7 +99,12 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
 
                     break;
                 case 'o': // door
-
+                    // TODO : Orienter la porte verticalement ou horizontalement
+                    if (map[j][i-1] == ' ' && map[j][i+1] == ' ') {
+                        SDL_RenderCopy(renderer, closed_door_W_texture, NULL, &rect);
+                    } else {
+                        SDL_RenderCopy(renderer, closed_door_N_texture, NULL, &rect);
+                    }
                     break;
                 case '1': // Power Up Attack
                     SDL_RenderCopy(renderer, pu_attack_texture, NULL, &rect);
@@ -121,6 +144,22 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
         // Power Up HP Max
         SDL_DestroyTexture(pu_hp_texture);
         SDL_FreeSurface(pu_hp_image);
+        // Enemy A
+        SDL_DestroyTexture(enemy_A_texture);
+        SDL_FreeSurface(enemy_A_image);
+        // Enemy B
+        SDL_DestroyTexture(enemy_B_texture);
+        SDL_FreeSurface(enemy_B_image);
+        // Enemy C
+        SDL_DestroyTexture(enemy_C_texture);
+        SDL_FreeSurface(enemy_C_image);
+        // Closed Door North Left
+        SDL_DestroyTexture(closed_door_N_texture);
+        SDL_FreeSurface(closed_door_N_image);
+        // Closed Door North Right
+        SDL_DestroyTexture(closed_door_W_texture);
+        SDL_FreeSurface(closed_door_W_image);
+
 
 
         // TODO : Supprimer cette section, elle ne sert qu'à des tests d'affichage pour éviter que ça crash
