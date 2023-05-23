@@ -82,3 +82,13 @@ void enemy_decrement_hp(Enemy * enemy, int delta) {
 void enemy_increment_hp(Enemy * enemy, int delta) {
     enemy->hp += delta;
 }
+
+int get_hearts(Character *character) {
+    int num_hearts = character->hp / 1; // 1 heart represents 1 HP
+    return num_hearts;
+}
+
+int get_def(Character *character) {
+    int num_def = character->def / 1; // 1 heart represents 1 HP
+    return num_def;
+}

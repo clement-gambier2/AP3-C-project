@@ -26,6 +26,7 @@ void launchGame(SDL_Renderer* renderer){
     SDL_RenderPresent(renderer);
 
     // Here we are waiting for events
+    Character * player = createCharacter(10,10,5,2,0,0);
     SDL_Event event;
     int running = 1;
     while (running) {
@@ -77,7 +78,7 @@ void launchGame(SDL_Renderer* renderer){
         SDL_RenderFillRect(renderer, &rect);
 
         // Present the renderer to the screen
-        SDL_RenderPresent(renderer);
+        inventory(renderer, player);
 
         SDL_Delay(10);
     }
