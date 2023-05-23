@@ -27,17 +27,10 @@ int main() {
 
     //TODO: debug this (there is a segfault)
     //I also change the type of initMap because it will be easier to use it.
-    buildMapFromFile("niveau 1.level");
+    //buildMapFromFile("niveau 1.level");
     //char** map = initMap();
     //displayMap(map);
 
-    Character c = *createCharacter(10,10,2,3,0);
-    Enemy e = *createEnemy(5,2,1,0);
-    fight(&c,&e);
-    fight(&c,&e);
-    fight(&c,&e);
-    printf("Character hp: %d\n", c.hp);
-    printf("Enemy hp: %d\n", e.hp);
     launchGame(renderer);
 
 

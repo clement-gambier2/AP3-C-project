@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include "../inventory/inventory.h"
 
 void launchGame(SDL_Renderer* renderer);
 void displayMenu(SDL_Renderer* renderer, TTF_Font* font);
