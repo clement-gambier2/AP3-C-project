@@ -129,7 +129,7 @@ void inventory(SDL_Renderer* renderer, Character * character) {
     SDL_Surface *key_image = SDL_LoadBMP("src/assets/img/key.bmp");
     SDL_Texture *key_texture = SDL_CreateTextureFromSurface(renderer, key_image);
 
-    SDL_Rect key_dstrect = {640 - 130, 480 - 60, 60, 30};
+    SDL_Rect key_dstrect = {0, SCREEN_WINDOW - 100, 60, 30};
     SDL_RenderCopy(renderer, key_texture, NULL, &key_dstrect);
 
     render_text(renderer, "", character->key, key_dstrect);
@@ -137,7 +137,7 @@ void inventory(SDL_Renderer* renderer, Character * character) {
     SDL_Surface *potion_image = SDL_LoadBMP("src/assets/img/potion.bmp");
     SDL_Texture *potion_texture = SDL_CreateTextureFromSurface(renderer, potion_image);
 
-    SDL_Rect potion_dstrect = {640 - 100, 480 - 30, 30, 30};
+    SDL_Rect potion_dstrect = {0, SCREEN_WINDOW - 50, 30, 30};
     SDL_RenderCopy(renderer, potion_texture, NULL, &potion_dstrect);
 
     render_text(renderer, "", character->potion, potion_dstrect);

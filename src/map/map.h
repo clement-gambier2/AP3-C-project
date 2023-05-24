@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../character/character.h"
+#include "../inventory/inventory.h"
 
 char** buildMapFromFile(char * map);
 char** initMap();
