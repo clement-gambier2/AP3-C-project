@@ -43,9 +43,10 @@ int main() {
       //buildMapFromFile("niveau 1.level");
       //char** map = initMap();
       //displayMap(map);
-/*
-      Character c = *createCharacter(10,10,2,3,0,0);
-      Enemy e = *createEnemy(5,2,1,0);
+
+      Character * c = createCharacter(10,10,2,3,0,0);
+      /*
+      Enemy * e = createEnemy(5,2,1,0);
       fight(&c,&e);
       fight(&c,&e);
       fight(&c,&e);
@@ -53,7 +54,7 @@ int main() {
       printf("Enemy hp: %d\n", e.hp);*/
       //launchGame(renderer);
       char ** map = initMap();
-      drawMap(renderer, map);
+      drawMap(renderer, map, c);
       //launchGame(renderer);
     }
     else if(choice == 3){
