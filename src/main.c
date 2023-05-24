@@ -52,6 +52,9 @@ int main() {
         return 0;
     }
 
+
+
+
     // Cleanup SDL2
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

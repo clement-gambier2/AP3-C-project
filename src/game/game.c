@@ -16,6 +16,12 @@ int launchGame(SDL_Renderer* renderer, Character * c) {
     SDL_RenderPresent(renderer);
     
     // Here we are waiting for events
+    Character * character = createCharacter(10,10,4,2,0,0);
+    Enemy * enemy = createEnemy(5,2,10,0);
+    fight(character, enemy, renderer);
+    increment_key(character, renderer);
+    printf("Character hp: %d\n", character->hp);
+    printf("Enemy hp: %d\n", enemy->hp);
     SDL_Event event;
     while (1) {
         while (SDL_PollEvent(&event)) {
@@ -43,6 +49,9 @@ int launchGame(SDL_Renderer* renderer, Character * c) {
         drawMap(renderer,map,c);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
+        inventory(renderer, character);
+        printf("Character hp: %d\n", character->hp);
+        printf("Enemy hp: %d\n", enemy->hp);
         SDL_Delay(10);
     }
     return 1;
