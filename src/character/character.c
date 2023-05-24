@@ -105,34 +105,61 @@ int get_def(Character *character) {
 }
 
 /**
+ * isMovePossible check if the move is possible
+ * @param x
+ * @param y
+ * @param map
+ * @return 0 if the move is possible, 1 otherwise
+ */
+int isMovePossible(int x, int y, char ** map){
+    if (x < 0 || x > 29 || y < 0 || y > 29){
+        return 1;
+    }
+    if(map[y][x] == '#'){
+        return 1;
+    }
+    printf("y : %d, x : %d\n", x,y);
+    printf("%c\n", map[y][x]);
+    return 0;
+}
+
+/**
  * Used to moveLeft the character
  * @param character - The character
  */ 
-void moveLeft(Character * character){
-    character->pos_x-=1;
+void moveLeft(Character * character, char ** map){
+    if (isMovePossible(character->pos_x-1, character->pos_y,map) == 0){
+        character->pos_x-=1;
+    }
+
 }
 
 /**
  * Used to moveRight the character
  * @param character - The character
  */ 
-void moveRight(Character * character){
-    character->pos_x+=1;
+void moveRight(Character * character, char ** map){
+    if (isMovePossible(character->pos_x+1, character->pos_y,map) == 0) {
+        character->pos_x += 1;
+    }
 }
 
 /**
  * Used to moveTop the character
  * @param character - The character
  */ 
-void moveTop(Character * character){
-    character->pos_y-=1;
+void moveTop(Character * character, char ** map){
+    if (isMovePossible(character->pos_x, character->pos_y-1,map) == 0) {
+        character->pos_y -= 1;
+    }
 }
 
 /**
  * Used to moveBottom the character
  * @param character - The character
  */ 
-void moveBottom(Character * character){
-    character->pos_y+=1;
-
+void moveBottom(Character * character, char ** map){
+    if (isMovePossible(character->pos_x, character->pos_y+1,map) == 0) {
+        character->pos_y += 1;
+    }
 }

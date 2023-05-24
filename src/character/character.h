@@ -26,10 +26,12 @@ int get_def(Character *character);
 Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion);
 void char_decrement_hp(Character * player, int delta);
 void char_increment_hp(Character * player, int delta);
-void moveLeft(Character * character);
-void moveRight(Character * character);
-void moveTop(Character * character);
-void moveBottom(Character * character);
+
+int isMovePossible(int x, int y, char ** map);
+void moveLeft(Character * character, char ** map);
+void moveRight(Character * character,char ** map);
+void moveTop(Character * character,char ** map);
+void moveBottom(Character * character,char ** map);
 
 Enemy * createEnemy(int hp, int def, int dmg, int isDead);
 void enemy_decrement_hp(Enemy * enemy, int delta);
