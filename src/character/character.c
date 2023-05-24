@@ -15,6 +15,8 @@
  * @param dmg - Damage points of the player
  * @param key - Number of keys detained by the player
  * @param potion - Number of potions detained by the player
+ * @param pos_x - Position on x of the character
+ * @param pos_y - Position on y of the character
  * @return Character *
  */
 Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion) {
@@ -25,7 +27,8 @@ Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int p
     newCharacter->dmg = dmg;
     newCharacter->key = key;
     newCharacter->potion = potion;
-
+    newCharacter->pos_x = 15;
+    newCharacter->pos_y = 15;
     return newCharacter;
 }
 
@@ -90,6 +93,7 @@ void enemy_increment_hp(Enemy * enemy, int delta) {
     enemy->hp += delta;
 }
 
+
 int get_hearts(Character *character) {
     int num_hearts = character->hp / 1;
     return num_hearts;
@@ -98,4 +102,36 @@ int get_hearts(Character *character) {
 int get_def(Character *character) {
     int num_def = character->def / 1;
     return num_def;
+
+/**
+ * Used to moveToLeft the character
+ * @param character - The character
+ */ 
+void moveToLeft(Character * character){
+    character->pos_x-=1;
+}
+
+/**
+ * Used to moveToRight the character
+ * @param character - The character
+ */ 
+void moveToRight(Character * character){
+    character->pos_x+=1;
+}
+
+/**
+ * Used to moveToTop the character
+ * @param character - The character
+ */ 
+void moveToTop(Character * character){
+    character->pos_y-=1;
+}
+
+/**
+ * Used to moveToBot the character
+ * @param character - The character
+ */ 
+void moveToBot(Character * character){
+    character->pos_y+=1;
+
 }
