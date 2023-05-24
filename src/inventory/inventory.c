@@ -5,10 +5,8 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include "inventory.h"
+#include "../const/const.h"
 
-
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
 
 
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect) {
@@ -25,8 +23,7 @@ void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect d
     char text_buffer[32];
     sprintf(text_buffer, "%s: %d", text, value);
 
-    SDL_Color color = {255, 255, 255}; // white color
-    SDL_Surface *text_surface = TTF_RenderText_Solid(font, text_buffer, color);
+    SDL_Surface *text_surface = TTF_RenderText_Solid(font, text_buffer, WHITE_COLOR);
     if (!text_surface) {
         fprintf(stderr, "Erreur à la création du texte : %s\n", TTF_GetError());
     }
@@ -148,28 +145,6 @@ void inventory(SDL_Renderer* renderer, Character * character){
     SDL_FreeSurface(key_image);
     SDL_FreeSurface(potion_image);
 
-
-    int running = 0;
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                running = 0;
-                break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                    case SDLK_SPACE: // la touche espace
-                        increment_key(character); // increment the number of keys the player has
-                        printf("Le joueur a maintenant %d clé(s).\n", character->key);
-                        break;
-                    case SDLK_p: // la touche p
-                        increment_potion(character); // increment the number of potions the player has
-                        printf("Le joueur a maintenant %d potion(s).\n", character->potion);
-                        break;
-                }
-                break;
-        }
-    }
 }
 
 

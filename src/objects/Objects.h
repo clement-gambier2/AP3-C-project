@@ -9,10 +9,10 @@ enum powerUp {
     DAMAGE, DEFENSE, HP_MAX
 };
 
-struct PowerUp_ {
+typedef struct PowerUp_ {
     enum powerUp powerUp;
     int powerValue;
-} typedef PowerUp;
+} PowerUp;
 
 void apply_power_up(PowerUp * powerUp, Character * character);
 void decrement_potion(Character * character);
