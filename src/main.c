@@ -28,17 +28,6 @@ int main() {
     //Then we need to render
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
-    //TTF_Font* font = TTF_OpenFont("../assets/fonts/antique.ttf", 24); // Load font from file
-    //displayMenu(renderer, font); // Call displayMenu with loaded font
-    //TTF_CloseFont(font); // Free font when you're done using it
-
-    //TODO: debug this (there is a segfault)
-    //I also change the type of initMap because it will be easier to use it.
-    //buildMapFromFile("niveau 1.level");
-    //char** map = initMap();
-    //displayMap(map);
-
-    
     int choice = displayMenu(renderer); // Call displayMenu with loaded font
 
     while(choice == 2){
@@ -70,6 +59,9 @@ int main() {
         SDL_Quit();
         return 0;
     }
+
+
+
 
     // Cleanup SDL2
     SDL_DestroyRenderer(renderer);
