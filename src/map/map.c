@@ -169,16 +169,6 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player) {
         // Key
         SDL_DestroyTexture(key_texture);
         SDL_FreeSurface(key_image);
-
-
-        // TODO : Supprimer cette section, elle ne sert qu'à des tests d'affichage pour éviter que ça crash
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT:
-                    running = 0;
-                    break;
-            }
-        }
     }
 }
 
