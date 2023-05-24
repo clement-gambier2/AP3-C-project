@@ -148,30 +148,6 @@ void inventory(SDL_Renderer* renderer, Character * character){
     SDL_FreeSurface(key_image);
     SDL_FreeSurface(potion_image);
 
-    int run = 0;
-    SDL_Event event;
-    while (run) {
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT:
-                    run = 0;
-                    break;
-                case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym) {
-                        case SDLK_SPACE:
-                            // ...
-                            break;
-                        case SDLK_p:
-                            // ...
-                            break;
-                        case SDLK_g:
-                            decrement_hp(character); // Enlève un point de vie (hp)
-                            printf("Le joueur a maintenant %d point(s) de vie.\n", character->hp);
-                            break;
-                    }
-                    break;
-            }
-        }
 
     int running = 0;
     SDL_Event event;
