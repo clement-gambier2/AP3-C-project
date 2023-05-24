@@ -102,6 +102,7 @@ int get_hearts(Character *character) {
 int get_def(Character *character) {
     int num_def = character->def / 1;
     return num_def;
+}
 
 /**
  * Used to moveLeft the character

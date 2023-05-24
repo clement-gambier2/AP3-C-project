@@ -49,7 +49,6 @@ int launchGame(SDL_Renderer* renderer, Character * c) {
         drawMap(renderer,map,c);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
-        inventory(renderer, character);
         printf("Character hp: %d\n", character->hp);
         printf("Enemy hp: %d\n", enemy->hp);
         SDL_Delay(10);
