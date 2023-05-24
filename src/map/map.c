@@ -27,9 +27,7 @@
 */
 void drawMap(SDL_Renderer * renderer, char ** map, Character * player) {
     // TODO: drawMap V2 : Load Tilemap Packed + const every tile for drawing
-    SDL_Event event;
-    int running = 1;
-    while (running) {
+
         // Floor
         SDL_Surface * floor_image = SDL_LoadBMP("src/assets/img/bmp/floor_2.bmp");
         SDL_Texture * floor_texture = SDL_CreateTextureFromSurface(renderer, floor_image);
@@ -126,8 +124,8 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player) {
         }
 
         // Drawing player
-        //SDL_Rect playerRect = { (player->x * 30), (player->y * 30), 30, 30 };
-        //SDL_RenderCopy(renderer, player_texture, NULL, &playerRect);
+        SDL_Rect playerRect = { (player->pos_x * 30), (player->pos_y * 30), 30, 30 };
+        SDL_RenderCopy(renderer, player_texture, NULL, &playerRect);
 
 
         SDL_RenderPresent(renderer);
@@ -139,7 +137,7 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player) {
         // Wall
         SDL_DestroyTexture(wall_texture);
         SDL_FreeSurface(wall_image);
-        // Power Up Attack 
+        // Power Up Attack
         SDL_DestroyTexture(pu_attack_texture);
         SDL_FreeSurface(pu_attack_image);
         // Power Up Defense
@@ -169,7 +167,7 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player) {
         // Key
         SDL_DestroyTexture(key_texture);
         SDL_FreeSurface(key_image);
-    }
+
 }
 
 /*

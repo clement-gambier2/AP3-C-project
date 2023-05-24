@@ -104,34 +104,34 @@ int get_def(Character *character) {
     return num_def;
 
 /**
- * Used to moveToLeft the character
+ * Used to moveLeft the character
  * @param character - The character
  */ 
-void moveToLeft(Character * character){
+void moveLeft(Character * character){
     character->pos_x-=1;
 }
 
 /**
- * Used to moveToRight the character
+ * Used to moveRight the character
  * @param character - The character
  */ 
-void moveToRight(Character * character){
+void moveRight(Character * character){
     character->pos_x+=1;
 }
 
 /**
- * Used to moveToTop the character
+ * Used to moveTop the character
  * @param character - The character
  */ 
-void moveToTop(Character * character){
+void moveTop(Character * character){
     character->pos_y-=1;
 }
 
 /**
- * Used to moveToBot the character
+ * Used to moveBottom the character
  * @param character - The character
  */ 
-void moveToBot(Character * character){
+void moveBottom(Character * character){
     character->pos_y+=1;
 
 }
