@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+
 #include "map.h"
 
 /*char * switchCharacter(char * map){
@@ -26,11 +25,11 @@
 * Test for displaying an image in the window
 * @param renderer
 */
-void drawMap(SDL_Renderer * renderer, char ** map) {
+void drawMap(SDL_Renderer * renderer, char ** map, Character * player) {
+    // TODO: drawMap V2 : Load Tilemap Packed + const every tile for drawing
     SDL_Event event;
     int running = 1;
     while (running) {
-        // TODO : Faire un script de chargement des images dynamique et les stocker dans un const
         // Floor
         SDL_Surface * floor_image = SDL_LoadBMP("src/assets/img/bmp/floor_2.bmp");
         SDL_Texture * floor_texture = SDL_CreateTextureFromSurface(renderer, floor_image);
@@ -68,6 +67,12 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
         SDL_Texture * closed_door_W_texture = SDL_CreateTextureFromSurface(renderer, closed_door_W_image);
         SDL_Surface * open_door_W_image = SDL_LoadBMP("src/assets/img/bmp/open_single_door_E.bmp");
         SDL_Texture * open_door_W_texture = SDL_CreateTextureFromSurface(renderer, open_door_W_image);
+        // Player
+        SDL_Surface * player_image = SDL_LoadBMP("src/assets/img/bmp/character_civilian_1.bmp");
+        SDL_Texture * player_texture = SDL_CreateTextureFromSurface(renderer, player_image);
+        // Key
+        SDL_Surface * key_image = SDL_LoadBMP("src/assets/img/bmp/key.bmp");
+        SDL_Texture * key_texture = SDL_CreateTextureFromSurface(renderer, key_image);
 
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++) {
@@ -96,10 +101,9 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
 
                     break;
                 case '!': // key
-
+                    SDL_RenderCopy(renderer, key_texture, NULL, &rect);
                     break;
                 case 'o': // door
-                    // TODO : Orienter la porte verticalement ou horizontalement
                     if (map[j][i-1] == ' ' && map[j][i+1] == ' ') {
                         SDL_RenderCopy(renderer, closed_door_W_texture, NULL, &rect);
                     } else {
@@ -118,16 +122,16 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
                 default:
                     break;
                 }
-
-
-                // TODO : Faire un switch pour attribuer la bonne texture à chaque case + importer des assets
             }
         }
+
+        // Drawing player
+        //SDL_Rect playerRect = { (player->x * 30), (player->y * 30), 30, 30 };
+        //SDL_RenderCopy(renderer, player_texture, NULL, &playerRect);
 
 
         SDL_RenderPresent(renderer);
 
-        // TODO : Supprimer toutes les images et textures chargées dans l'algo
         // Delete all texture and images
         // Floor
         SDL_DestroyTexture(floor_texture);
@@ -159,7 +163,12 @@ void drawMap(SDL_Renderer * renderer, char ** map) {
         // Closed Door North Right
         SDL_DestroyTexture(closed_door_W_texture);
         SDL_FreeSurface(closed_door_W_image);
-
+        // Player
+        SDL_DestroyTexture(player_texture);
+        SDL_FreeSurface(player_image);
+        // Key
+        SDL_DestroyTexture(key_texture);
+        SDL_FreeSurface(key_image);
 
 
         // TODO : Supprimer cette section, elle ne sert qu'à des tests d'affichage pour éviter que ça crash

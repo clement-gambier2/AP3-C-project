@@ -11,5 +11,8 @@
 extern const SDL_Color GREEN_COLOR;
 extern const SDL_Color WHITE_COLOR;
 
+// Tile Map
+extern const SDL_Texture tilemap_texture;
+
 
 #endif
