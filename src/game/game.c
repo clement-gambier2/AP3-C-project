@@ -22,6 +22,12 @@ void launchGame(SDL_Renderer* renderer){
     SDL_RenderPresent(renderer);
 
     // Here we are waiting for events
+    Character * character = createCharacter(10,10,4,2,0,0);
+    Enemy * enemy = createEnemy(5,2,10,0);
+    fight(character, enemy, renderer);
+    increment_key(character, renderer);
+    printf("Character hp: %d\n", character->hp);
+    printf("Enemy hp: %d\n", enemy->hp);
     SDL_Event event;
     int running = 1;
     while (running) {
@@ -51,8 +57,9 @@ void launchGame(SDL_Renderer* renderer){
                     break;
             }
         }
-
-
+        inventory(renderer, character);
+        printf("Character hp: %d\n", character->hp);
+        printf("Enemy hp: %d\n", enemy->hp);
         // We create a grid
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
@@ -71,10 +78,6 @@ void launchGame(SDL_Renderer* renderer){
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         SDL_RenderFillRect(renderer, &rect);
-
-        // Present the renderer to the screen
-        SDL_RenderPresent(renderer);
-
         SDL_Delay(10);
     }
 

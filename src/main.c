@@ -44,12 +44,13 @@ int main() {
       //char** map = initMap();
       //displayMap(map);
 
-      Character * c = createCharacter(10,10,2,3,0,0);
-      /*
-      Enemy * e = createEnemy(5,2,1,0);
-      fight(&c,&e);
-      fight(&c,&e);
-      fight(&c,&e);
+
+      Character c = *createCharacter(10,10,2,3,0,0);
+      Enemy e = *createEnemy(5,2,1,0);
+     // fight(&c,&e);
+      //fight(&c,&e);
+      //fight(&c,&e);
+
       printf("Character hp: %d\n", c.hp);
       printf("Enemy hp: %d\n", e.hp);*/
       //launchGame(renderer);
@@ -63,6 +64,9 @@ int main() {
         SDL_Quit();
         return 0;
     }
+
+
+
 
     // Cleanup SDL2
     SDL_DestroyRenderer(renderer);
