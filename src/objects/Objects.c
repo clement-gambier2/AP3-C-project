@@ -50,16 +50,18 @@ void use_potion(Character * character) {
  * Used to decrement the number of player's key
  * @param character - The character
  */
-void decrement_key(Character * character) {
+void decrement_key(Character * character, SDL_Renderer* renderer) {
     character->key -= 1;
+    inventory(renderer, character);
 }
 
 /**
  * Used to increment the number of player's key
  * @param character - The character
  */
-void increment_key(Character * character) {
+void increment_key(Character * character, SDL_Renderer* renderer) {
     character->key += 1;
+    inventory(renderer, character);
 }
 
 /**

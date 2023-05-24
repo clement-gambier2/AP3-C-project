@@ -5,7 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "../const/const.h"
 #include "../inventory/inventory.h"
-
+#include "../combat/combat.h"
 #include "../inventory/inventory.h"
 
 #include "../const/const.h"

@@ -14,6 +14,7 @@
 
 void inventory(SDL_Renderer* renderer, Character * character);
 void decrement_hp(Character* character);
+void decrement_def(Character* character);
 int get_hearts(Character *character);
 
 

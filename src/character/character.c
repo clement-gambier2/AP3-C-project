@@ -1,5 +1,11 @@
+
+
 #include <malloc.h>
 #include "character.h"
+
+
+
+#include "../inventory/inventory.h"
 
 /**
  * Used to create a new playable character
@@ -45,9 +51,10 @@ Enemy * createEnemy(int hp, int def, int dmg, int isDead) {
  * @param player - The player
  * @param delta - The amount of Health Points to remove
  */
-void char_decrement_hp(Character * player, int delta) {
+void char_decrement_hp(Character* player, int delta) {
     player->hp -= delta;
 }
+
 
 /**
  * Used to increase Health Points for a character
@@ -84,11 +91,11 @@ void enemy_increment_hp(Enemy * enemy, int delta) {
 }
 
 int get_hearts(Character *character) {
-    int num_hearts = character->hp / 1; // 1 heart represents 1 HP
+    int num_hearts = character->hp / 1;
     return num_hearts;
 }
 
 int get_def(Character *character) {
-    int num_def = character->def / 1; // 1 heart represents 1 HP
+    int num_def = character->def / 1;
     return num_def;
 }

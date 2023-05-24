@@ -46,9 +46,9 @@ int main() {
 
       Character c = *createCharacter(10,10,2,3,0,0);
       Enemy e = *createEnemy(5,2,1,0);
-      fight(&c,&e);
-      fight(&c,&e);
-      fight(&c,&e);
+     // fight(&c,&e);
+      //fight(&c,&e);
+      //fight(&c,&e);
       printf("Character hp: %d\n", c.hp);
       printf("Enemy hp: %d\n", e.hp);
       launchGame(renderer);

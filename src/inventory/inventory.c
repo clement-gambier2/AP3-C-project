@@ -111,15 +111,19 @@ void decrement_hp(Character* character) {
     }
 }
 
-void inventory(SDL_Renderer* renderer, Character * character){
+void decrement_def(Character* character) {
+    if (character->def > 0) {
+        character->def--;
+    }
+}
+
+void inventory(SDL_Renderer* renderer, Character * character) {
 
     int num_hearts = get_hearts(character);
     render_hearts(renderer, num_hearts);
 
     int num_def = get_def(character);
     render_def(renderer, num_def);
-
-
 
 
     SDL_Surface *key_image = SDL_LoadBMP("src/assets/img/key.bmp");
@@ -138,14 +142,14 @@ void inventory(SDL_Renderer* renderer, Character * character){
 
     render_text(renderer, "", character->potion, potion_dstrect);
 
-    SDL_RenderPresent(renderer);
 
-    SDL_DestroyTexture(key_texture);
-    SDL_DestroyTexture(potion_texture);
-    SDL_FreeSurface(key_image);
-    SDL_FreeSurface(potion_image);
+        SDL_RenderPresent(renderer);
 
-}
+        SDL_DestroyTexture(key_texture);
+        SDL_DestroyTexture(potion_texture);
+        SDL_FreeSurface(key_image);
+        SDL_FreeSurface(potion_image);
 
+    }
 
 
