@@ -1,5 +1,11 @@
+
+
 #include <malloc.h>
 #include "character.h"
+
+
+
+#include "../inventory/inventory.h"
 
 /**
  * Used to create a new playable character
@@ -8,16 +14,21 @@
  * @param def - Defense points of the player
  * @param dmg - Damage points of the player
  * @param key - Number of keys detained by the player
+ * @param potion - Number of potions detained by the player
+ * @param pos_x - Position on x of the character
+ * @param pos_y - Position on y of the character
  * @return Character *
  */
-Character * createCharacter(int hp_max, int hp, int def, int dmg, int key) {
+Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion) {
     Character * newCharacter = (Character *) malloc(sizeof (struct Character_));
     newCharacter->hp_max = hp_max;
     newCharacter->hp = hp;
     newCharacter->def = def;
     newCharacter->dmg = dmg;
     newCharacter->key = key;
-
+    newCharacter->potion = potion;
+    newCharacter->pos_x = 15;
+    newCharacter->pos_y = 15;
     return newCharacter;
 }
 
@@ -43,9 +54,10 @@ Enemy * createEnemy(int hp, int def, int dmg, int isDead) {
  * @param player - The player
  * @param delta - The amount of Health Points to remove
  */
-void char_decrement_hp(Character * player, int delta) {
+void char_decrement_hp(Character* player, int delta) {
     player->hp -= delta;
 }
+
 
 /**
  * Used to increase Health Points for a character
@@ -79,4 +91,48 @@ void enemy_decrement_hp(Enemy * enemy, int delta) {
  */
 void enemy_increment_hp(Enemy * enemy, int delta) {
     enemy->hp += delta;
+}
+
+
+int get_hearts(Character *character) {
+    int num_hearts = character->hp / 1;
+    return num_hearts;
+}
+
+int get_def(Character *character) {
+    int num_def = character->def / 1;
+    return num_def;
+}
+
+/**
+ * Used to moveLeft the character
+ * @param character - The character
+ */ 
+void moveLeft(Character * character){
+    character->pos_x-=1;
+}
+
+/**
+ * Used to moveRight the character
+ * @param character - The character
+ */ 
+void moveRight(Character * character){
+    character->pos_x+=1;
+}
+
+/**
+ * Used to moveTop the character
+ * @param character - The character
+ */ 
+void moveTop(Character * character){
+    character->pos_y-=1;
+}
+
+/**
+ * Used to moveBottom the character
+ * @param character - The character
+ */ 
+void moveBottom(Character * character){
+    character->pos_y+=1;
+
 }

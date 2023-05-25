@@ -4,5 +4,6 @@
 #endif //AP3_C_PROJECT_COMBAT_H
 
 #include "../character/character.h"
+#include "../inventory/inventory.h"
 
-int fight(Character *character, Enemy *enemy);
+int fight(Character *character, Enemy *enemy, SDL_Renderer* renderer);
