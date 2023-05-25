@@ -22,155 +22,173 @@
 }*/
 
 /**
+ * Draw a wall tile
+ * @param renderer
+ * @param x
+ * @param y
+ * @param tilemap
+ * @param rect
+ * @param map
+ */
+void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map) {
+    SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
+    // TODO: Vérifier tout les alentours pour choisir le bon mur
+    // TODO: Ajouter du random pour varier les textures de murs
+}
+
+/**
+ * Draw a well oriented an textured door tile
+ * @param renderer
+ * @param x
+ * @param y
+ * @param tilemap
+ * @param rect
+ * @param map
+ * @param isOpen
+ */
+void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map, int isOpen) {
+    // Angle determination
+    double angle = 0.0;
+    if (map[y][x-1] == ' ' && map[y][x+1] == ' ') {
+        angle = 90.0;
+    }
+    // Texture determination
+    SDL_Rect doorTexture = S_RECT_SINGLE_CLOSED_DOOR;
+    if (isOpen) {
+        doorTexture = S_RECT_SINGLE_OPEN_DOOR;
+    }
+    SDL_RenderCopyEx(renderer, tilemap, &doorTexture, &rect, angle, NULL, RENDERER_FLIP);
+}
+
+/**
+ * Draw a floor tile
+ * @param renderer
+ * @param x
+ * @param y
+ * @param tilemap
+ * @param rect
+ * @param map
+ */
+void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map) {
+    SDL_RenderCopy(renderer, tilemap, &S_RECT_FLOOR_1, &rect);
+
+    // TODO: Vérifier tout les alentours pour choisir la bonne texture et la bonne orientation
+    // TODO: Ajouter du random pour varier les textures de sol (en gardant l'orientation etc...)
+}
+
+/**
+ * Draw a well oriented room exit tile.
+ * @param renderer - SDL_Renderer
+ * @param x - x coord for the map
+ * @param y - y coord for the map
+ * @param tilemap - tilemap Texture
+ * @param rect - SDL_Rect destination format
+ */
+void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect) {
+    if (x == 14) {
+        if (y == 29) {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_RIGHT_ARCH, &rect, 180.0, NULL, RENDERER_FLIP);
+        }
+        if (y == 0) {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_LEFT_ARCH, &rect, 0.0, NULL, RENDERER_FLIP);
+        }
+    }
+    if (x == 15) {
+        if (y == 0) {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_RIGHT_ARCH, &rect, 0.0, NULL, RENDERER_FLIP);
+        }
+        if (y == 29) {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_LEFT_ARCH, &rect, 180.0, NULL, RENDERER_FLIP);
+        }
+    }
+    if (y == 14) {
+        if (x == 29) {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_LEFT_ARCH, &rect, 90.0, NULL, RENDERER_FLIP);
+        }
+        if (x == 0) {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_RIGHT_ARCH, &rect, 270.0, NULL, RENDERER_FLIP);
+        }
+    }
+    if (y == 15) {
+        if (x == 29) {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_RIGHT_ARCH, &rect, 90.0, NULL, RENDERER_FLIP);
+        }
+        if (x == 0) {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_LEFT_ARCH, &rect, 270.0, NULL, RENDERER_FLIP);
+        }
+    }
+}
+
+/**
 * Test for displaying an image in the window
 * @param renderer
 */
-void drawMap(SDL_Renderer * renderer, char ** map, Character * player) {
+void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Texture * tilemap) {
     // TODO: drawMap V2 : Load Tilemap Packed + const every tile for drawing
-    SDL_Event event;
-    int running = 1;
-    while (running) {
-        // Floor
-        SDL_Surface * floor_image = SDL_LoadBMP("src/assets/img/bmp/floor_2.bmp");
-        SDL_Texture * floor_texture = SDL_CreateTextureFromSurface(renderer, floor_image);
-        // Wall
-        SDL_Surface * wall_image = SDL_LoadBMP("src/assets/img/bmp/wall.bmp");
-        SDL_Texture * wall_texture = SDL_CreateTextureFromSurface(renderer, wall_image);
-        // Power Up Attack
-        SDL_Surface * pu_attack_image = SDL_LoadBMP("src/assets/img/bmp/pu_attack.bmp");
-        SDL_Texture * pu_attack_texture = SDL_CreateTextureFromSurface(renderer, pu_attack_image);
-        // Power Up Defense
-        SDL_Surface * pu_defense_image = SDL_LoadBMP("src/assets/img/bmp/pu_defense.bmp");
-        SDL_Texture * pu_defense_texture = SDL_CreateTextureFromSurface(renderer, pu_defense_image);
-        // Power Up HP Max
-        SDL_Surface * pu_hp_image = SDL_LoadBMP("src/assets/img/bmp/pu_hp.bmp");
-        SDL_Texture * pu_hp_texture = SDL_CreateTextureFromSurface(renderer, pu_hp_image);
-        // Potion
-        SDL_Surface * potion_image = SDL_LoadBMP("src/assets/img/bmp/potion.bmp");
-        SDL_Texture * potion_texture = SDL_CreateTextureFromSurface(renderer, potion_image);
-        // Enemy A
-        SDL_Surface * enemy_A_image = SDL_LoadBMP("src/assets/img/bmp/enemy_A.bmp");
-        SDL_Texture * enemy_A_texture = SDL_CreateTextureFromSurface(renderer, enemy_A_image);
-        // Enemy B
-        SDL_Surface * enemy_B_image = SDL_LoadBMP("src/assets/img/bmp/enemy_B.bmp");
-        SDL_Texture * enemy_B_texture = SDL_CreateTextureFromSurface(renderer, enemy_B_image);
-        // Enemy C
-        SDL_Surface * enemy_C_image = SDL_LoadBMP("src/assets/img/bmp/enemy_C.bmp");
-        SDL_Texture * enemy_C_texture = SDL_CreateTextureFromSurface(renderer, enemy_C_image);
-        // Single Door North
-        SDL_Surface * closed_door_N_image = SDL_LoadBMP("src/assets/img/bmp/closed_single_door_N.bmp");
-        SDL_Texture * closed_door_N_texture = SDL_CreateTextureFromSurface(renderer, closed_door_N_image);
-        SDL_Surface * open_door_N_image = SDL_LoadBMP("src/assets/img/bmp/open_single_door_N.bmp");
-        SDL_Texture * open_door_N_texture = SDL_CreateTextureFromSurface(renderer, open_door_N_image);
-        // Single Door West
-        SDL_Surface * closed_door_W_image = SDL_LoadBMP("src/assets/img/bmp/closed_single_door_E.bmp");
-        SDL_Texture * closed_door_W_texture = SDL_CreateTextureFromSurface(renderer, closed_door_W_image);
-        SDL_Surface * open_door_W_image = SDL_LoadBMP("src/assets/img/bmp/open_single_door_E.bmp");
-        SDL_Texture * open_door_W_texture = SDL_CreateTextureFromSurface(renderer, open_door_W_image);
-        // Player
-        SDL_Surface * player_image = SDL_LoadBMP("src/assets/img/bmp/character_civilian_1.bmp");
-        SDL_Texture * player_texture = SDL_CreateTextureFromSurface(renderer, player_image);
-        // Key
-        SDL_Surface * key_image = SDL_LoadBMP("src/assets/img/bmp/key.bmp");
-        SDL_Texture * key_texture = SDL_CreateTextureFromSurface(renderer, key_image);
+    for (int y_coord = 0; y_coord < 30; y_coord++) {
+        for (int x_coord = 0; x_coord < 30; x_coord++) {
+            SDL_Rect rect = { (x_coord * 30), (y_coord * 30), 30, 30 };
+            // Print floor to avoid black screens
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_FLOOR_1, &rect);
 
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 30; j++) {
-                SDL_Rect rect = { (i * 30), (j * 30), 30, 30 };
-                // Print floor to avoid black screens
-                SDL_RenderCopy(renderer, floor_texture, NULL, &rect);
-
-                switch (map[j][i])
-                {
+            switch (map[y_coord][x_coord]) {
+                case ' ': // Floor
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
+                    break;
                 case '#': // Wall
-                    SDL_RenderCopy(renderer, wall_texture, NULL, &rect);
+                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
+                    drawWall(renderer, x_coord, y_coord, tilemap, rect, map);
                     break;
                 case 'p': // Potion
-                    SDL_RenderCopy(renderer, potion_texture, NULL, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_RED_POTION, &rect);
                     break;
                 case 'A': // Enemy 1
-                    SDL_RenderCopy(renderer, enemy_A_texture, NULL, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_SLIME, &rect);
                     break;
                 case 'B': // Enemy 2
-                    SDL_RenderCopy(renderer, enemy_B_texture, NULL, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_VIKING, &rect);
                     break;
                 case 'C': // Enemy 3
-                    SDL_RenderCopy(renderer, enemy_C_texture, NULL, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_BLACK_WIZARD, &rect);
                     break;
                 case '?': // Room exit
-
+                    drawRoomExit(renderer, x_coord, y_coord, tilemap, rect);
                     break;
                 case '!': // key
-                    SDL_RenderCopy(renderer, key_texture, NULL, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &rect);
                     break;
-                case 'o': // door
-                    if (map[j][i-1] == ' ' && map[j][i+1] == ' ') {
-                        SDL_RenderCopy(renderer, closed_door_W_texture, NULL, &rect);
-                    } else {
-                        SDL_RenderCopy(renderer, closed_door_N_texture, NULL, &rect);
-                    }
+                case 'o': // closed door
+                    drawDoor(renderer, x_coord, y_coord, tilemap, rect, map, 0);
+                    break;
+                case 'i': // open door
+                    drawDoor(renderer, x_coord, y_coord, tilemap, rect, map, 1);
                     break;
                 case '1': // Power Up Attack
-                    SDL_RenderCopy(renderer, pu_attack_texture, NULL, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_GRAY_POTION, &rect);
                     break;
                 case '2': // Power Up Defense
-                    SDL_RenderCopy(renderer, pu_defense_texture, NULL, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_GREEN_POTION, &rect);
                     break;
                 case '3': // Power Up HP Max
-                    SDL_RenderCopy(renderer, pu_hp_texture, NULL, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_BLUE_POTION, &rect);
                         break;
                 default:
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_LOBSTER, &rect);
                     break;
                 }
             }
         }
 
         // Drawing player
-        //SDL_Rect playerRect = { (player->x * 30), (player->y * 30), 30, 30 };
-        //SDL_RenderCopy(renderer, player_texture, NULL, &playerRect);
-
+        SDL_Rect playerRect = { (player->pos_x * 30), (player->pos_y * 30), 30, 30 };
+        SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
 
         SDL_RenderPresent(renderer);
-
-        // Delete all texture and images
-        // Floor
-        SDL_DestroyTexture(floor_texture);
-        SDL_FreeSurface(floor_image);
-        // Wall
-        SDL_DestroyTexture(wall_texture);
-        SDL_FreeSurface(wall_image);
-        // Power Up Attack 
-        SDL_DestroyTexture(pu_attack_texture);
-        SDL_FreeSurface(pu_attack_image);
-        // Power Up Defense
-        SDL_DestroyTexture(pu_defense_texture);
-        SDL_FreeSurface(pu_defense_image);
-        // Power Up HP Max
-        SDL_DestroyTexture(pu_hp_texture);
-        SDL_FreeSurface(pu_hp_image);
-        // Enemy A
-        SDL_DestroyTexture(enemy_A_texture);
-        SDL_FreeSurface(enemy_A_image);
-        // Enemy B
-        SDL_DestroyTexture(enemy_B_texture);
-        SDL_FreeSurface(enemy_B_image);
-        // Enemy C
-        SDL_DestroyTexture(enemy_C_texture);
-        SDL_FreeSurface(enemy_C_image);
-        // Closed Door North Left
-        SDL_DestroyTexture(closed_door_N_texture);
-        SDL_FreeSurface(closed_door_N_image);
-        // Closed Door North Right
-        SDL_DestroyTexture(closed_door_W_texture);
-        SDL_FreeSurface(closed_door_W_image);
-        // Player
-        SDL_DestroyTexture(player_texture);
-        SDL_FreeSurface(player_image);
-        // Key
-        SDL_DestroyTexture(key_texture);
-        SDL_FreeSurface(key_image);
-    }
 }
+
+
+
+
 
 /*
 char * putInATab(char * map){
