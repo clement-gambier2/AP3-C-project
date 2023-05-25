@@ -151,16 +151,45 @@ int isMovePossible(int x, int y, char ** map){
     return 0;
 }
 
+int ennemyOnTheWay(char** map, int x, int y, char direction){
+    switch(direction){
+        case 't':
+            if(map[x][y-1]=='A' && map[x][y-1]=='B' && map[x][y-1]=='C'){
+                return 1;
+            }
+            return 0;
+        case 'b':
+            if(map[x][y+1]=='A' && map[x][y+1]=='B' && map[x][y+1]=='C'){
+                return 1;
+            }
+            return 0;
+        case 'l':
+            if(map[x-1][y]=='A' && map[x-1][y]=='B' && map[x-1][y]=='C'){
+                return 1;
+            }
+            return 0;
+        case 'r':
+            if(map[x+1][y]=='A' && map[x+1][y]=='B' && map[x+1][y]=='C'){
+                return 1;
+            }
+            return 0;
+        default:
+            break;
+    }   
+}
+
 /**
  * Used to moveLeft the character
  * @param character - The character
  */ 
 
 void moveLeft(Character * character, char ** map){
-    if (isMovePossible(character->pos_x-1, character->pos_y,map) == 0){
-        character->pos_x-=1;
+    if (isMovePossible(character->pos_x-1, character->pos_y,map) == 0) {
+        character->pos_x -= 1;
     }
 }
+
+
 
 /**
  * Used to moveRight the character
