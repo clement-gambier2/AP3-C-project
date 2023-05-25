@@ -1,26 +1,6 @@
 
 #include "map.h"
 
-/*char * switchCharacter(char * map){
-    FILE *fichier;
-    int caractere_a_remplacer = 167; // Code décimal pour le caractère "§"
-    char caractere_de_remplacement = 'p';
-    int caractere;
-
-    fichier = fopen(map, "r+");
-
-    while ((caractere = fgetc(fichier)) != EOF) {
-        if (caractere == caractere_a_remplacer) {
-            fseek(fichier, -1, SEEK_CUR);
-            fputc(caractere_de_remplacement, fichier);
-        }
-    }
-
-    fclose(fichier);
-
-    return map;
-}*/
-
 /**
 * Test for displaying an image in the window
 * @param renderer
@@ -172,39 +152,6 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player) {
 
 }
 
-/*
-char * putInATab(char * map){
-    FILE *fichier;
-    int cpt=0;
-    char tmp;
-    char * tmp;
-    tmp=(char*)malloc(900 * sizeof(char));
-
-    fichier = fopen(map, "r+");
-    while(cpt<900) {
-        tmp= fgetc(fichier);
-        if(tmp!=EOF){
-            if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '){
-                tmp[cpt]=(char)tmp;
-                printf("%c",(char)tmp);
-                cpt+=1;
-            }
-        }
-    }
-    fclose(fichier);
-    return tmp;
-}
-
-char * putInAFile(char * tab, char * map){
-    FILE *fichier;
-    fichier = fopen(map, "r+");
-    for (int i = 0; i < 900; ++i) {
-        fputc(tab[i], fichier);
-    }
-    fclose(fichier);
-    return map;
-}*/
-
 /**
  *buildMapFromFile build the matrix with the map given in param
  * @param map
@@ -216,16 +163,21 @@ char** buildMapFromFile(char * map){
     FILE *fp;
     fp = fopen(map, "r");
     char tmp;
+    int cpt=0;
     for (int i = 0; i < 30; i++)//for each line of the file
     {
         laMap[i]=(char*)malloc(30 * sizeof(char));
-        for (int y = 0; y < 32; y++)//for each column of the file
+        for (int y = 0; y < 32+cpt; y++)//for each column of the file
         {
             tmp = fgetc(fp);
-            if(tmp!=EOF && y< 30){
-                //if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '||tmp=='?'||tmp=='o'||tmp=='#\n') {
+            if(tmp!=EOF && y< 30+cpt){
+                if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '||tmp=='?'||tmp=='o'||tmp=='*') {
                     laMap[i][y] = (char) tmp;
-                //}
+                }
+                else if((int)tmp==-62){ //first part of special char
+                    laMap[i][y] = 'p';
+                    fseek(fp, 1, SEEK_CUR);
+                }
             }
         }
     }
