@@ -7,6 +7,8 @@
 #include "../map/map.h"
 
 
+#include "../inventory/inventory.h"
+
 /**
  * Used to create a new playable character
  * @param hp_max - Maximum health points for the player
@@ -94,12 +96,12 @@ void enemy_increment_hp(Enemy * enemy, int delta) {
 }
 
 
-int get_hearts(struct Character *character) {
+int get_hearts(Character *character) {
     int num_hearts = character->hp / 1;
     return num_hearts;
 }
 
-int get_def(struct Character *character) {
+int get_def(Character *character) {
     int num_def = character->def / 1;
     return num_def;
 }
