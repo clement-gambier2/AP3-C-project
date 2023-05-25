@@ -20,8 +20,6 @@ int launchGame(SDL_Renderer* renderer, Character * c) {
     Enemy * enemy = createEnemy(5,2,10,0);
     fight(character, enemy, renderer);
     increment_key(character, renderer);
-    printf("Character hp: %d\n", character->hp);
-    printf("Enemy hp: %d\n", enemy->hp);
     SDL_Event event;
     while (1) {
         while (SDL_PollEvent(&event)) {
@@ -31,16 +29,16 @@ int launchGame(SDL_Renderer* renderer, Character * c) {
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
                         case SDLK_UP:
-                            moveTop(c);
+                            moveTop(c,map);
                             break;
                         case SDLK_LEFT:
-                            moveLeft(c);
+                            moveLeft(c,map);
                             break;
                         case SDLK_DOWN:
-                            moveBottom(c);
+                            moveBottom(c,map);
                             break;
                         case SDLK_RIGHT:
-                            moveRight(c);
+                            moveRight(c,map);
                             break;
                     }
                     break;
@@ -49,8 +47,6 @@ int launchGame(SDL_Renderer* renderer, Character * c) {
         drawMap(renderer,map,c);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
-        printf("Character hp: %d\n", character->hp);
-        printf("Enemy hp: %d\n", enemy->hp);
         SDL_Delay(10);
     }
     return 1;
