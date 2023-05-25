@@ -160,7 +160,13 @@ int isMovePossible(int x, int y, char ** map){
 
 void moveLeft(Character * character, char ** map){
     if (isMovePossible(character->pos_x-1, character->pos_y,map) == 0) {
-        character->pos_x -= 1;
+        if(ennemyOnTheWay(map, character->pos_x, character->pos_y, 'l')==0){
+            character->pos_x-=1; 
+        }
+        else{
+            char ennemy=map[character->pos_x-1][character->pos_y];
+            printf('%c', ennemy);
+        }
     }
 }
 
@@ -172,7 +178,13 @@ void moveLeft(Character * character, char ** map){
  */ 
 void moveRight(Character * character, char ** map){
     if (isMovePossible(character->pos_x+1, character->pos_y,map) == 0) {
-        character->pos_x += 1;
+        if(ennemyOnTheWay(map, character->pos_x, character->pos_y, 'l')==0){
+            character->pos_x+=1; 
+        }
+        else{
+            char ennemy=map[character->pos_x+1][character->pos_y];
+            printf('%c', ennemy);
+        }
     }
 }
 
@@ -182,7 +194,13 @@ void moveRight(Character * character, char ** map){
  */ 
 void moveTop(Character * character, char ** map){
     if (isMovePossible(character->pos_x, character->pos_y-1,map) == 0) {
-        character->pos_y -= 1;
+        if(ennemyOnTheWay(map, character->pos_x, character->pos_y, 'l')==0){
+            character->pos_y-=1; 
+        }
+        else{
+            char ennemy=map[character->pos_x][character->pos_y-1];
+            printf('%c', ennemy);
+        }
     }
 }
 
@@ -192,6 +210,12 @@ void moveTop(Character * character, char ** map){
  */ 
 void moveBottom(Character * character, char ** map){
     if (isMovePossible(character->pos_x, character->pos_y+1,map) == 0) {
-        character->pos_y += 1;
+        if(ennemyOnTheWay(map, character->pos_x, character->pos_y, 'l')==0){
+            character->pos_y+=1; 
+        }
+        else{
+            char ennemy=map[character->pos_x][character->pos_y+1];
+            printf('%c', ennemy);
+        }
     }
 }
