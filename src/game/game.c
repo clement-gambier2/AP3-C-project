@@ -2,24 +2,21 @@
 // Created by clement on 13/05/23.
 //
 #include "game.h"
-#include "../map/map.h"
-
 /**
  * launchGame is the function that launches the game
  * @param renderer
  */
-int launchGame(SDL_Renderer* renderer, Character * c) {
-
-    //char **map = buildMapFromFile("src/map/niveau2Prof.level");
-    char **map = initMap();
-    drawMap(renderer, map, c);
+int launchGame(SDL_Renderer* renderer) {
+    struct Map * map = initMap();
+    for (int i = 0; i < 4; i++) {
+        printf("directions : %s\n", map->directions[i]);
+    }
+    Character * c = createCharacter(10,10,4,2,0,0);
+    drawMap(renderer,map->matrix,c->pos_x,c->pos_y);
     SDL_RenderPresent(renderer);
-    
+
+    char * returnMove;
     // Here we are waiting for events
-    Character * character = createCharacter(10,10,4,2,0,0);
-    Enemy * enemy = createEnemy(5,2,10,0);
-    fight(character, enemy, renderer);
-    increment_key(character, renderer);
     SDL_Event event;
     while (1) {
         while (SDL_PollEvent(&event)) {
@@ -29,22 +26,42 @@ int launchGame(SDL_Renderer* renderer, Character * c) {
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
                         case SDLK_UP:
-                            moveTop(c,map);
+                            returnMove = moveTop(c,map);
+                            if(strcmp(returnMove,"noSwitch") != 0){
+                                printf("changement de niveau vers : %s\n",returnMove);
+                                map = buildMapFromFile(concatenateLevelName("src/map/",returnMove));
+                                fflush(stdout); // Vide le tampon de la sortie standard
+                            }
                             break;
                         case SDLK_LEFT:
-                            moveLeft(c,map);
+                            returnMove = moveLeft(c,map);
+                            if(strcmp(returnMove,"noSwitch") != 0){
+                                printf("changement de niveau vers : %s\n",returnMove);
+                                map = buildMapFromFile(concatenateLevelName("src/map/",returnMove));
+                                fflush(stdout); // Vide le tampon de la sortie standard
+                            }
                             break;
                         case SDLK_DOWN:
-                            moveBottom(c,map);
+                            returnMove = moveBottom(c,map);
+                            if(strcmp(returnMove,"noSwitch") != 0){
+                                printf("changement de niveau vers : %s\n",returnMove);
+                                map = buildMapFromFile(concatenateLevelName("src/map/",returnMove));
+                                fflush(stdout); // Vide le tampon de la sortie standard
+                            }
                             break;
                         case SDLK_RIGHT:
-                            moveRight(c,map);
+                            returnMove = moveRight(c,map);
+                            if(strcmp(returnMove,"noSwitch") != 0){
+                                printf("changement de niveau vers : %s\n",returnMove);
+                                map = buildMapFromFile(concatenateLevelName("src/map/",returnMove));
+                                fflush(stdout); // Vide le tampon de la sortie standard
+                            }
                             break;
                     }
                     break;
             }
         }
-        drawMap(renderer,map,c);
+        drawMap(renderer,map->matrix,c->pos_x,c->pos_y);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
         SDL_Delay(10);
@@ -74,7 +91,7 @@ SDL_Surface* createText(const char* text, TTF_Font* font, SDL_Color color) {
  * @return int
  */
 int displayMenu(SDL_Renderer* renderer) {
-    TTF_Font* font = TTF_OpenFont("src/assets/fonts/antique.ttf", 25);
+    TTF_Font* font = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 25);
 
     struct TextData {
         const char* text;

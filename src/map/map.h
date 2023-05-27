@@ -1,15 +1,21 @@
-#ifndef AP3_C_PROJECT_MAP_H
-#define AP3_C_PROJECT_MAP_H
-
-#endif //AP3_C_PROJECT_MAP_H
-
+#ifndef MAP_H
+#define MAP_H
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../character/character.h"
-#include "../inventory/inventory.h"
 
-char** buildMapFromFile(char * map);
-char** initMap();
+struct Map {
+    char ** matrix;
+    char * directions[4]; //E,S,O,N : array of directions
+};
+
+
+struct Map * buildMapFromFile(char * map);
+struct Map * initMap(void);
 void displayMap(char ** map);
-void drawMap(SDL_Renderer * renderer, char ** map, Character * player);
+void drawMap(SDL_Renderer * renderer, char ** map, int x, int y);
+char* concatenateLevelName(char* a, char* b);
+
+#endif //MAP_H

@@ -6,17 +6,13 @@
 #define INVENTORY_H
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "../objects/Objects.h"
+#include <SDL2/SDL_image.h>
+#include "../const/const.h"
 #include "../character/character.h"
 
 
 void inventory(SDL_Renderer* renderer, Character * character);
-void decrement_hp(Character* character);
-void decrement_def(Character* character);
-int get_hearts(Character *character);
-
 
 
 #endif //INVENTORY_H
