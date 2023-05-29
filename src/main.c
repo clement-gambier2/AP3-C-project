@@ -38,8 +38,7 @@ int main() {
     }
 
     if(choice == 1) {
-      Character * c = createCharacter(10,10,2,3,0,0);
-      int quitGame = launchGame(renderer,c);
+      int quitGame = launchGame(renderer);
         if (quitGame == 0){
             printf("You quit the game\n");
             choice = 3;

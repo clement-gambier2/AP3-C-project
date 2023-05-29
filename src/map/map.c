@@ -184,9 +184,6 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Textu
         SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
 
         SDL_RenderPresent(renderer);
-
-
-    }
 }
 
 /*
