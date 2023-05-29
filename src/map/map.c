@@ -184,11 +184,10 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Textu
         SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
 
         SDL_RenderPresent(renderer);
+
+
+    }
 }
-
-
-
-
 
 /*
 char * putInATab(char * map){
@@ -212,16 +211,7 @@ char * putInATab(char * map){
     fclose(fichier);
     return tmp;
 }
-
-char * putInAFile(char * tab, char * map){
-    FILE *fichier;
-    fichier = fopen(map, "r+");
-    for (int i = 0; i < 900; ++i) {
-        fputc(tab[i], fichier);
-    }
-    fclose(fichier);
-    return map;
-}*/
+*/
 
 /**
  *buildMapFromFile build the matrix with the map given in param
@@ -234,16 +224,21 @@ char** buildMapFromFile(char * map){
     FILE *fp;
     fp = fopen(map, "r");
     char tmp;
+    int cpt=0;
     for (int i = 0; i < 30; i++)//for each line of the file
     {
         laMap[i]=(char*)malloc(30 * sizeof(char));
-        for (int y = 0; y < 32; y++)//for each column of the file
+        for (int y = 0; y < 32+cpt; y++)//for each column of the file
         {
             tmp = fgetc(fp);
-            if(tmp!=EOF && y< 30){
-                //if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '||tmp=='?'||tmp=='o'||tmp=='#\n') {
+            if(tmp!=EOF && y< 30+cpt){
+                if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '||tmp=='?'||tmp=='o'||tmp=='*') {
                     laMap[i][y] = (char) tmp;
-                //}
+                }
+                else if((int)tmp==-62){ //first part of special char
+                    laMap[i][y] = 'p';
+                    fseek(fp, 1, SEEK_CUR);
+                }
             }
         }
     }

@@ -38,10 +38,12 @@ int main() {
     }
 
     if(choice == 1) {
-      //TODO: debug this (there is a segfault)
-      //I also change the type of initMap because it will be easier to use it.
-
-      launchGame(renderer);
+      Character * c = createCharacter(10,10,2,3,0,0);
+      int quitGame = launchGame(renderer,c);
+        if (quitGame == 0){
+            printf("You quit the game\n");
+            choice = 3;
+        }
     }
     else if(choice == 3){
         SDL_DestroyRenderer(renderer);

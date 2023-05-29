@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "../const/const.h"
 #include "../character/character.h"
+#include "../inventory/inventory.h"
 
 char** buildMapFromFile(char * map);
 char** initMap();
