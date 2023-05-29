@@ -4,24 +4,22 @@
 #include "game.h"
 #include "../map/map.h"
 
+
 /**
  * launchGame is the function that launches the game
  * @param renderer
  */
-int launchGame(SDL_Renderer* renderer, Character * c) {
+int launchGame(SDL_Renderer* renderer) {
 
-    //char **map = buildMapFromFile("src/map/niveau2Prof.level");
-    char **map = initMap();
-    drawMap(renderer, map, c);
-    SDL_RenderPresent(renderer);
-    
+    char ** map = buildMapFromFile("./src/map/niveau1Prof.level");
+    SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
+    SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
+
+    Character * c = createCharacter(10, 10, 10, 10, 10, 10);
     // Here we are waiting for events
-    Character * character = createCharacter(10,10,4,2,0,0);
-    Enemy * enemy = createEnemy(5,2,10,0);
-    fight(character, enemy, renderer);
-    increment_key(character, renderer);
     SDL_Event event;
     while (1) {
+        drawMap(renderer, map, c, tilemapTexture);
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
@@ -44,15 +42,13 @@ int launchGame(SDL_Renderer* renderer, Character * c) {
                     break;
             }
         }
-        drawMap(renderer,map,c);
-        // Present the renderer to the screen
-        SDL_RenderPresent(renderer);
         SDL_Delay(10);
     }
+    // Delete all texture and images
+    SDL_DestroyTexture(tilemapTexture);
+    SDL_FreeSurface(tilemapImage);
     return 1;
 }
-
-
 
 
 /**

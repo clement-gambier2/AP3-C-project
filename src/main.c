@@ -28,7 +28,6 @@ int main() {
     //Then we need to render
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
-
     int choice = displayMenu(renderer); // Call displayMenu with loaded font
 
     while(choice == 2){
@@ -39,8 +38,7 @@ int main() {
     }
 
     if(choice == 1) {
-      Character * c = createCharacter(10,10,2,3,0,0);
-      int quitGame = launchGame(renderer,c);
+      int quitGame = launchGame(renderer);
         if (quitGame == 0){
             printf("You quit the game\n");
             choice = 3;
