@@ -8,8 +8,22 @@
 #include <stdlib.h>
 #include "../character/character.h"
 #include "../inventory/inventory.h"
+typedef struct Map_ {
+    char ** matrix;
+    char * directions[4]; //E,S,O,N : array of directions
+    int A_Pv;
+    int A_Force;
+    int A_Armure;
+    int B_Pv;
+    int B_Force;
+    int B_Armure;
+    int C_Pv;
+    int C_Force;
+    int C_Armure;
 
-char** buildMapFromFile(char * map);
+} Map;
+
+Map* buildMapFromFile(char * map);
 char** initMap();
 void displayMap(char ** map);
 void drawMap(SDL_Renderer * renderer, char ** map, Character * player);

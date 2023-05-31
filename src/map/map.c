@@ -157,8 +157,9 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player) {
  * @param map
  * @return the level you have choice with param map, in a matrix.
  */
-char** buildMapFromFile(char * map){
+Map* buildMapFromFile(char * map){
     //putInAFile(putInATab(switchCharacter(map)),map);
+    Map* finalMap = malloc(sizeof(Map));
     char** laMap=(char**)malloc(30 * sizeof(char*));
     FILE *fp;
     fp = fopen(map, "r");
@@ -181,6 +182,26 @@ char** buildMapFromFile(char * map){
             }
         }
     }
+    finalMap->matrix = laMap;
+
+    char line[100];  // works like a buffer
+    for (int i = 0; i < 4; i++) {
+        if (fgets(line, sizeof(line), fp) != NULL) {
+            line[strcspn(line, "\r\n")] = '\0';  // delete the \n
+            if (strlen(line) > 0) {
+                char* separator = strchr(line, ':');
+                if (separator != NULL) {
+                    separator++;  // we want the string after the :
+                    if (*separator == ' ') {
+                        separator++;  // we want the string after the space
+                    }
+                    finalMap->directions[i] = malloc(strlen(separator) + 1);
+                    strcpy(finalMap->directions[i], separator); // copy the string in the array
+                }
+            }
+        }
+    }
+
     fclose(fp);//close the file
     return laMap;
 }
