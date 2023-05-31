@@ -70,8 +70,16 @@ void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
  * @param map
  */
 void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map) {
-    SDL_RenderCopy(renderer, tilemap, &S_RECT_FLOOR_1, &rect);
+    // TODO: Ajouter une texture avec des bords cul de sac pour les portes
+    // Vertical double borded
+    if (map[y][x+1] == '#' && map[y][x-1] == '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_FLOOR, &rect, 90.00, NULL, RENDERER_FLIP);
+    }
 
+    // Horizntal double borded
+    if (map[x][y+1] == '#' && map[x][y-1] == '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_FLOOR, &rect, 0.00, NULL, RENDERER_FLIP);
+    }
 
     // TODO: Vérifier tout les alentours pour choisir la bonne texture et la bonne orientation
     // TODO: Ajouter du random pour varier les textures de sol (en gardant l'orientation etc...)
@@ -120,8 +128,10 @@ void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, 
     }
 }
 
-void drawDefaultTexture(SDL_Renderer * renderer) {
-    SDL_Rect rect = { 0, 0, 30, 30 };
+void drawDefaultTexture(SDL_Renderer * renderer, SDL_Texture * tilemap) {
+    SDL_Rect rect = { 0, 0, 30*30, 30*30 };
+
+    SDL_RenderCopy(renderer, tilemap, &S_RECT_DEFAULT_FLOOR, &rect);
 }
 
 /**
@@ -129,11 +139,12 @@ void drawDefaultTexture(SDL_Renderer * renderer) {
 * @param renderer
 */
 void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Texture * tilemap) {
+    // Print floor to avoid black screens
+    drawDefaultTexture(renderer, tilemap);
     for (int y_coord = 0; y_coord < 30; y_coord++) {
         for (int x_coord = 0; x_coord < 30; x_coord++) {
             SDL_Rect rect = { (x_coord * 30), (y_coord * 30), 30, 30 };
-            // Print floor to avoid black screens
-            SDL_RenderCopy(renderer, tilemap, &S_RECT_FLOOR_1, &rect);
+
 
             switch (map[y_coord][x_coord]) {
                 case ' ': // Floor
@@ -147,18 +158,22 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Textu
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_RED_POTION, &rect);
                     break;
                 case 'A': // Enemy 1
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_SLIME, &rect);
                     break;
                 case 'B': // Enemy 2
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_VIKING, &rect);
                     break;
                 case 'C': // Enemy 3
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_BLACK_WIZARD, &rect);
                     break;
                 case '?': // Room exit
                     drawRoomExit(renderer, x_coord, y_coord, tilemap, rect);
                     break;
                 case '!': // key
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &rect);
                     break;
                 case 'o': // closed door
@@ -168,12 +183,15 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Textu
                     drawDoor(renderer, x_coord, y_coord, tilemap, rect, map, 1);
                     break;
                 case '1': // Power Up Attack
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_GRAY_POTION, &rect);
                     break;
                 case '2': // Power Up Defense
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_GREEN_POTION, &rect);
                     break;
                 case '3': // Power Up HP Max
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_BLUE_POTION, &rect);
                         break;
                 default:

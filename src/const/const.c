@@ -5,10 +5,16 @@ const SDL_Color GREEN_COLOR = { 0, 255, 0, 255};
 
 const SDL_RendererFlip RENDERER_FLIP = SDL_FLIP_HORIZONTAL;
 
+// Default Map with floors
+const SDL_Rect S_RECT_DEFAULT_FLOOR = {16*12, 0, 480, 480};
+
 // Floors
 const SDL_Rect S_RECT_FLOOR_1 = { 0, 64, 16, 16 };
 const SDL_Rect S_RECT_FLOOR_2 = {1*16, 4*16, 16, 16};
 const SDL_Rect S_RECT_FLOOR_3 = {6*16, 3*16, 16, 16};
+
+// Special floors
+const SDL_Rect S_RECT_DOUBLE_BORDED_FLOOR = {2*16, 4*16, 16, 16};
 
 // Walls
 const SDL_Rect S_RECT_WALL_1 = {64, 48, 16, 16};

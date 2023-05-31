@@ -13,6 +13,12 @@ extern const SDL_Color WHITE_COLOR;
 
 extern const SDL_RendererFlip RENDERER_FLIP;
 
+// Default Floor
+extern const SDL_Rect S_RECT_DEFAULT_FLOOR;
+
+// Special Floors
+extern const SDL_Rect S_RECT_DOUBLE_BORDED_FLOOR;
+
 // Floors
 extern const SDL_Rect S_RECT_FLOOR_1;
 extern const SDL_Rect S_RECT_FLOOR_2;
