@@ -72,6 +72,7 @@ void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
 void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map) {
     SDL_RenderCopy(renderer, tilemap, &S_RECT_FLOOR_1, &rect);
 
+
     // TODO: Vérifier tout les alentours pour choisir la bonne texture et la bonne orientation
     // TODO: Ajouter du random pour varier les textures de sol (en gardant l'orientation etc...)
 }
@@ -119,12 +120,15 @@ void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, 
     }
 }
 
+void drawDefaultTexture(SDL_Renderer * renderer) {
+    SDL_Rect rect = { 0, 0, 30, 30 };
+}
+
 /**
 * Test for displaying an image in the window
 * @param renderer
 */
 void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Texture * tilemap) {
-    // TODO: drawMap V2 : Load Tilemap Packed + const every tile for drawing
     for (int y_coord = 0; y_coord < 30; y_coord++) {
         for (int x_coord = 0; x_coord < 30; x_coord++) {
             SDL_Rect rect = { (x_coord * 30), (y_coord * 30), 30, 30 };
