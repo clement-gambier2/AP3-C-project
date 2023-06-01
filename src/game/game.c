@@ -16,7 +16,7 @@ int launchGame(SDL_Renderer* renderer) {
     Character * c = createCharacter(10,10,4,2,0,0);
     SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
-    drawMap(renderer,map->matrix,c->pos_x,c->pos_y);
+    drawMap(renderer,map->matrix,c->pos_x,c->pos_y,tilemapTexture);
     SDL_RenderPresent(renderer);
     char * returnMove;
 
@@ -25,7 +25,6 @@ int launchGame(SDL_Renderer* renderer) {
     // Here we are waiting for events
     SDL_Event event;
     while (1) {
-        drawMap(renderer, map, c, tilemapTexture);
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
@@ -68,7 +67,7 @@ int launchGame(SDL_Renderer* renderer) {
                     break;
             }
         }
-        drawMap(renderer,map->matrix,c->pos_x,c->pos_y);
+        drawMap(renderer,map->matrix,c->pos_x,c->pos_y,tilemapTexture);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
         SDL_Delay(10);
