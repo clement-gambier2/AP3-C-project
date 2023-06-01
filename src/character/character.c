@@ -3,9 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "character.h"
-#include "../objects/Objects.h"
 
 
+#define MOVE_IMPOSSIBLE 1
+#define POTION 2
+#define KEY 3
+#define POWERUP_DAMAGE 4
+#define POWERUP_DEFENSE 5
+#define POWERUP_HP_MAX 6
 
 /**
  * Used to create a new playable character
@@ -113,17 +118,27 @@ int get_def(Character *character) {
  */
 int isMovePossible(int x, int y, char ** map){
     if (x < 0 || x > 29 || y < 0 || y > 29){
-        return 1;
+        return MOVE_IMPOSSIBLE;
     }
     if(map[y][x] == '#'){
-        return 1;
+        return MOVE_IMPOSSIBLE;
     }
     if (map[y][x] == 'p') {
-        return 2;
+        return POTION;
     }
     if (map[y][x] == '!') {
-        return 3;
+        return KEY;
     }
+    if (map[y][x] == '1') {
+        return POWERUP_DAMAGE;
+    }
+    if (map[y][x] == '2') {
+        return POWERUP_DEFENSE;
+    }
+    if (map[y][x] == '3') {
+        return POWERUP_HP_MAX;
+    }
+
     return 0;
 }
 
@@ -132,21 +147,34 @@ int isMovePossible(int x, int y, char ** map){
  * @param character - The character
  */
 
-void moveLeft(Character* character, char** map) {
+void moveLeft(Character* character,PowerUp * powerUp, char ** map) {
     int moveResult = isMovePossible(character->pos_x - 1, character->pos_y, map);
     if (moveResult == 0) {
 
         character->pos_x -= 1;
     }
-    if (moveResult == 2) {
+    if (moveResult == POTION) {
         use_potion(character);
         map[character->pos_y][character->pos_x - 1] = ' ';
 
     }
-    if (moveResult == 3) {
+    if (moveResult == KEY) {
         map[character->pos_y][character->pos_x - 1] = ' ';
         character->key += 1;
     }
+    if (moveResult == POWERUP_DAMAGE) {
+        map[character->pos_y][character->pos_x - 1] = ' ';
+        apply_power_up(DAMAGE, character);
+    }
+    if (moveResult == POWERUP_DEFENSE) {
+        map[character->pos_y][character->pos_x - 1] = ' ';
+        apply_power_up(DEFENSE, character);
+    }
+    if (moveResult == POWERUP_HP_MAX) {
+        map[character->pos_y][character->pos_x - 1] = ' ';
+        apply_power_up(HP_MAX, character);
+    }
+
 }
 
 // Mettez à jour les autres fonctions de déplacement de manière similaire (moveRight, moveTop, moveBottom)
@@ -156,20 +184,30 @@ void moveLeft(Character* character, char** map) {
  * @param character - The character
  */
 
-void moveRight(Character * character, char ** map){
+void moveRight(Character * character,PowerUp * powerUp, char ** map){
     int moveResult = isMovePossible(character->pos_x + 1, character->pos_y, map);
     if (moveResult == 0) {
-
         character->pos_x += 1;
     }
-    if (moveResult == 2) {
+    if (moveResult == POTION) {
         use_potion(character);
         map[character->pos_y][character->pos_x + 1] = ' ';
-
     }
-    if (moveResult == 3) {
+    if (moveResult == KEY) {
         map[character->pos_y][character->pos_x + 1] = ' ';
         character->key += 1;
+    }
+    if (moveResult == POWERUP_DAMAGE) {
+        map[character->pos_y][character->pos_x + 1] = ' ';
+        apply_power_up(DAMAGE, character);
+    }
+    if (moveResult == POWERUP_DEFENSE) {
+        map[character->pos_y][character->pos_x + 1] = ' ';
+        apply_power_up(DEFENSE, character);
+    }
+    if (moveResult == POWERUP_HP_MAX) {
+        map[character->pos_y][character->pos_x + 1] = ' ';
+        apply_power_up(HP_MAX, character);
     }
 }
 
@@ -177,20 +215,30 @@ void moveRight(Character * character, char ** map){
  * Used to moveTop the character
  * @param character - The character
  */
-
-
-void moveTop(Character * character, char ** map){
+void moveTop(Character * character,PowerUp * powerUp, char ** map){
     int moveResult = isMovePossible(character->pos_x, character->pos_y - 1, map);
     if (moveResult == 0) {
         character->pos_y -= 1;
     }
-    if (moveResult == 2) {
+    if (moveResult == POTION) {
         use_potion(character);
         map[character->pos_y - 1][character->pos_x] = ' ';
     }
-    if (moveResult == 3) {
+    if (moveResult == KEY) {
         map[character->pos_y - 1][character->pos_x] = ' ';
         character->key += 1;
+    }
+    if (moveResult == POWERUP_DAMAGE) {
+        map[character->pos_y - 1][character->pos_x] = ' ';
+        apply_power_up(DAMAGE, character);
+    }
+    if (moveResult == POWERUP_DEFENSE) {
+        map[character->pos_y - 1][character->pos_x] = ' ';
+        apply_power_up(DEFENSE, character);
+    }
+    if (moveResult == POWERUP_HP_MAX) {
+        map[character->pos_y - 1][character->pos_x] = ' ';
+        apply_power_up(HP_MAX, character);
     }
 }
 
@@ -198,20 +246,29 @@ void moveTop(Character * character, char ** map){
  * Used to moveBottom the character
  * @param character - The character
  */
-
-
-void moveBottom(Character * character, char ** map) {
+void moveBottom(Character * character,PowerUp * powerUp, char ** map) {
     int moveResult = isMovePossible(character->pos_x, character->pos_y + 1, map);
     if (moveResult == 0) {
         character->pos_y += 1;
     }
-    if (moveResult == 2) {
+    if (moveResult == POTION) {
         use_potion(character);
         map[character->pos_y + 1][character->pos_x] = ' ';
     }
-    if (moveResult == 3) {
+    if (moveResult == KEY) {
         map[character->pos_y + 1][character->pos_x] = ' ';
         character->key += 1;
     }
+    if (moveResult == POWERUP_DAMAGE) {
+        map[character->pos_y + 1][character->pos_x] = ' ';
+        apply_power_up(DAMAGE, character);
+    }
+    if (moveResult == POWERUP_DEFENSE) {
+        map[character->pos_y + 1][character->pos_x] = ' ';
+        apply_power_up(DEFENSE, character);
+    }
+    if (moveResult == POWERUP_HP_MAX) {
+        map[character->pos_y + 1][character->pos_x] = ' ';
+        apply_power_up(HP_MAX, character);
+    }
 }
-
