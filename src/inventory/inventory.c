@@ -1,10 +1,10 @@
 //
 // Created by mrplume on 17/05/23.
 //
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include "inventory.h"
-#include "../const/const.h"
+#include "../../include/SDL2/SDL.h"
+#include "../../include/SDL2/SDL_ttf.h"
+#include "../../include/inventory.h"
+#include "../../include/const.h"
 
 
 

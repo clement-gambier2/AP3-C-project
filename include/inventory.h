@@ -5,10 +5,10 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include "../objects/Objects.h"
-#include "../character/character.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_ttf.h"
+#include "Objects.h"
+#include "character.h"
 
 
 void inventory(SDL_Renderer* renderer, Character * character);

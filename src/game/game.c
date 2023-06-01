@@ -1,8 +1,8 @@
 //
 // Created by clement on 13/05/23.
 //
-#include "game.h"
-#include "../map/map.h"
+#include "../../include/game.h"
+#include "../../include/map.h"
 
 
 /**

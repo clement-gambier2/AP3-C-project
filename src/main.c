@@ -1,9 +1,9 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include "game/game.h"
-#include "combat/combat.h"
-#include "map/map.h"
-#include "const/const.h"
+#include "../include/SDL2/SDL.h"
+#include "../include/SDL2/SDL_ttf.h"
+#include "../include/game.h"
+#include "../include/combat.h"
+#include "../include/map.h"
+#include "../include/const.h"
 
 int main() {
     // Initialize SDL2

@@ -3,7 +3,7 @@
 
 #endif //AP3_C_PROJECT_COMBAT_H
 
-#include "../character/character.h"
-#include "../inventory/inventory.h"
+#include "character.h"
+#include "inventory.h"
 
 int fight(Character *character, Enemy *enemy, SDL_Renderer* renderer);

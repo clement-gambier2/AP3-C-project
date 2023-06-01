@@ -1,5 +1,5 @@
 
-#include "map.h"
+#include "../../include/map.h"
 
 /*char * switchCharacter(char * map){
     FILE *fichier;

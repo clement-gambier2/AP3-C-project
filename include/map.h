@@ -3,12 +3,12 @@
 
 #endif //AP3_C_PROJECT_MAP_H
 
-#include <SDL2/SDL.h>
+#include "SDL2/SDL.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../const/const.h"
-#include "../character/character.h"
-#include "../inventory/inventory.h"
+#include "const.h"
+#include "character.h"
+#include "inventory.h"
 typedef struct Map_ {
     char ** matrix;
     char * directions[4]; //E,S,O,N : array of directions

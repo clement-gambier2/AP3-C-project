@@ -1,11 +1,11 @@
 
 
-#include <malloc.h>
-#include "character.h"
+#include <stdlib.h>
+#include "../../include/character.h"
 
 
 
-#include "../inventory/inventory.h"
+#include "../../include/inventory.h"
 
 /**
  * Used to create a new playable character
