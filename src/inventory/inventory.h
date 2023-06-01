@@ -12,7 +12,7 @@
 #include "../character/character.h"
 
 
-void inventory(SDL_Renderer* renderer, Character * character);
+void inventory(SDL_Renderer* renderer, struct Character * character);
 
 
 #endif //INVENTORY_H

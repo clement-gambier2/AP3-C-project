@@ -102,7 +102,7 @@ void render_def(SDL_Renderer* renderer, int num_def) {
     SDL_FreeSurface(def_surface);
 }
 
-void inventory(SDL_Renderer* renderer, Character * character) {
+void inventory(SDL_Renderer* renderer, struct Character * character) {
 
     int num_hearts = get_hearts(character);
     render_hearts(renderer, num_hearts);
