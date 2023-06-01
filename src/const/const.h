@@ -18,6 +18,7 @@ extern const SDL_Rect S_RECT_DEFAULT_FLOOR;
 
 // Special Floors
 extern const SDL_Rect S_RECT_DOUBLE_BORDED_FLOOR;
+extern const SDL_Rect S_RECT_DOUBLE_BORDED_CORNER_FLOOR;
 
 // Floors
 extern const SDL_Rect S_RECT_FLOOR_1;

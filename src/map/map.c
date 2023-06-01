@@ -71,6 +71,14 @@ void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
  */
 void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map) {
     // TODO: Ajouter une texture avec des bords cul de sac pour les portes
+    // Upper Right double borded corner
+    if (map[y-1][x] == '#' && map[y][x+1] == '#' && map[y+1][x-1] == '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_CORNER_FLOOR, &rect, 90.00, NULL, RENDERER_FLIP);
+    }
+    // Upper Left double borded corner
+
+
+
     // Vertical double borded
     if (map[y][x+1] == '#' && map[y][x-1] == '#') {
         SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_FLOOR, &rect, 90.00, NULL, RENDERER_FLIP);
@@ -78,7 +86,7 @@ void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL
 
     // Horizntal double borded
     if (map[x][y+1] == '#' && map[x][y-1] == '#') {
-        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_FLOOR, &rect, 0.00, NULL, RENDERER_FLIP);
+        //SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_FLOOR, &rect, 0.00, NULL, RENDERER_FLIP);
     }
 
     // TODO: Vérifier tout les alentours pour choisir la bonne texture et la bonne orientation
