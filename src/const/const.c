@@ -21,6 +21,9 @@ const SDL_Rect S_RECT_DOUBLE_BORDED_CORNER_FLOOR = {6*16, 4*16, 16, 16};
 const SDL_Rect S_RECT_WALL_1 = {64, 48, 16, 16};
 const SDL_Rect S_RECT_WALL_2 = {64, 32, 16, 16};
 
+// Roofs
+const SDL_Rect S_RECT_ROOF_1 = {0, 0, 16, 16};
+
 // Doors
 const SDL_Rect S_RECT_SINGLE_CLOSED_DOOR = {9*16, 3*16, 16, 16};
 const SDL_Rect S_RECT_LEFT_CLOSED_DOOR = {10*16, 3*16, 16, 16};

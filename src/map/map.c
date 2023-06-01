@@ -31,7 +31,18 @@
  * @param map
  */
 void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map) {
-    SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
+    if (x > 0 && y > 0 && x < 29 && y < 29) {
+        if (map[y][x-1] == '#' && map[y][x+1] == '#' && map[y-1][x] == '#' && map[y+1][x] == '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_ROOF_1, &rect);
+        } else {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
+
+        }
+    }
+    // Full Wall
+     else {
+        SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
+    }
     // TODO: Vérifier tout les alentours pour choisir le bon mur
     // TODO: Ajouter du random pour varier les textures de murs
 }
@@ -75,7 +86,14 @@ void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL
     if (map[y-1][x] == '#' && map[y][x+1] == '#' && map[y+1][x-1] == '#') {
         SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_CORNER_FLOOR, &rect, 90.00, NULL, RENDERER_FLIP);
     }
-    // Upper Left double borded corner
+    // Lower Left double borded corner
+    if (map[y+1][x] == '#' && map[y][x-1] == '#' && map[y-1][x+1] == '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_CORNER_FLOOR, &rect, 270.00, NULL, RENDERER_FLIP);
+    }
+    // Upper Right double borded corner
+    if (map[y-1][x] == '#' && map[y+1][x+1] == '#' && map[y][x-1] == '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_CORNER_FLOOR, &rect, 360.00, NULL, RENDERER_FLIP);
+    }
 
 
 

@@ -29,6 +29,9 @@ extern const SDL_Rect S_RECT_FLOOR_3;
 extern const SDL_Rect S_RECT_WALL_1;
 extern const SDL_Rect S_RECT_WALL_2;
 
+// Roofs
+extern const SDL_Rect S_RECT_ROOF_1;
+
 // Doors
 extern const SDL_Rect S_RECT_SINGLE_CLOSED_DOOR;
 extern const SDL_Rect S_RECT_LEFT_CLOSED_DOOR;
