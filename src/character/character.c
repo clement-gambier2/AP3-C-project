@@ -104,6 +104,25 @@ int get_def(Character *character) {
     return num_def;
 }
 
+/**
+ * isMovePossible check if the move is possible
+ * @param x
+ * @param y
+ * @param map
+ * @return 0 if the move is possible, 1 otherwise
+ */
+int isMovePossible(int x, int y, char ** map){
+    if (x < 0 || x > 29 || y < 0 || y > 29){
+        return 1;
+    }
+    if(map[y][x] == '#'){
+        return 1;
+    }
+    printf("y : %d, x : %d\n", x,y);
+    printf("%c\n", map[y][x]);
+    return 0;
+}
+
 int ennemyOnTheWay(char** map, int x, int y, char direction){
     switch(direction){
         case 't':
@@ -128,46 +147,18 @@ int ennemyOnTheWay(char** map, int x, int y, char direction){
             return 0;
         default:
             break;
-    }
-    return 0;   
+    }   
 }
-
-/**
- * isMovePossible check if the move is possible
- * @param x
- * @param y
- * @param map
- * @return 0 if the move is possible, 1 otherwise
- */
-int isMovePossible(int x, int y, char ** map){
-    if (x < 0 || x > 29 || y < 0 || y > 29){
-        return 1;
-    }
-    if(map[y][x] == '#'){
-        return 1;
-    }
-    printf("y : %d, x : %d\n", x,y);
-    printf("%c\n", map[y][x]);
-    return 0;
-}
-
-
 
 /**
  * Used to moveLeft the character
  * @param character - The character
  */ 
-
 void moveLeft(Character * character, char ** map){
     if (isMovePossible(character->pos_x-1, character->pos_y,map) == 0) {
-        if(ennemyOnTheWay(map, character->pos_x, character->pos_y, 'l')==0){
-            character->pos_x-=1; 
-        }
-        else{
-            char ennemy=map[character->pos_x-1][character->pos_y];
-            printf('%c', ennemy);
-        }
+        character->pos_x -= 1;
     }
+
 }
 
 
@@ -178,13 +169,7 @@ void moveLeft(Character * character, char ** map){
  */ 
 void moveRight(Character * character, char ** map){
     if (isMovePossible(character->pos_x+1, character->pos_y,map) == 0) {
-        if(ennemyOnTheWay(map, character->pos_x, character->pos_y, 'l')==0){
-            character->pos_x+=1; 
-        }
-        else{
-            char ennemy=map[character->pos_x+1][character->pos_y];
-            printf('%c', ennemy);
-        }
+        character->pos_x += 1;
     }
 }
 
@@ -194,13 +179,7 @@ void moveRight(Character * character, char ** map){
  */ 
 void moveTop(Character * character, char ** map){
     if (isMovePossible(character->pos_x, character->pos_y-1,map) == 0) {
-        if(ennemyOnTheWay(map, character->pos_x, character->pos_y, 'l')==0){
-            character->pos_y-=1; 
-        }
-        else{
-            char ennemy=map[character->pos_x][character->pos_y-1];
-            printf('%c', ennemy);
-        }
+        character->pos_y -= 1;
     }
 }
 
@@ -210,12 +189,6 @@ void moveTop(Character * character, char ** map){
  */ 
 void moveBottom(Character * character, char ** map){
     if (isMovePossible(character->pos_x, character->pos_y+1,map) == 0) {
-        if(ennemyOnTheWay(map, character->pos_x, character->pos_y, 'l')==0){
-            character->pos_y+=1; 
-        }
-        else{
-            char ennemy=map[character->pos_x][character->pos_y+1];
-            printf('%c', ennemy);
-        }
+        character->pos_y += 1;
     }
 }
