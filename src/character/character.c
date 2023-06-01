@@ -1,11 +1,11 @@
 
 
-#include <malloc.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "character.h"
+#include "../objects/Objects.h"
 
 
-
-#include "../inventory/inventory.h"
 
 /**
  * Used to create a new playable character
@@ -118,48 +118,100 @@ int isMovePossible(int x, int y, char ** map){
     if(map[y][x] == '#'){
         return 1;
     }
-    printf("y : %d, x : %d\n", x,y);
-    printf("%c\n", map[y][x]);
+    if (map[y][x] == 'p') {
+        return 2;
+    }
+    if (map[y][x] == '!') {
+        return 3;
+    }
     return 0;
 }
 
 /**
  * Used to moveLeft the character
  * @param character - The character
- */ 
-void moveLeft(Character * character, char ** map){
-    if (isMovePossible(character->pos_x-1, character->pos_y,map) == 0){
-        character->pos_x-=1;
-    }
+ */
 
+void moveLeft(Character* character, char** map) {
+    int moveResult = isMovePossible(character->pos_x - 1, character->pos_y, map);
+    if (moveResult == 0) {
+
+        character->pos_x -= 1;
+    }
+    if (moveResult == 2) {
+        use_potion(character);
+        map[character->pos_y][character->pos_x - 1] = ' ';
+
+    }
+    if (moveResult == 3) {
+        map[character->pos_y][character->pos_x - 1] = ' ';
+        character->key += 1;
+    }
 }
+
+// Mettez à jour les autres fonctions de déplacement de manière similaire (moveRight, moveTop, moveBottom)
 
 /**
  * Used to moveRight the character
  * @param character - The character
- */ 
+ */
+
 void moveRight(Character * character, char ** map){
-    if (isMovePossible(character->pos_x+1, character->pos_y,map) == 0) {
+    int moveResult = isMovePossible(character->pos_x + 1, character->pos_y, map);
+    if (moveResult == 0) {
+
         character->pos_x += 1;
+    }
+    if (moveResult == 2) {
+        use_potion(character);
+        map[character->pos_y][character->pos_x + 1] = ' ';
+
+    }
+    if (moveResult == 3) {
+        map[character->pos_y][character->pos_x + 1] = ' ';
+        character->key += 1;
     }
 }
 
 /**
  * Used to moveTop the character
  * @param character - The character
- */ 
+ */
+
+
 void moveTop(Character * character, char ** map){
-    if (isMovePossible(character->pos_x, character->pos_y-1,map) == 0) {
+    int moveResult = isMovePossible(character->pos_x, character->pos_y - 1, map);
+    if (moveResult == 0) {
         character->pos_y -= 1;
+    }
+    if (moveResult == 2) {
+        use_potion(character);
+        map[character->pos_y - 1][character->pos_x] = ' ';
+    }
+    if (moveResult == 3) {
+        map[character->pos_y - 1][character->pos_x] = ' ';
+        character->key += 1;
     }
 }
 
 /**
  * Used to moveBottom the character
  * @param character - The character
- */ 
-void moveBottom(Character * character, char ** map){
-    if (isMovePossible(character->pos_x, character->pos_y+1,map) == 0) {
+ */
+
+
+void moveBottom(Character * character, char ** map) {
+    int moveResult = isMovePossible(character->pos_x, character->pos_y + 1, map);
+    if (moveResult == 0) {
         character->pos_y += 1;
     }
+    if (moveResult == 2) {
+        use_potion(character);
+        map[character->pos_y + 1][character->pos_x] = ' ';
+    }
+    if (moveResult == 3) {
+        map[character->pos_y + 1][character->pos_x] = ' ';
+        character->key += 1;
+    }
 }
+
