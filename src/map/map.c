@@ -1,5 +1,6 @@
-
 #include "map.h"
+#include <string.h>
+
 
 /*char * switchCharacter(char * map){
     FILE *fichier;
@@ -123,7 +124,8 @@ void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, 
 * Test for displaying an image in the window
 * @param renderer
 */
-void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Texture * tilemap) {
+
+void drawMap(SDL_Renderer * renderer, char ** map, int posX, int posY, SDL_Texture * tilemap){
     // TODO: drawMap V2 : Load Tilemap Packed + const every tile for drawing
     for (int y_coord = 0; y_coord < 30; y_coord++) {
         for (int x_coord = 0; x_coord < 30; x_coord++) {
@@ -180,10 +182,9 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Textu
         }
 
         // Drawing player
-        SDL_Rect playerRect = { (player->pos_x * 30), (player->pos_y * 30), 30, 30 };
-        SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
-
-        SDL_RenderPresent(renderer);
+    SDL_Rect playerRect = {(posX * 30), (posY * 30), 30, 30 };
+    SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
+    SDL_RenderPresent(renderer);
 }
 
 /*
@@ -214,14 +215,16 @@ char * putInATab(char * map){
  *buildMapFromFile build the matrix with the map given in param
  * @param map
  * @return the level you have choice with param map, in a matrix.
+ * finalMap is an object with the matrix and the directions in this order (E,S,O,N)
  */
-char** buildMapFromFile(char * map){
-    //putInAFile(putInATab(switchCharacter(map)),map);
+struct Map * buildMapFromFile(char * map){
+    struct Map* finalMap = malloc(sizeof(struct Map));
     char** laMap=(char**)malloc(30 * sizeof(char*));
     FILE *fp;
     fp = fopen(map, "r");
     char tmp;
     int cpt=0;
+
     for (int i = 0; i < 30; i++)//for each line of the file
     {
         laMap[i]=(char*)malloc(30 * sizeof(char));
@@ -239,15 +242,34 @@ char** buildMapFromFile(char * map){
             }
         }
     }
-    fclose(fp);//close the file
-    return laMap;
+    finalMap->matrix = laMap;
+
+    char line[100];  // works like a buffer
+    for (int i = 0; i < 4; i++) {
+        if (fgets(line, sizeof(line), fp) != NULL) {
+            line[strcspn(line, "\r\n")] = '\0';  // delete the \n
+            if (strlen(line) > 0) {
+                char* separator = strchr(line, ':');
+                if (separator != NULL) {
+                    separator++;  // we want the string after the :
+                    if (*separator == ' ') {
+                        separator++;  // we want the string after the space
+                    }
+                    finalMap->directions[i] = malloc(strlen(separator) + 1);
+                    strcpy(finalMap->directions[i], separator); // copy the string in the array
+                }
+            }
+        }
+    }
+    fclose(fp); //close the file
+    return finalMap;
 }
 
 /**
  * initMap set level 1
  */
-char** initMap(){
-    return buildMapFromFile("src/map/niveau1Prof.level");
+struct Map * initMap(void){
+    return buildMapFromFile("src/map/niveau1.level");
 }
 
 /**
@@ -263,4 +285,24 @@ void displayMap(char ** map){
         }
         printf("\n");
     }
+}
+
+char* concatenateLevelName(char* a, char* b) {
+    // Allouer suffisamment de mémoire pour la chaîne concaténée
+    int len_a = strlen(a);
+    int len_b = strlen(b);
+    int len_concatenated = len_a + len_b + 1; // +1 pour le caractère nul de fin de chaîne
+    char* concatenated = (char*)malloc(len_concatenated * sizeof(char));
+
+    // Vérifier si l'allocation de mémoire a réussi
+    if (concatenated == NULL) {
+        printf("Erreur lors de l'allocation de mémoire.\n");
+        exit(1);
+    }
+
+    // Copier les chaînes de caractères dans la chaîne concaténée
+    strcpy(concatenated, a);
+    strcat(concatenated, b);
+
+    return concatenated;
 }

@@ -1,11 +1,7 @@
-
-
 #include <malloc.h>
 #include "character.h"
+#include "../map/map.h"
 
-
-
-#include "../inventory/inventory.h"
 
 /**
  * Used to create a new playable character
@@ -118,48 +114,97 @@ int isMovePossible(int x, int y, char ** map){
     if(map[y][x] == '#'){
         return 1;
     }
-    printf("y : %d, x : %d\n", x,y);
-    printf("%c\n", map[y][x]);
     return 0;
 }
 
 /**
- * Used to moveLeft the character
- * @param character - The character
- */ 
-void moveLeft(Character * character, char ** map){
-    if (isMovePossible(character->pos_x-1, character->pos_y,map) == 0){
-        character->pos_x-=1;
+ * moveRight
+ * @param character
+ * @param map
+ * @return
+ */
+char * moveRight(Character * character,struct Map * map){
+    //switch map : we are in moveRight so if there is a level it's the EAST one so first cell of the direction array
+    if(map->matrix[character->pos_y][character->pos_x] == '?'){
+        if(character->pos_x == 29){
+            printf("switch map : %s \n",map->directions[0]);
+            character->pos_x = 0;
+            character->pos_y = 14;
+            return map->directions[0];
+        }
+
     }
-
-}
-
-/**
- * Used to moveRight the character
- * @param character - The character
- */ 
-void moveRight(Character * character, char ** map){
-    if (isMovePossible(character->pos_x+1, character->pos_y,map) == 0) {
+    if (isMovePossible(character->pos_x+1, character->pos_y,map->matrix) == 0) {
         character->pos_x += 1;
     }
+    return "noSwitch";
 }
 
 /**
- * Used to moveTop the character
- * @param character - The character
- */ 
-void moveTop(Character * character, char ** map){
-    if (isMovePossible(character->pos_x, character->pos_y-1,map) == 0) {
-        character->pos_y -= 1;
+ * moveBottom
+ * @param character
+ * @param map
+ * @return
+ */
+char * moveBottom(Character * character, struct Map * map){
+    //switch map : we are in moveBottom so if there is a level it's the SOUTH one so second cell of the direction array
+    if(map->matrix[character->pos_y][character->pos_x] == '?'){
+        if(character->pos_y == 29){
+            printf("switch map : %s \n",map->directions[1]);
+            character->pos_x = 15;
+            character->pos_y = 0;;
+            return map->directions[1];
+        }
     }
-}
-
-/**
- * Used to moveBottom the character
- * @param character - The character
- */ 
-void moveBottom(Character * character, char ** map){
-    if (isMovePossible(character->pos_x, character->pos_y+1,map) == 0) {
+    if (isMovePossible(character->pos_x, character->pos_y+1,map->matrix) == 0) {
         character->pos_y += 1;
     }
+    return "noSwitch";
 }
+
+/**
+ * moveLeft
+ * @param character
+ * @param map
+ * @return
+ */
+char * moveLeft(Character * character,struct Map * map){
+    //switch map : we are in moveLeft so if there is a level it's the WEST one so third cell of the direction array
+    if(map->matrix[character->pos_y][character->pos_x] == '?'){
+        if(character->pos_y == 14 && character->pos_x == 0){
+            printf("switch map : %s \n",map->directions[2]);
+            character->pos_x = 29;
+            character->pos_y = 14;
+            return map->directions[2];
+        }
+    }
+    if (isMovePossible(character->pos_x-1, character->pos_y,map->matrix) == 0){
+        character->pos_x-=1;
+    }
+    return "noSwitch";
+
+}
+
+/**
+ * moveTop
+ * @param character
+ * @param map
+ * @return
+ */
+char * moveTop(Character * character,struct Map * map){
+    //switch map : we are in moveTop so if there is a level it's the NORTH one so fourth cell of the direction array
+    if(map->matrix[character->pos_y][character->pos_x] == '?'){
+        if(character->pos_y == 0){
+            printf("switch map : %s \n",map->directions[3]);
+            character->pos_x = 15;
+            character->pos_y = 29;;
+            return map->directions[3];
+        }
+    }
+    if (isMovePossible(character->pos_x, character->pos_y-1,map->matrix) == 0) {
+        character->pos_y -= 1;
+    }
+    return "noSwitch";
+}
+
+

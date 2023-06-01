@@ -1,12 +1,10 @@
 //
 // Created by mrplume on 17/05/23.
 //
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "inventory.h"
-#include "../const/const.h"
-
-
 
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect) {
     if (TTF_Init() == -1) {
@@ -102,18 +100,6 @@ void render_def(SDL_Renderer* renderer, int num_def) {
 
     SDL_DestroyTexture(def_texture);
     SDL_FreeSurface(def_surface);
-}
-
-void decrement_hp(Character* character) {
-    if (character->hp > 0) {
-        character->hp--;
-    }
-}
-
-void decrement_def(Character* character) {
-    if (character->def > 0) {
-        character->def--;
-    }
 }
 
 void inventory(SDL_Renderer* renderer, Character * character) {
