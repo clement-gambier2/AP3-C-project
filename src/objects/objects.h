@@ -15,12 +15,12 @@ typedef struct PowerUp_ {
     int powerValue;
 } PowerUp;
 
-void apply_power_up(PowerUp * powerUp, Character * character);
-void decrement_potion(Character * character);
-void increment_potion(Character * character);
-void use_potion(Character * character);
-void decrement_key(Character * character, SDL_Renderer* renderer);
-void increment_key(Character * character, SDL_Renderer* renderer);
-int can_open_door(Character * character);
+void apply_power_up(PowerUp * powerUp, struct Character * character);
+void decrement_potion(struct Character * character);
+void increment_potion(struct Character * character);
+void use_potion(struct Character * character);
+void decrement_key(struct Character * character, SDL_Renderer* renderer);
+void increment_key(struct Character * character, SDL_Renderer* renderer);
+int can_open_door(struct Character * character);
 
 #endif //OBJECTS_H

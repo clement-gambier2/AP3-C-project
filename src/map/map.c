@@ -1,4 +1,5 @@
 #include "map.h"
+#include "../inventory/inventory.h"
 #include <string.h>
 
 
@@ -125,7 +126,7 @@ void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, 
 * @param renderer
 */
 
-void drawMap(SDL_Renderer * renderer, char ** map, int posX, int posY, SDL_Texture * tilemap){
+void drawMap(SDL_Renderer * renderer, char ** map, struct Character * c, SDL_Texture * tilemap){
     // TODO: drawMap V2 : Load Tilemap Packed + const every tile for drawing
     for (int y_coord = 0; y_coord < 30; y_coord++) {
         for (int x_coord = 0; x_coord < 30; x_coord++) {
@@ -181,9 +182,10 @@ void drawMap(SDL_Renderer * renderer, char ** map, int posX, int posY, SDL_Textu
             }
         }
 
-        // Drawing player
-    SDL_Rect playerRect = {(posX * 30), (posY * 30), 30, 30 };
+    // Drawing player
+    SDL_Rect playerRect = {(c->pos_x * 30), (c->pos_y * 30), 30, 30 };
     SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
+    inventory(renderer, c);
     SDL_RenderPresent(renderer);
 }
 
@@ -305,4 +307,9 @@ char* concatenateLevelName(char* a, char* b) {
     strcat(concatenated, b);
 
     return concatenated;
+}
+
+void printCharacter(struct Character * c){
+    printf("Character : \n");
+    printf("Name : %d\n", c->hp);
 }
