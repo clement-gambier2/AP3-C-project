@@ -2,6 +2,8 @@
 // Created by clement on 13/05/23.
 //
 #include "game.h"
+#include "../map/map.h"
+
 /**
  * launchGame is the function that launches the game
  * @param renderer
@@ -12,13 +14,18 @@ int launchGame(SDL_Renderer* renderer) {
         printf("directions : %s\n", map->directions[i]);
     }
     Character * c = createCharacter(10,10,4,2,0,0);
+    SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
+    SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
     drawMap(renderer,map->matrix,c->pos_x,c->pos_y);
     SDL_RenderPresent(renderer);
-
     char * returnMove;
+
+    
+    
     // Here we are waiting for events
     SDL_Event event;
     while (1) {
+        drawMap(renderer, map, c, tilemapTexture);
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
@@ -66,10 +73,11 @@ int launchGame(SDL_Renderer* renderer) {
         SDL_RenderPresent(renderer);
         SDL_Delay(10);
     }
+    // Delete all texture and images
+    SDL_DestroyTexture(tilemapTexture);
+    SDL_FreeSurface(tilemapImage);
     return 1;
 }
-
-
 
 
 /**

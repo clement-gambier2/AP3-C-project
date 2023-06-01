@@ -28,7 +28,6 @@ int main() {
     //Then we need to render
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
-
     int choice = displayMenu(renderer); // Call displayMenu with loaded font
 
     while(choice == 2){

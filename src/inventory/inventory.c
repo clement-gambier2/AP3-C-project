@@ -1,6 +1,9 @@
 //
 // Created by mrplume on 17/05/23.
 //
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "inventory.h"
 
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect) {
