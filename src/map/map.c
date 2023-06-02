@@ -1,6 +1,7 @@
 #include "map.h"
 #include "../inventory/inventory.h"
 #include <string.h>
+#include <dirent.h>
 
 
 /*char * switchCharacter(char * map){
@@ -263,32 +264,19 @@ struct Map * buildMapFromFile(char * map){
             }
         }
     }
+    finalMap->name = malloc(30);
+    strcpy(finalMap->name, map);
     fclose(fp); //close the file
     return finalMap;
 }
 
-/**
- * initMap set level 1
- */
-struct Map * initMap(void){
-    return buildMapFromFile("src/map/niveau1.level");
-}
 
 /**
- * displayMap dislay each case of the map given in param.
- * @param map
+ * concatenateLevelName
+ * @param a
+ * @param b
+ * @return
  */
-void displayMap(char ** map){
-    for (int i = 0; i < 30; i++)//for each line of the file
-    {
-        for (int y = 0; y < 30; y++)//for each column of the file
-        {
-            printf("%c",map[i][y]);//display the symbol at this position
-        }
-        printf("\n");
-    }
-}
-
 char* concatenateLevelName(char* a, char* b) {
     // Allouer suffisamment de mémoire pour la chaîne concaténée
     int len_a = strlen(a);
@@ -296,20 +284,69 @@ char* concatenateLevelName(char* a, char* b) {
     int len_concatenated = len_a + len_b + 1; // +1 pour le caractère nul de fin de chaîne
     char* concatenated = (char*)malloc(len_concatenated * sizeof(char));
 
-    // Vérifier si l'allocation de mémoire a réussi
     if (concatenated == NULL) {
         printf("Erreur lors de l'allocation de mémoire.\n");
         exit(1);
     }
 
-    // Copier les chaînes de caractères dans la chaîne concaténée
     strcpy(concatenated, a);
     strcat(concatenated, b);
 
     return concatenated;
 }
 
-void printCharacter(struct Character * c){
-    printf("Character : \n");
-    printf("Name : %d\n", c->hp);
+//
+/**
+ * append
+ * @param head
+ * @param map
+ */
+void append(struct Node** head, struct Map  * map) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = map;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+
+    struct Node *current = *head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+    current->next = newNode;
+}
+
+struct Map *findMapByName(struct Node* head, const char *name) {
+    struct Node *current = head;
+    while (current != NULL) {
+        if (strcmp(current->data->name, name) == 0) {
+            return current->data;
+        }
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+struct Node * buildMapList(void){
+    struct Node *head = NULL;
+    DIR *d;
+    struct dirent *dir;
+    d = opendir("src/map/levels");
+    if (d)
+    {
+        while ((dir = readdir(d)) != NULL)
+        {
+            if(strcmp(dir->d_name,".")!=0 && strcmp(dir->d_name,"..")!=0){
+                char* levelName = concatenateLevelName("src/map/levels/", dir->d_name);
+                printf("%s\n", levelName);
+                append(&head, buildMapFromFile(levelName));
+            }
+        }
+        closedir(d);
+    }
+    return head;
 }

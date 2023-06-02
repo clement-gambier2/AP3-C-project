@@ -8,8 +8,14 @@
 #include "../character/character.h"
 
 struct Map {
+    char * name;
     char ** matrix;
     char * directions[4]; //E,S,O,N : array of directions
+};
+
+struct Node {
+    struct Map * data;
+    struct Node *next;
 };
 
 
@@ -23,6 +29,9 @@ void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL
 void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect);
 void drawMap(SDL_Renderer * renderer, char ** map, struct Character * c, SDL_Texture * tilemap);
 
-void printCharacter(struct Character * c);
+void append(struct Node** head, struct Map  * map);
+struct Map *findMapByName(struct Node* head, const char *name);
+
+struct Node * buildMapList(void);
 
 #endif //MAP_H

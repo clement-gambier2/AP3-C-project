@@ -8,10 +8,8 @@
  * @param renderer
  */
 int launchGame(SDL_Renderer* renderer) {
-    struct Map * map = initMap();
-    for (int i = 0; i < 4; i++) {
-        printf("directions : %s\n", map->directions[i]);
-    }
+    struct Node * head = buildMapList();
+    struct Map * map = findMapByName(head,"src/map/levels/niveau1.level");
     struct Character * c = createCharacter(10,10,4,2,0,0);
     SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
@@ -34,7 +32,7 @@ int launchGame(SDL_Renderer* renderer) {
                             returnMove = moveTop(c,map);
                             if(strcmp(returnMove,"noSwitch") != 0){
                                 printf("changement de niveau vers : %s\n",returnMove);
-                                map = buildMapFromFile(concatenateLevelName("src/map/",returnMove));
+                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
                                 fflush(stdout); // Vide le tampon de la sortie standard
                             }
                             break;
@@ -42,7 +40,7 @@ int launchGame(SDL_Renderer* renderer) {
                             returnMove = moveLeft(c,map);
                             if(strcmp(returnMove,"noSwitch") != 0){
                                 printf("changement de niveau vers : %s\n",returnMove);
-                                map = buildMapFromFile(concatenateLevelName("src/map/",returnMove));
+                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
                                 fflush(stdout); // Vide le tampon de la sortie standard
                             }
                             break;
@@ -50,7 +48,7 @@ int launchGame(SDL_Renderer* renderer) {
                             returnMove = moveBottom(c,map);
                             if(strcmp(returnMove,"noSwitch") != 0){
                                 printf("changement de niveau vers : %s\n",returnMove);
-                                map = buildMapFromFile(concatenateLevelName("src/map/",returnMove));
+                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
                                 fflush(stdout); // Vide le tampon de la sortie standard
                             }
                             break;
@@ -58,7 +56,7 @@ int launchGame(SDL_Renderer* renderer) {
                             returnMove = moveRight(c,map);
                             if(strcmp(returnMove,"noSwitch") != 0){
                                 printf("changement de niveau vers : %s\n",returnMove);
-                                map = buildMapFromFile(concatenateLevelName("src/map/",returnMove));
+                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
                                 fflush(stdout); // Vide le tampon de la sortie standard
                             }
                             break;
