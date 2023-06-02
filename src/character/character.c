@@ -117,7 +117,7 @@ int isMovePossible(int x, int y, char ** map, struct Character * character){
     if(map[y][x] == 'o'){
         if (character->key > 0){
             character->key -= 1;
-            map[y][x] = ' ';
+            map[y][x] = 'i';
             return 0;
         }
         return 1;
