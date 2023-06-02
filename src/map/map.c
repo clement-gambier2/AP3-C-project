@@ -39,22 +39,16 @@ void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
             SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
         }
 
-        // North Wall
+        // Classic walls
         if (map[y-1][x] != '#' && map[y+1][x] == '#') {
             SDL_RenderCopy(renderer, tilemap, &S_RECT_CRENEL_1, &rect);
         }
-
-        // South Wall
         if (map[y-1][x] == '#' && map[y+1][x] != '#') {
             SDL_RenderCopy(renderer, tilemap, &S_RECT_CRENEL_2, &rect);
         }
-
-        // East Wall
         if (map[y][x-1] != '#' && map[y][x+1] == '#') {
             SDL_RenderCopyEx(renderer, tilemap, &S_RECT_CRENEL_3, &rect, 0.00, NULL, RENDERER_FLIP);
         }
-
-        // West Wall
         if (map[y][x-1] == '#' && map[y][x+1] != '#') {
             SDL_RenderCopyEx(renderer, tilemap, &S_RECT_CRENEL_3, &rect, 180.00, NULL, RENDERER_FLIP);
         }
@@ -90,9 +84,7 @@ void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
         // TODO: Special GIMP to add in the tilemap
 
 
-    }
-    // Full Wall
-     else {
+    } else {
         SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
     }
     // TODO: Vérifier tout les alentours pour choisir le bon mur
@@ -125,6 +117,7 @@ void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
 
 /**
  * Draw a floor tile
+ * TODO: Ajouter une texture avec des bords cul de sac pour les portes
  * @param renderer
  * @param x
  * @param y
@@ -133,31 +126,30 @@ void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
  * @param map
  */
 void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map) {
-    // TODO: Ajouter une texture avec des bords cul de sac pour les portes
-    // Upper Right double borded corner
+    // Horizntal double borded
+    if (map[y][x+1] == '#' && map[y][x-1] == '#' && map[y-1][x] != '#' && map[y+1][x] != '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_FLOOR, &rect, 90.00, NULL, RENDERER_FLIP);
+    }
+    // Vertical double borded
+    if (map[y+1][x] == '#' && map[y-1][x] == '#' && map[y][x-1] != '#' && map[y][x+1] != '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_FLOOR, &rect, 0.00, NULL, RENDERER_FLIP);
+    }
+
+
+    // Double bordered corners
     if (map[y-1][x] == '#' && map[y][x+1] == '#' && map[y+1][x-1] == '#') {
         SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_CORNER_FLOOR, &rect, 90.00, NULL, RENDERER_FLIP);
     }
-    // Lower Left double borded corner
     if (map[y+1][x] == '#' && map[y][x-1] == '#' && map[y-1][x+1] == '#') {
         SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_CORNER_FLOOR, &rect, 270.00, NULL, RENDERER_FLIP);
     }
-    // Upper Right double borded corner
     if (map[y-1][x] == '#' && map[y+1][x+1] == '#' && map[y][x-1] == '#') {
         SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_CORNER_FLOOR, &rect, 360.00, NULL, RENDERER_FLIP);
     }
 
 
 
-    // Vertical double borded
-    if (map[y][x+1] == '#' && map[y][x-1] == '#') {
-        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_FLOOR, &rect, 90.00, NULL, RENDERER_FLIP);
-    }
 
-    // Horizntal double borded
-    if (map[x][y+1] == '#' && map[x][y-1] == '#') {
-        //SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_FLOOR, &rect, 0.00, NULL, RENDERER_FLIP);
-    }
 
     // TODO: Vérifier tout les alentours pour choisir la bonne texture et la bonne orientation
     // TODO: Ajouter du random pour varier les textures de sol (en gardant l'orientation etc...)
