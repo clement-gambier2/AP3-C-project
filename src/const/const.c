@@ -23,6 +23,19 @@ const SDL_Rect S_RECT_WALL_2 = {64, 32, 16, 16};
 
 // Roofs
 const SDL_Rect S_RECT_ROOF_1 = {0, 0, 16, 16};
+const SDL_Rect S_RECT_CRENEL_1 = {2*16, 2*16, 16, 16};
+const SDL_Rect S_RECT_CRENEL_2 = {2*16, 0*16, 16, 16};
+const SDL_Rect S_RECT_CRENEL_3 = {1*16, 1*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_1 = {1*16, 0*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_2 = {3*16, 0*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_3 = {1*16, 2*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_4 = {3*16, 2*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_5 = {4*16, 0*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_6 = {5*16, 1*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_7 = {4*16, 1*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_8 = {5*16, 0*16, 16, 16};
+
+
 
 // Doors
 const SDL_Rect S_RECT_SINGLE_CLOSED_DOOR = {9*16, 3*16, 16, 16};

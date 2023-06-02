@@ -31,6 +31,20 @@ extern const SDL_Rect S_RECT_WALL_2;
 
 // Roofs
 extern const SDL_Rect S_RECT_ROOF_1;
+extern const SDL_Rect S_RECT_CRENEL_1;
+extern const SDL_Rect S_RECT_CRENEL_2;
+extern const SDL_Rect S_RECT_CRENEL_3;
+extern const SDL_Rect S_RECT_CORNER_CRENEL_1;
+extern const SDL_Rect S_RECT_CORNER_CRENEL_2;
+extern const SDL_Rect S_RECT_CORNER_CRENEL_3;
+extern const SDL_Rect S_RECT_CORNER_CRENEL_4;
+extern const SDL_Rect S_RECT_CORNER_CRENEL_5;
+extern const SDL_Rect S_RECT_CORNER_CRENEL_6;
+extern const SDL_Rect S_RECT_CORNER_CRENEL_7;
+extern const SDL_Rect S_RECT_CORNER_CRENEL_8;
+
+
+
 
 // Doors
 extern const SDL_Rect S_RECT_SINGLE_CLOSED_DOOR;

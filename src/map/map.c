@@ -32,12 +32,64 @@
  */
 void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map) {
     if (x > 0 && y > 0 && x < 29 && y < 29) {
+        // Full Wall
         if (map[y][x-1] == '#' && map[y][x+1] == '#' && map[y-1][x] == '#' && map[y+1][x] == '#') {
             SDL_RenderCopy(renderer, tilemap, &S_RECT_ROOF_1, &rect);
         } else {
             SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
-
         }
+
+        // North Wall
+        if (map[y-1][x] != '#' && map[y+1][x] == '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CRENEL_1, &rect);
+        }
+
+        // South Wall
+        if (map[y-1][x] == '#' && map[y+1][x] != '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CRENEL_2, &rect);
+        }
+
+        // East Wall
+        if (map[y][x-1] != '#' && map[y][x+1] == '#') {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_CRENEL_3, &rect, 0.00, NULL, RENDERER_FLIP);
+        }
+
+        // West Wall
+        if (map[y][x-1] == '#' && map[y][x+1] != '#') {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_CRENEL_3, &rect, 180.00, NULL, RENDERER_FLIP);
+        }
+
+        // External corners
+        if (map[y-1][x] == '#' && map[y+1][x] != '#' && map[y][x-1] == '#' && map[y][x+1] != '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_6, &rect);
+        }
+        if (map[y-1][x] == '#' && map[y+1][x] != '#' && map[y][x-1] != '#' && map[y][x+1] == '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_7, &rect);
+        }
+        if (map[y-1][x] != '#' && map[y+1][x] == '#' && map[y][x-1] != '#' && map[y][x+1] == '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_5, &rect);
+        }
+        if (map[y-1][x] != '#' && map[y+1][x] == '#' && map[y][x-1] == '#' && map[y][x+1] != '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_8, &rect);
+        }
+
+        // Internal corners
+        if (map[y][x+1] == '#' && map[y+1][x] == '#' && map[y+1][x+1] != '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_1, &rect);
+        }
+        if (map[y][x-1] == '#' && map[y+1][x] == '#' && map[y+1][x-1] != '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_2, &rect);
+        }
+        if (map[y-1][x] == '#' && map[y][x+1] == '#' && map[y-1][x+1] != '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_3, &rect);
+        }
+        if (map[y-1][x] == '#' && map[y][x-1] == '#' && map[y-1][x-1] != '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_4, &rect);
+        }
+
+        // TODO: Special GIMP to add in the tilemap
+
+
     }
     // Full Wall
      else {
