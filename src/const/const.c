@@ -14,6 +14,7 @@ const SDL_Rect S_RECT_FLOOR_2 = {1*16, 4*16, 16, 16};
 const SDL_Rect S_RECT_FLOOR_3 = {6*16, 3*16, 16, 16};
 const SDL_Rect S_RECT_SINGLE_SIDE_FLOOR = {3*16, 4*16, 16, 16};
 const SDL_Rect S_RECT_SINGLE_SIDE_CORNER = {4*16, 4*16, 16, 16};
+const SDL_Rect S_RECT_MINI_CORNER = {5*16, 4*16, 16, 16};
 
 // Special floors
 const SDL_Rect S_RECT_DOUBLE_BORDED_FLOOR = {2*16, 4*16, 16, 16};

@@ -21,6 +21,7 @@ extern const SDL_Rect S_RECT_DOUBLE_BORDED_FLOOR;
 extern const SDL_Rect S_RECT_DOUBLE_BORDED_CORNER_FLOOR;
 extern const SDL_Rect S_RECT_SINGLE_SIDE_FLOOR;
 extern const SDL_Rect S_RECT_SINGLE_SIDE_CORNER;
+extern const SDL_Rect S_RECT_MINI_CORNER;
 
 // Floors
 extern const SDL_Rect S_RECT_FLOOR_1;
