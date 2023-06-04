@@ -104,19 +104,7 @@ void render_def(SDL_Renderer* renderer, int num_def) {
     SDL_FreeSurface(def_surface);
 }
 
-void decrement_hp(Character* character) {
-    if (character->hp > 0) {
-        character->hp--;
-    }
-}
-
-void decrement_def(Character* character) {
-    if (character->def > 0) {
-        character->def--;
-    }
-}
-
-void inventory(SDL_Renderer* renderer, Character * character) {
+void inventory(SDL_Renderer* renderer, struct Character * character) {
 
     int num_hearts = get_hearts(character);
     render_hearts(renderer, num_hearts);

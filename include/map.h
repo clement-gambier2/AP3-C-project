@@ -9,7 +9,7 @@
 #include "const.h"
 #include "character.h"
 #include "inventory.h"
-typedef struct Map_ {
+struct Map {
     char ** matrix;
     char * directions[4]; //E,S,O,N : array of directions
     int A_Pv;
@@ -21,14 +21,13 @@ typedef struct Map_ {
     int C_Pv;
     int C_Force;
     int C_Armure;
+};
 
-} Map;
-
-Map* buildMapFromFile(char * map);
-char** initMap();
+struct Map* buildMapFromFile(char * map);
+struct Map* initMap(void);
 void displayMap(char ** map);
 void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map);
 void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map, int isOpen);
 void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map);
 void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect);
-void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Texture * tilemap);
+void drawMap(SDL_Renderer * renderer, char** map, struct Character * player, SDL_Texture * tilemap);

@@ -9,7 +9,7 @@
 #include "inventory.h"
 #include "combat.h"
 #include "inventory.h"
-
+#include "map.h"
 #include "const.h"
 
 

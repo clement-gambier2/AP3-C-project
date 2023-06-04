@@ -2,7 +2,6 @@
 // Created by clement on 13/05/23.
 //
 #include "../../include/game.h"
-#include "../../include/map.h"
 
 
 /**
@@ -11,15 +10,16 @@
  */
 int launchGame(SDL_Renderer* renderer) {
 
-    char ** map = buildMapFromFile("./src/map/niveau1Prof.level");
+    struct Map* map = buildMapFromFile("./src/map/niveau1Prof.level");
+    Enemy * enemy=saveEnemyFromMap(map);
     SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
 
-    Character * c = createCharacter(10, 10, 10, 10, 10, 10);
+    struct Character * c = createCharacter(10, 10, 10, 10, 10, 10);
     // Here we are waiting for events
     SDL_Event event;
     while (1) {
-        drawMap(renderer, map, c, tilemapTexture);
+        drawMap(renderer, map->matrix, c, tilemapTexture);
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
@@ -27,16 +27,16 @@ int launchGame(SDL_Renderer* renderer) {
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
                         case SDLK_UP:
-                            moveTop(c,map);
+                            moveTop(c,map->matrix,enemy);
                             break;
                         case SDLK_LEFT:
-                            moveLeft(c,map);
+                            moveLeft(c,map->matrix,enemy);
                             break;
                         case SDLK_DOWN:
-                            moveBottom(c,map);
+                            moveBottom(c,map->matrix,enemy);
                             break;
                         case SDLK_RIGHT:
-                            moveRight(c,map);
+                            moveRight(c,map->matrix,enemy);
                             break;
                     }
                     break;

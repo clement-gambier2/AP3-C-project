@@ -6,4 +6,4 @@
 #include "character.h"
 #include "inventory.h"
 
-int fight(Character *character, Enemy *enemy, SDL_Renderer* renderer);
+int fight(struct Character *character, Enemy *enemy);//, SDL_Renderer* renderer);

@@ -1,8 +1,11 @@
 #ifndef AP3_C_PROJECT_CHARACTER_H
 #define AP3_C_PROJECT_CHARACTER_H
+#include "map.h"
+#include "character.h"
+#include "inventory.h"
+#include "combat.h"
 
-
-typedef struct Character_ {
+struct Character {
     int hp_max;
     int hp;
     int def;
@@ -11,31 +14,39 @@ typedef struct Character_ {
     int potion;
     int pos_x;
     int pos_y;
-} Character;
+};
 
 typedef struct Enemy_{
     int hp;
     int def;
     int dmg;
     int isDead;
+    int pos_x;
+    int pos_y;
+    struct Enemy_* next;
+    struct Enemy_* previous;
 } Enemy;
 
-int get_hearts(Character *character);
-int get_def(Character *character);
+int get_hearts(struct Character *character);
+int get_def(struct Character *character);
 
-Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion);
-void char_decrement_hp(Character * player, int delta);
-void char_increment_hp(Character * player, int delta);
+struct Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion);
+void char_decrement_hp(struct Character * player, int delta);
+void char_increment_hp(struct Character * player, int delta);
 
-int isMovePossible(int x, int y, char ** map);
-void moveLeft(Character * character, char ** map);
-void moveRight(Character * character,char ** map);
-void moveTop(Character * character,char ** map);
-void moveBottom(Character * character,char ** map);
+int isMovePossible(int x, int y, char **map, Enemy * enemy, struct Character * character);
+void moveLeft(struct Character * character, char ** map, Enemy * enemy);
+void moveRight(struct Character * character,char ** map, Enemy * enemy);
+void moveTop(struct Character * character,char ** map, Enemy * enemy);
+void moveBottom(struct Character * character,char ** map, Enemy * enemy);
 
-Enemy * createEnemy(int hp, int def, int dmg, int isDead);
+Enemy * createEnemy(int hp, int def, int dmg, int isDead, int pos_x, int pos_y);
 void enemy_decrement_hp(Enemy * enemy, int delta);
 void enemy_increment_hp(Enemy * enemy, int delta);
+
+void addEnemy(Enemy *enemyAdd, Enemy *myEnemy);
+Enemy * saveEnemyFromMap(Map *map);
+Enemy * getEnemyByPosition(Enemy * enemy,int pos_x, int pos_y);
 
 
 #endif //AP3_C_PROJECT_CHARACTER_H
