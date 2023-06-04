@@ -22,6 +22,7 @@ extern const SDL_Rect S_RECT_DOUBLE_BORDED_CORNER_FLOOR;
 extern const SDL_Rect S_RECT_SINGLE_SIDE_FLOOR;
 extern const SDL_Rect S_RECT_SINGLE_SIDE_CORNER;
 extern const SDL_Rect S_RECT_MINI_CORNER;
+extern const SDL_Rect S_RECT_CUL_DE_SAC;
 
 // Floors
 extern const SDL_Rect S_RECT_FLOOR_1;
@@ -31,6 +32,14 @@ extern const SDL_Rect S_RECT_FLOOR_3;
 // Walls
 extern const SDL_Rect S_RECT_WALL_1;
 extern const SDL_Rect S_RECT_WALL_2;
+extern const SDL_Rect S_RECT_DOUBLE_BORDED_WALL_1;
+extern const SDL_Rect S_RECT_DOUBLE_BORDED_WALL_2;
+extern const SDL_Rect S_RECT_DOUBLE_BORDERED_END_WALL_1;
+extern const SDL_Rect S_RECT_DOUBLE_BORDERED_END_WALL_2;
+extern const SDL_Rect S_RECT_DOUBLE_BORDERED_END_WALL_3;
+extern const SDL_Rect S_RECT_DOUBLE_BORDERED_END_WALL_4;
+extern const SDL_Rect S_RECT_SINGLE_WALL;
+
 
 // Roofs
 extern const SDL_Rect S_RECT_ROOF_1;

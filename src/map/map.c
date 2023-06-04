@@ -54,6 +54,24 @@ void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
             SDL_RenderCopyEx(renderer, tilemap, &S_RECT_CRENEL_3, &rect, 180.00, NULL, RENDERER_FLIP);
         }
 
+        // Double borded walls
+        if (map[y-1][x] != '#' && map[y+1][x] != '#') {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_WALL_1, &rect, 0.00, NULL, RENDERER_FLIP);
+            if (map[y][x-1] != '#') {
+                SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDERED_END_WALL_2, &rect, 0.00, NULL, RENDERER_FLIP);
+            }
+        }
+        if (map[y][x-1] != '#' && map[y][x+1] != '#') {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_WALL_2, &rect, 0.00, NULL, RENDERER_FLIP);
+            if (map[y+1][x] != '#') {
+                SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDERED_END_WALL_3, &rect, 0.00, NULL, RENDERER_FLIP);
+            }
+            if (map[y-1][x] != '#') {
+                SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDERED_END_WALL_4, &rect, 0.00, NULL, RENDERER_FLIP);
+            }
+        }
+
+
         // External corners
         if (map[y-1][x] == '#' && map[y+1][x] != '#' && map[y][x-1] == '#' && map[y][x+1] != '#') {
             SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_6, &rect);
@@ -80,6 +98,11 @@ void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
         }
         if (map[y-1][x] == '#' && map[y][x-1] == '#' && map[y-1][x-1] != '#') {
             SDL_RenderCopy(renderer, tilemap, &S_RECT_CORNER_CRENEL_4, &rect);
+        }
+
+        // Single wall
+        if (map[y][x-1] != '#' && map[y][x+1] != '#' && map[y-1][x] != '#' && map[y+1][x] != '#') {
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_SINGLE_WALL, &rect);
         }
     } else {
         SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
@@ -160,8 +183,6 @@ void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL
         SDL_RenderCopyEx(renderer, tilemap, &S_RECT_SINGLE_SIDE_CORNER, &rect, 90.0, NULL, RENDERER_FLIP);
     }
 
-
-
     // Double bordered corners
     if (map[y-1][x] == '#' && map[y][x+1] == '#' && map[y+1][x-1] == '#') {
         SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDED_CORNER_FLOOR, &rect, 90.00, NULL, RENDERER_FLIP);
@@ -185,6 +206,20 @@ void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL
     }
     if (map[y+1][x-1] == '#' && map[y][x-1] != '#' && map[y+1][x] != '#') {
         SDL_RenderCopyEx(renderer, tilemap, &S_RECT_MINI_CORNER, &rect, 180.00, NULL, RENDERER_FLIP);
+    }
+
+    // Cul-de-sac
+    if ((map[y][x+1] == 'i' || map[y][x+1] == 'o' || map[y][x+1] == '#') && map[y-1][x] == '#' && map[y+1][x] == '#' && map[y][x-1] != '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_CUL_DE_SAC, &rect, 180.00, NULL, RENDERER_FLIP);
+    }
+    if ((map[y][x-1] == 'i' || map[y][x-1] == 'o' || map[y][x-1] == '#') && map[y-1][x] == '#' && map[y+1][x] == '#' && map[y][x+1] != '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_CUL_DE_SAC, &rect, 0.00, NULL, RENDERER_FLIP);
+    }
+    if ((map[y-1][x] == 'i' || map[y-1][x] == 'o' || map[y-1][x] == '#') && map[y][x-1] == '#' && map[y][x+1] == '#' && map[y+1][x] != '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_CUL_DE_SAC, &rect, 90.00, NULL, RENDERER_FLIP);
+    }
+    if ((map[y+1][x] == 'i' || map[y+1][x] == 'o' || map[y+1][x] == '#') && map[y][x-1] == '#' && map[y][x+1] == '#' && map[y-1][x] != '#') {
+        SDL_RenderCopyEx(renderer, tilemap, &S_RECT_CUL_DE_SAC, &rect, 270.00, NULL, RENDERER_FLIP);
     }
 
 }
@@ -263,22 +298,22 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Textu
                     break;
                 case 'A': // Enemy 1
                     drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_SLIME, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_SLIME, &rect);
                     break;
                 case 'B': // Enemy 2
                     drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_VIKING, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_VIKING, &rect);
                     break;
                 case 'C': // Enemy 3
                     drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_BLACK_WIZARD, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_BLACK_WIZARD, &rect);
                     break;
                 case '?': // Room exit
                     drawRoomExit(renderer, x_coord, y_coord, tilemap, rect);
                     break;
                 case '!': // key
                     drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &rect);
                     break;
                 case 'o': // closed door
                     drawDoor(renderer, x_coord, y_coord, tilemap, rect, map, 0);
@@ -288,19 +323,19 @@ void drawMap(SDL_Renderer * renderer, char ** map, Character * player, SDL_Textu
                     break;
                 case '1': // Power Up Attack
                     drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_GRAY_POTION, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_GRAY_POTION, &rect);
                     break;
                 case '2': // Power Up Defense
                     drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_GREEN_POTION, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_GREEN_POTION, &rect);
                     break;
                 case '3': // Power Up HP Max
                     drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_BLUE_POTION, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_BLUE_POTION, &rect);
                         break;
                 default:
                     drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_LOBSTER, &rect);
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_LOBSTER, &rect);
                     break;
                 }
             }
