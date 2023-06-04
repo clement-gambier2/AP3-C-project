@@ -1,12 +1,10 @@
 //
 // Created by mrplume on 17/05/23.
 //
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "inventory.h"
-#include "../const/const.h"
-
-
 
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect) {
     if (TTF_Init() == -1) {
@@ -104,19 +102,7 @@ void render_def(SDL_Renderer* renderer, int num_def) {
     SDL_FreeSurface(def_surface);
 }
 
-void decrement_hp(Character* character) {
-    if (character->hp > 0) {
-        character->hp--;
-    }
-}
-
-void decrement_def(Character* character) {
-    if (character->def > 0) {
-        character->def--;
-    }
-}
-
-void inventory(SDL_Renderer* renderer, Character * character) {
+void inventory(SDL_Renderer* renderer, struct Character * character) {
 
     int num_hearts = get_hearts(character);
     render_hearts(renderer, num_hearts);
@@ -133,21 +119,12 @@ void inventory(SDL_Renderer* renderer, Character * character) {
 
     render_text(renderer, "", character->key, key_dstrect);
 
-    SDL_Surface *potion_image = SDL_LoadBMP("src/assets/img/potion.bmp");
-    SDL_Texture *potion_texture = SDL_CreateTextureFromSurface(renderer, potion_image);
-
-    SDL_Rect potion_dstrect = {0, SCREEN_WINDOW - 50, 30, 30};
-    SDL_RenderCopy(renderer, potion_texture, NULL, &potion_dstrect);
-
-    render_text(renderer, "", character->potion, potion_dstrect);
 
 
         SDL_RenderPresent(renderer);
 
         SDL_DestroyTexture(key_texture);
-        SDL_DestroyTexture(potion_texture);
         SDL_FreeSurface(key_image);
-        SDL_FreeSurface(potion_image);
 
     }
 

@@ -1,11 +1,11 @@
-#include "Objects.h"
+#include "objects.h"
 
 /**
  * Used to apply a power up on the character
  * @param powerUp - Generic powerup with an enum
  * @param character - The character to powerUp
  */
-void apply_power_up(PowerUp * powerUp, Character * character) {
+void apply_power_up(PowerUp * powerUp, struct Character * character) {
     switch (powerUp->powerUp) {
         case DAMAGE:
             character->dmg += powerUp->powerValue;
@@ -23,7 +23,7 @@ void apply_power_up(PowerUp * powerUp, Character * character) {
  * Used to decrement the number of player's potions by one
  * @param character - The character
  */
-void decrement_potion(Character * character) {
+void decrement_potion(struct Character * character) {
     character->potion -= 1;
 }
 
@@ -31,7 +31,7 @@ void decrement_potion(Character * character) {
  * Used to increment the number of player's potions by one
  * @param character - The character
  */
-void increment_potion(Character * character) {
+void increment_potion(struct Character * character) {
     character->potion += 1;
 }
 
@@ -39,18 +39,15 @@ void increment_potion(Character * character) {
  * Used to heal the player with a potion
  * @param character - The character
  */
-void use_potion(Character * character) {
-    if (character->potion > 0) {
+void use_potion(struct Character * character) {
         character->hp = character->hp_max;
-        decrement_potion(character);
-    }
 }
 
 /**
  * Used to decrement the number of player's key
  * @param character - The character
  */
-void decrement_key(Character * character, SDL_Renderer* renderer) {
+void decrement_key(struct Character * character, SDL_Renderer* renderer) {
     character->key -= 1;
     inventory(renderer, character);
 }
@@ -59,7 +56,7 @@ void decrement_key(Character * character, SDL_Renderer* renderer) {
  * Used to increment the number of player's key
  * @param character - The character
  */
-void increment_key(Character * character, SDL_Renderer* renderer) {
+void increment_key(struct Character * character, SDL_Renderer* renderer) {
     character->key += 1;
     inventory(renderer, character);
 }
@@ -69,6 +66,6 @@ void increment_key(Character * character, SDL_Renderer* renderer) {
  * @param character - The character
  * @return 1 - 0
  */
-int can_open_door(Character * character) {
+int can_open_door(struct Character * character) {
    return character->key > 0;
 }
