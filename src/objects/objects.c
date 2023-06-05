@@ -40,10 +40,7 @@ void increment_potion(struct Character * character) {
  * @param character - The character
  */
 void use_potion(struct Character * character) {
-    if (character->potion > 0) {
         character->hp = character->hp_max;
-        decrement_potion(character);
-    }
 }
 
 /**

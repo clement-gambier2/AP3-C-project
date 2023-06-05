@@ -1,4 +1,10 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
 #include "character.h"
+#include "../objects/objects.h"
+#include "../map/map.h"
 
 
 /**
@@ -112,6 +118,7 @@ int isMovePossible(int x, int y, char ** map, struct Character * character){
     if(map[y][x] == '#'){
         return 1;
     }
+
     if(map[y][x] == 'o'){
         if (character->key > 0){
             character->key -= 1;
@@ -133,6 +140,50 @@ void isThereAKey(struct Character * character, struct Map * map){
     }
 }
 
+void isThereAPotionDamage(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '1'){
+        printf("You found a Potion Damage !\n");
+        PowerUp powerUp;
+        powerUp.powerUp = DAMAGE;
+        powerUp.powerValue = DAMAGE_POWER_VALUE;
+        apply_power_up(&powerUp, character);
+        map->matrix[character->pos_y][character->pos_x] = ' ';
+    }
+}
+
+void isThereAPotionDefense(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '2'){
+        printf("You found a Potion Defense !\n");
+        PowerUp powerUp;
+        powerUp.powerUp = DEFENSE;
+        powerUp.powerValue = DEFENSE_POWER_VALUE;
+        apply_power_up(&powerUp, character);
+        map->matrix[character->pos_y][character->pos_x] = ' ';
+    }
+}
+
+void isThereAPotionHPMax(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '3'){
+        printf("You found a Potion HP Max !\n");
+        PowerUp powerUp;
+        powerUp.powerUp = HP_MAX;
+        powerUp.powerValue = HP_MAX_POWER_VALUE;
+        apply_power_up(&powerUp, character);
+        map->matrix[character->pos_y][character->pos_x] = ' ';
+    }
+}
+
+void isThereAPotionHeal(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '*'){
+        printf("You found a Potion Heal !\n");
+        use_potion(character);
+        map->matrix[character->pos_y][character->pos_x] = ' ';
+    }
+}
+
+// Mettez à jour les autres fonctions de déplacement de manière similaire (moveRight, moveTop, moveBottom)
+
+
 
 /**
  * moveRight
@@ -153,7 +204,12 @@ char * moveRight(struct Character * character,struct Map * map){
     if (isMovePossible(character->pos_x+1, character->pos_y,map->matrix,character) == 0) {
         character->pos_x += 1;
         isThereAKey(character, map);
+        isThereAPotionDamage(character, map);
+        isThereAPotionDefense(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
     }
+
     return "noSwitch";
 }
 
@@ -175,7 +231,12 @@ char * moveBottom(struct Character * character, struct Map * map){
     if (isMovePossible(character->pos_x, character->pos_y+1,map->matrix,character) == 0) {
         character->pos_y += 1;
         isThereAKey(character, map);
+        isThereAPotionDamage(character, map);
+        isThereAPotionDefense(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
     }
+
     return "noSwitch";
 }
 
@@ -197,6 +258,10 @@ char * moveLeft(struct Character * character,struct Map * map){
     if (isMovePossible(character->pos_x-1, character->pos_y,map->matrix,character) == 0){
         character->pos_x-=1;
         isThereAKey(character, map);
+        isThereAPotionDamage(character, map);
+        isThereAPotionDefense(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
     }
     return "noSwitch";
 
@@ -220,6 +285,10 @@ char * moveTop(struct Character * character,struct Map * map){
     if (isMovePossible(character->pos_x, character->pos_y-1,map->matrix,character) == 0) {
         character->pos_y -= 1;
         isThereAKey(character, map);
+        isThereAPotionDamage(character, map);
+        isThereAPotionDefense(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
     }
     return "noSwitch";
 }
