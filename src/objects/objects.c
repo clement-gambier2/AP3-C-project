@@ -49,7 +49,6 @@ void use_potion(struct Character * character) {
  */
 void decrement_key(struct Character * character, SDL_Renderer* renderer) {
     character->key -= 1;
-    inventory(renderer, character);
 }
 
 /**
@@ -58,7 +57,6 @@ void decrement_key(struct Character * character, SDL_Renderer* renderer) {
  */
 void increment_key(struct Character * character, SDL_Renderer* renderer) {
     character->key += 1;
-    inventory(renderer, character);
 }
 
 /**
