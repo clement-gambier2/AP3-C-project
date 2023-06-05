@@ -6,4 +6,4 @@
 #include "../character/character.h"
 #include "../inventory/inventory.h"
 
-int fight(struct Character *character, Enemy *enemy, SDL_Renderer* renderer);
+int fight(struct Character *character, Enemy * enemy);

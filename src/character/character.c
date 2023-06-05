@@ -1,6 +1,4 @@
-#include <malloc.h>
 #include "character.h"
-#include "../map/map.h"
 
 
 /**

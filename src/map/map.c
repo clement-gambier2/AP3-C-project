@@ -1,8 +1,5 @@
 
 #include "map.h"
-#include "../inventory/inventory.h"
-#include <string.h>
-#include <dirent.h>
 
 
 /*char * switchCharacter(char * map){

@@ -2,7 +2,6 @@
 #include <SDL2/SDL_ttf.h>
 #include "game/game.h"
 #include "combat/combat.h"
-#include "map/map.h"
 #include "const/const.h"
 
 int main() {

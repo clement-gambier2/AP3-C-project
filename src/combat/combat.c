@@ -8,7 +8,7 @@
  * @param enemy - struct enemy
  * @return -1 = Player's dead | 0 = Nobody's dead | 1 = Enemy's dead
  */
-int fight(struct Character *character, Enemy *enemy, SDL_Renderer* renderer) {
+int fight(struct Character *character, Enemy *enemy) {
     // Player turn
     int enemyHurtPoints = character->dmg - enemy->def;
     if (enemyHurtPoints < 1) {
@@ -36,6 +36,6 @@ int fight(struct Character *character, Enemy *enemy, SDL_Renderer* renderer) {
     if (character->hp <= 0) {
         return -1;
     }
-    inventory(renderer, character);
+    //inventory(character);
     return 0;
 }

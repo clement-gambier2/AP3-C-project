@@ -1,7 +1,9 @@
 #ifndef AP3_C_PROJECT_CHARACTER_H
 #define AP3_C_PROJECT_CHARACTER_H
 #include "../map/map.h"
- struct Character {
+#include <malloc.h>
+
+struct Character {
     int hp_max;
     int hp;
     int def;

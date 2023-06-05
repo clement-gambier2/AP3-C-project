@@ -2,8 +2,7 @@
 // Created by mrplume on 17/05/23.
 //
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+
 #include "inventory.h"
 
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect) {
@@ -91,10 +90,6 @@ void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character *
 
     render_text(renderer, "", character->key, key_dstrect);
 
-    SDL_Rect potion_dstrect = {0, SCREEN_WINDOW - 50, 60, 60};
-    SDL_RenderCopy(renderer, tilemap, &S_RECT_RED_POTION, &potion_dstrect);
-
-    render_text(renderer, "", character->potion, potion_dstrect);
     SDL_RenderPresent(renderer);
 }
 
