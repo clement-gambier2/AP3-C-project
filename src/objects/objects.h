@@ -2,7 +2,6 @@
 #define OBJECTS_H
 
 
-
 #include "../character/character.h"
 #include "../inventory/inventory.h"
 

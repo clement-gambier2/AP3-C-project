@@ -6,11 +6,21 @@
 #include <string.h>
 #include "../const/const.h"
 #include "../character/character.h"
-
+#include "../inventory/inventory.h"
 struct Map {
     char * name;
     char ** matrix;
     char * directions[4]; //E,S,O,N : array of directions
+    int A_Pv;
+    int A_Force;
+    int A_Armure;
+    int B_Pv;
+    int B_Force;
+    int B_Armure;
+    int C_Pv;
+    int C_Force;
+    int C_Armure;
+    struct Enemy_ * enemy;
 };
 
 struct Node {

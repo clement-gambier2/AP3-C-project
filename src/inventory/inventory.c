@@ -5,6 +5,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "inventory.h"
+#include "../const/const.h"
+
+
 
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect) {
     if (TTF_Init() == -1) {

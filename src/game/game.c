@@ -2,6 +2,8 @@
 // Created by clement on 13/05/23.
 //
 #include "game.h"
+#include "../map/map.h"
+
 
 /**
  * launchGame is the function that launches the game
@@ -17,8 +19,8 @@ int launchGame(SDL_Renderer* renderer) {
     SDL_RenderPresent(renderer);
     char * returnMove;
 
-    
-    
+
+
     // Here we are waiting for events
     SDL_Event event;
     while (1) {
@@ -69,6 +71,10 @@ int launchGame(SDL_Renderer* renderer) {
         SDL_RenderPresent(renderer);
         SDL_Delay(10);
     }
+    // Delete all texture and images
+    SDL_DestroyTexture(tilemapTexture);
+    SDL_FreeSurface(tilemapImage);
+    return 1;
 }
 
 
@@ -181,6 +187,13 @@ int displayMenu(SDL_Renderer* renderer) {
         SDL_RenderPresent(renderer);
     }
 
+    for (int i = 0; i < numTexts; i++) {
+        SDL_DestroyTexture(texts[i].texture);
+        SDL_FreeSurface(texts[i].surface);
+    }
+
+    TTF_CloseFont(font);
+    return isSelected;
 }
 
 
@@ -262,5 +275,11 @@ int credits(SDL_Renderer* renderer) {
         SDL_RenderPresent(renderer);
     }
 
+    for (int i = 0; i < numTexts; i++) {
+        SDL_DestroyTexture(texts[i].texture);
+        SDL_FreeSurface(texts[i].surface);
+    }
 
+    TTF_CloseFont(font);
+    return isSelected;
 }
