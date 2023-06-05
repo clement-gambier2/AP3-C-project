@@ -28,13 +28,16 @@ struct Character *createCharacter(int hp_max, int hp, int def, int dmg, int key,
     return newCharacter;
 }
 
-/**
- * Used to create a new enemy
- * @param hp - Health points for the enemy
- * @param def - Defense points of the enemy
- * @param dmg - Damage points of the enemy
- * @return Enemy *
- */
+ /**
+  * Used to create a new enemy
+  * @param hp - Health points for the enemy
+  * @param def - Defense points of the enemy
+  * @param dmg - Damage points of the enemy
+  * @param isDead - Indicator if the enemy is alive
+  * @param pos_x - Position x of the enemy
+  * @param pos_y - Position y of the enemy
+  * @return struct Enemy_ *
+  */
 struct Enemy_ *createEnemy(int hp, int def, int dmg, int isDead, int pos_x, int pos_y) {
     struct Enemy_ *newEnemy = (struct Enemy_ *) malloc(sizeof(struct Enemy_));
     newEnemy->hp = hp;
@@ -48,6 +51,11 @@ struct Enemy_ *createEnemy(int hp, int def, int dmg, int isDead, int pos_x, int 
     return newEnemy;
 }
 
+/**
+ * Used to add an enemy in the list of enemy
+ * @param enemyAdd - Enemy to add in the list
+ * @param myEnemy - Enemy already in the list
+ */
 void addEnemy(struct Enemy_ *enemyAdd, struct Enemy_ *myEnemy) {
     if (myEnemy == NULL) {
         printf("error");
@@ -61,7 +69,12 @@ void addEnemy(struct Enemy_ *enemyAdd, struct Enemy_ *myEnemy) {
     enemyAdd->previous = myEnemy;
 }
 
-struct Enemy_ * saveEnemyFromMap(struct Map *map) {
+/**
+ * Used to create a list of all enemies in the matrix
+ * @param map - Map to get the value of enemies and the matrix
+ * @return struct Enemy_ *
+ */
+struct Enemy_ *saveEnemyFromMap(struct Map *map) {
     int cpt = 0;
     char **matrix = map->matrix;
     struct Enemy_ *enemy;
@@ -70,52 +83,65 @@ struct Enemy_ * saveEnemyFromMap(struct Map *map) {
     {
         for (int y = 0; y < 30; y++)//for each column of the file
         {
-            printf("%c", matrix[i][y]);
             if (matrix[i][y] == 'A') {
                 if (cpt == 0) {
                     enemy = createEnemy(map->A_Pv, map->A_Armure, map->A_Force, 0, i, y);
                     cpt += 1;
                 }
-                enemyTmp = createEnemy(map->A_Pv, map->A_Armure, map->A_Force, 0, i, y);
-                addEnemy(enemyTmp, enemy);
-                cpt += 1;
+                else{
+                    enemyTmp = createEnemy(map->A_Pv, map->A_Armure, map->A_Force, 0, i, y);
+                    addEnemy(enemyTmp, enemy);
+                    cpt += 1;
+                }
             }
             if (matrix[i][y] == 'B') {
                 if (cpt == 0) {
                     enemy = createEnemy(map->B_Pv, map->B_Armure, map->B_Force, 0, i, y);
                     cpt += 1;
                 }
-                enemyTmp = createEnemy(map->B_Pv, map->B_Armure, map->B_Force, 0, i, y);
-                addEnemy(enemyTmp, enemy);
-                cpt += 1;
+                else{
+                    enemyTmp = createEnemy(map->B_Pv, map->B_Armure, map->B_Force, 0, i, y);
+                    addEnemy(enemyTmp, enemy);
+                    cpt += 1;
+                }
             }
             if (matrix[i][y] == 'C') {
                 if (cpt == 0) {
                     enemy = createEnemy(map->C_Pv, map->C_Armure, map->C_Force, 0, i, y);
                     cpt += 1;
                 }
-                enemyTmp = createEnemy(map->C_Pv, map->C_Armure, map->C_Force, 0, i, y);
-                addEnemy(enemyTmp, enemy);
-                cpt += 1;
+                else{
+                    enemyTmp = createEnemy(map->C_Pv, map->C_Armure, map->C_Force, 0, i, y);
+                    addEnemy(enemyTmp, enemy);
+                    cpt += 1;
+                }
             }
         }
     }
     return enemy;
 }
 
-struct Enemy_ * getEnemyByPosition(struct Enemy_ * enemy,int pos_x, int pos_y){
-    if(enemy == NULL){
+/**
+ * Used to get enemy in the list, at the position given
+ * @param enemy
+ * @param pos_x
+ * @param pos_y
+ * @return struct Enemy_ *
+ */
+struct Enemy_ *getEnemyByPosition(struct Enemy_ *enemy, int pos_x, int pos_y) {
+    if (enemy == NULL) {
         printf("error");
     }
     while (enemy->previous != NULL) {
         enemy = enemy->previous;
     }
-    while(enemy->next != NULL){
-        if(enemy->pos_x==pos_x && enemy->pos_y==pos_y){
+    while (enemy != NULL) {
+        if (enemy->pos_x == pos_x && enemy->pos_y == pos_y) {
             return enemy;
         }
-        enemy=enemy->next;
+        enemy = enemy->next;
     }
+    return NULL;
 }
 
 /**
@@ -175,12 +201,14 @@ int get_def(struct Character *character) {
 
 /**
  * isMovePossible check if the move is possible
- * @param x
- * @param y
- * @param map
+ * @param x - Position x you want to go
+ * @param y - Position y you want to go
+ * @param map - The matrix in wich you want to move
+ * @param enemy - An enemy from the list, to access all enemies
+ * @param character - The player
  * @return 0 if the move is possible, 1 otherwise
  */
-int isMovePossible(int x, int y, char **map, struct Enemy_ * enemy, struct Character * character) {
+int isMovePossible(int x, int y, char **map, struct Enemy_ *enemy, struct Character *character) {
     if (x < 0 || x > 29 || y < 0 || y > 29) {
         return 1;
     }
@@ -188,58 +216,34 @@ int isMovePossible(int x, int y, char **map, struct Enemy_ * enemy, struct Chara
         return 1;
     }
     if (map[y][x] == 'A' || map[y][x] == 'B' || map[y][x] == 'C') {
-        struct Enemy_ * enemyToFight=getEnemyByPosition(enemy,x,y);//voir si faut pas inverser
-        if(enemyToFight->isDead==1){
-            return 0;
+        struct Enemy_ *enemyToFight = getEnemyByPosition(enemy, y, x);//voir si faut pas inverser
+        if(enemyToFight!=NULL) {
+            if (enemyToFight->isDead == 1) {
+                return 0;
+            } else {
+                int tmp = fight(character, enemyToFight);
+                if (tmp == 0) {
+                    return 1;
+                } else {
+                    enemyToFight->isDead = 1;
+                    return 1;
+                }
+            }
         }
         else{
-            if(fight(character, enemyToFight)==0){
-                return 1;
-            }
-            else{
-                enemyToFight->isDead=1;
-                return 1;
-            }
+            return 1;
         }
     }
-    printf("y : %d, x : %d\n", x, y);
-    printf("%c\n", map[y][x]);
     return 0;
 }
-/*
-int ennemyOnTheWay(char **map, int x, int y, char direction) {
-    switch (direction) {
-        case 't':
-            if (map[x][y + 1] == 'A' || map[x][y + 1] == 'B' || map[x][y + 1] == 'C') {
-                return 1;
-            }
-            return 0;
-        case 'b':
-            if (map[x][y - 1] == 'A' || map[x][y - 1] == 'B' || map[x][y - 1] == 'C') {
-                return 1;
-            }
-            return 0;
-        case 'l':
-            if (map[x - 1][y] == 'A' || map[x - 1][y] == 'B' || map[x - 1][y] == 'C') {
-                return 1;
-            }
-            return 0;
-        case 'r':
-            if (map[x + 1][y] == 'A' || map[x + 1][y] == 'B' || map[x + 1][y] == 'C') {
-                return 1;
-            }
-            return 0;
-        default:
-            break;
-    }
-    return 0;
-}*/
 
 /**
  * Used to moveLeft the character
  * @param character - The character
+ * @param map - The matrix in wich you want to move
+ * @param enemy - An enemy from the list, to access all enemies
  */
-void moveLeft(struct Character *character, char **map, struct Enemy_ * enemy) {
+void moveLeft(struct Character *character, char **map, struct Enemy_ *enemy) {
     if (isMovePossible(character->pos_x - 1, character->pos_y, map, enemy, character) == 0) {
         character->pos_x -= 1;
     }
@@ -248,8 +252,10 @@ void moveLeft(struct Character *character, char **map, struct Enemy_ * enemy) {
 /**
  * Used to moveRight the character
  * @param character - The character
+ * @param map - The matrix in wich you want to move
+ * @param enemy - An enemy from the list, to access all enemies
  */
-void moveRight(struct Character *character, char **map, struct Enemy_ * enemy) {
+void moveRight(struct Character *character, char **map, struct Enemy_ *enemy) {
     if (isMovePossible(character->pos_x + 1, character->pos_y, map, enemy, character) == 0) {
         character->pos_x += 1;
     }
@@ -258,8 +264,10 @@ void moveRight(struct Character *character, char **map, struct Enemy_ * enemy) {
 /**
  * Used to moveTop the character
  * @param character - The character
+ * @param map - The matrix in wich you want to move
+ * @param enemy - An enemy from the list, to access all enemies
  */
-void moveTop(struct Character *character, char **map, struct Enemy_ * enemy) {
+void moveTop(struct Character *character, char **map, struct Enemy_ *enemy) {
     if (isMovePossible(character->pos_x, character->pos_y - 1, map, enemy, character) == 0) {
         character->pos_y -= 1;
     }
@@ -268,8 +276,10 @@ void moveTop(struct Character *character, char **map, struct Enemy_ * enemy) {
 /**
  * Used to moveBottom the character
  * @param character - The character
+ * @param map - The matrix in wich you want to move
+ * @param enemy - An enemy from the list, to access all enemies
  */
-void moveBottom(struct Character *character, char **map, struct Enemy_ * enemy) {
+void moveBottom(struct Character *character, char **map, struct Enemy_ *enemy) {
     if (isMovePossible(character->pos_x, character->pos_y + 1, map, enemy, character) == 0) {
         character->pos_y += 1;
     }

@@ -172,7 +172,6 @@ void drawMap(SDL_Renderer * renderer, char ** map, struct Character * player, SD
  * @return the level you have choice with param map, in a matrix.
  */
 struct Map* buildMapFromFile(char * map){
-    //putInAFile(putInATab(switchCharacter(map)),map);
     struct Map* finalMap = malloc(sizeof(struct Map));
     char** laMap=(char**)malloc(30 * sizeof(char*));
     FILE *fp;
@@ -262,6 +261,7 @@ struct Map* buildMapFromFile(char * map){
         }
     }
 
+    finalMap->enemy= malloc(sizeof(struct Enemy_));
     finalMap->enemy= saveEnemyFromMap(finalMap);
 
     fclose(fp);//close the file
