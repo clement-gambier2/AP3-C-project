@@ -186,7 +186,7 @@ void drawMap(SDL_Renderer * renderer, char ** map, struct Character * c, SDL_Tex
     // Drawing player
     SDL_Rect playerRect = {(c->pos_x * 30), (c->pos_y * 30), 30, 30 };
     SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
-    inventory(renderer, c);
+    inventory(renderer, tilemap, c);
     SDL_RenderPresent(renderer);
 }
 
