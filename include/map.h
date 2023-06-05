@@ -21,6 +21,7 @@ struct Map {
     int C_Pv;
     int C_Force;
     int C_Armure;
+    struct Enemy_ * enemy;
 };
 
 struct Map* buildMapFromFile(char * map);
@@ -30,4 +31,4 @@ void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
 void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map, int isOpen);
 void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map);
 void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect);
-void drawMap(SDL_Renderer * renderer, char** map, struct Character * player, SDL_Texture * tilemap);
+void drawMap(SDL_Renderer * renderer, char** map, struct Character * c, SDL_Texture * tilemap);

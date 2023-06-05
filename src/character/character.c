@@ -35,8 +35,8 @@ struct Character *createCharacter(int hp_max, int hp, int def, int dmg, int key,
  * @param dmg - Damage points of the enemy
  * @return Enemy *
  */
-Enemy *createEnemy(int hp, int def, int dmg, int isDead, int pos_x, int pos_y) {
-    Enemy *newEnemy = (Enemy *) malloc(sizeof(struct Enemy_));
+struct Enemy_ *createEnemy(int hp, int def, int dmg, int isDead, int pos_x, int pos_y) {
+    struct Enemy_ *newEnemy = (struct Enemy_ *) malloc(sizeof(struct Enemy_));
     newEnemy->hp = hp;
     newEnemy->def = def;
     newEnemy->dmg = dmg;
@@ -48,7 +48,7 @@ Enemy *createEnemy(int hp, int def, int dmg, int isDead, int pos_x, int pos_y) {
     return newEnemy;
 }
 
-void addEnemy(Enemy *enemyAdd, Enemy *myEnemy) {
+void addEnemy(struct Enemy_ *enemyAdd, struct Enemy_ *myEnemy) {
     if (myEnemy == NULL) {
         printf("error");
         return;
@@ -61,11 +61,11 @@ void addEnemy(Enemy *enemyAdd, Enemy *myEnemy) {
     enemyAdd->previous = myEnemy;
 }
 
-Enemy * saveEnemyFromMap(struct Map *map) {
+struct Enemy_ * saveEnemyFromMap(struct Map *map) {
     int cpt = 0;
     char **matrix = map->matrix;
-    Enemy *enemy;
-    Enemy *enemyTmp;
+    struct Enemy_ *enemy;
+    struct Enemy_ *enemyTmp;
     for (int i = 0; i < 30; i++)//for each line of the file
     {
         for (int y = 0; y < 30; y++)//for each column of the file
@@ -103,7 +103,7 @@ Enemy * saveEnemyFromMap(struct Map *map) {
     return enemy
 }
 
-Enemy * getEnemyByPosition(Enemy * enemy,int pos_x, int pos_y){
+struct Enemy_ * getEnemyByPosition(struct Enemy_ * enemy,int pos_x, int pos_y){
     if(enemy == NULL){
         printf("error");
     }
@@ -146,7 +146,7 @@ void char_increment_hp(struct Character *player, int delta) {
  * @param enemy - The enemy
  * @param delta - The amount of Health Points to remove
  */
-void enemy_decrement_hp(Enemy *enemy, int delta) {
+void enemy_decrement_hp(struct Enemy_ *enemy, int delta) {
     enemy->hp -= delta;
     if (enemy->hp <= 0) {
         enemy->isDead = 1;
@@ -158,7 +158,7 @@ void enemy_decrement_hp(Enemy *enemy, int delta) {
  * @param enemy - The enemy
  * @param delta - The amount of Health Points to add
  */
-void enemy_increment_hp(Enemy *enemy, int delta) {
+void enemy_increment_hp(struct Enemy_ *enemy, int delta) {
     enemy->hp += delta;
 }
 
@@ -180,7 +180,7 @@ int get_def(struct Character *character) {
  * @param map
  * @return 0 if the move is possible, 1 otherwise
  */
-int isMovePossible(int x, int y, char **map, Enemy * enemy, struct Character * character) {
+int isMovePossible(int x, int y, char **map, struct Enemy_ * enemy, struct Character * character) {
     if (x < 0 || x > 29 || y < 0 || y > 29) {
         return 1;
     }
@@ -188,14 +188,18 @@ int isMovePossible(int x, int y, char **map, Enemy * enemy, struct Character * c
         return 1;
     }
     if (map[y][x] == 'A' || map[y][x] == 'B' || map[y][x] == 'C') {
-        Enemy * enemyToFight=getEnemyByPosition(enemy,x,y);//voir si faut pas inverser
-        if(fight(character, enemyToFight)==0){
-            return 1;
+        struct Enemy_ * enemyToFight=getEnemyByPosition(enemy,x,y);//voir si faut pas inverser
+        if(enemyToFight->isDead==1){
+            return 0;
         }
         else{
-            map[y][x]=' ';
-            enemyToFight->isDead=1;
-            return 1;
+            if(fight(character, enemyToFight)==0){
+                return 1;
+            }
+            else{
+                enemyToFight->isDead=1;
+                return 1;
+            }
         }
     }
     printf("y : %d, x : %d\n", x, y);
@@ -235,7 +239,7 @@ int ennemyOnTheWay(char **map, int x, int y, char direction) {
  * Used to moveLeft the character
  * @param character - The character
  */
-void moveLeft(struct Character *character, char **map, Enemy * enemy) {
+void moveLeft(struct Character *character, char **map, struct Enemy_ * enemy) {
     if (isMovePossible(character->pos_x - 1, character->pos_y, map, enemy, character) == 0) {
         character->pos_x -= 1;
     }
@@ -245,7 +249,7 @@ void moveLeft(struct Character *character, char **map, Enemy * enemy) {
  * Used to moveRight the character
  * @param character - The character
  */
-void moveRight(struct Character *character, char **map, Enemy * enemy) {
+void moveRight(struct Character *character, char **map, struct Enemy_ * enemy) {
     if (isMovePossible(character->pos_x + 1, character->pos_y, map, enemy, character) == 0) {
         character->pos_x += 1;
     }
@@ -255,7 +259,7 @@ void moveRight(struct Character *character, char **map, Enemy * enemy) {
  * Used to moveTop the character
  * @param character - The character
  */
-void moveTop(struct Character *character, char **map, Enemy * enemy) {
+void moveTop(struct Character *character, char **map, struct Enemy_ * enemy) {
     if (isMovePossible(character->pos_x, character->pos_y - 1, map, enemy, character) == 0) {
         character->pos_y -= 1;
     }
@@ -265,7 +269,7 @@ void moveTop(struct Character *character, char **map, Enemy * enemy) {
  * Used to moveBottom the character
  * @param character - The character
  */
-void moveBottom(struct Character *character, char **map, Enemy * enemy) {
+void moveBottom(struct Character *character, char **map, struct Enemy_ * enemy) {
     if (isMovePossible(character->pos_x, character->pos_y + 1, map, enemy, character) == 0) {
         character->pos_y += 1;
     }

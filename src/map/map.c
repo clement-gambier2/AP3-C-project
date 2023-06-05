@@ -262,6 +262,8 @@ Map* buildMapFromFile(char * map){
         }
     }
 
+    finalMap->enemy= saveEnemyFromMap(finalMap);
+
     fclose(fp);//close the file
     return finalMap;
 }

@@ -11,7 +11,6 @@
 int launchGame(SDL_Renderer* renderer) {
 
     struct Map* map = buildMapFromFile("./src/map/niveau1Prof.level");
-    Enemy * enemy=saveEnemyFromMap(map);
     SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
 
@@ -27,16 +26,16 @@ int launchGame(SDL_Renderer* renderer) {
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
                         case SDLK_UP:
-                            moveTop(c,map->matrix,enemy);
+                            moveTop(c,map->matrix,map->enemy);
                             break;
                         case SDLK_LEFT:
-                            moveLeft(c,map->matrix,enemy);
+                            moveLeft(c,map->matrix,map->enemy);
                             break;
                         case SDLK_DOWN:
-                            moveBottom(c,map->matrix,enemy);
+                            moveBottom(c,map->matrix,map->enemy);
                             break;
                         case SDLK_RIGHT:
-                            moveRight(c,map->matrix,enemy);
+                            moveRight(c,map->matrix,map->enemy);
                             break;
                     }
                     break;
