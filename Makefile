@@ -1,20 +1,6 @@
-ifeq ($(OS),Windows_NT)
-    UNAME_S := Windows
-else
-    UNAME_S := $(shell uname -s)
-endif
-
-CC=gcc
-INC=-I include/
+CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -std=c11
-
-ifeq ($(UNAME_S),Linux)
-    LIBS=-Llib/linux/ -lSDL2-2.0 -lSDL2_ttf -lSDL2_image
-else ifeq ($(UNAME_S),Darwin)
-    LIBS=-L lib/mac/ -l SDL2-2.0.0 -l SDL2_ttf-2.0.0 -l SDL2_image-2.0.0
-else ifeq ($(UNAME_S),Windows)
-    LIBS=-Llib/win/ -lSDL2-2.0.0 -lSDL2_ttf -lSDL2_image
-endif
+LIBS = -lSDL2 -lSDL2_ttf -lSDL2_image
 
 
 SRCDIR = src
@@ -54,7 +40,7 @@ TARGET = $(BINDIR)/main
 all: $(TARGET)
 
 $(TARGET): $(GAME_OBJS) $(CHARACTER_OBJS) $(COMBAT_OBJS) $(MAP_OBJS) $(MAIN_OBJS) $(INVENTORY_OBJS) $(OBJECTS_OBJS) $(CONST_OBJS)
-	$(CC) $(CFLAGS) $(GAME_OBJS) $(CHARACTER_OBJS) $(COMBAT_OBJS) $(MAP_OBJS) $(MAIN_OBJS) $(INVENTORY_OBJS) $(OBJECTS_OBJS) $(CONST_OBJS) $(LIBS) $(INC) -o $(TARGET)
+	$(CC) $(CFLAGS) $(GAME_OBJS) $(CHARACTER_OBJS) $(COMBAT_OBJS) $(MAP_OBJS) $(MAIN_OBJS) $(INVENTORY_OBJS) $(OBJECTS_OBJS) $(CONST_OBJS) -o $(TARGET) $(LIBS)
 
 $(OBJDIR)/game/%.o: $(SRCDIR)/game/%.c
 	@mkdir -p $(@D)
@@ -65,7 +51,7 @@ $(OBJDIR)/character/%.o: $(SRCDIR)/character/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/combat/%.o: $(SRCDIR)/combat/%.c
-	@mkdir -p $(@D)s
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJDIR)/inventory/%.o: $(SRCDIR)/inventory/%.c
@@ -91,4 +77,3 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 clean:
 	@rm -rf $(OBJDIR)/* $(TARGET)
-

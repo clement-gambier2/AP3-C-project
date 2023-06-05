@@ -251,15 +251,7 @@ int isMovePossible(int x, int y, char **map, struct Enemy_ *enemy, struct Charac
     return 0;
 }
 
-/**
- * Used to moveLeft the character
- * @param character - The character
- * @param map - The matrix in wich you want to move
- * @param enemy - An enemy from the list, to access all enemies
- */
-void moveLeft(struct Character *character, char **map, struct Enemy_ *enemy) {
-    if (isMovePossible(character->pos_x - 1, character->pos_y, map, enemy, character) == 0) {
-        character->pos_x -= 1;
+
 void isThereAKey(struct Character * character, struct Map * map){
     if(map->matrix[character->pos_y][character->pos_x] == '!'){
         printf("You found a key !\n");
@@ -325,7 +317,7 @@ char * moveRight(struct Character * character,struct Map * map){
         }
 
     }
-    if (isMovePossible(character->pos_x+1, character->pos_y,map->matrix,character) == 0) {
+    if (isMovePossible(character->pos_x+1, character->pos_y, map->matrix, map->enemy, character) == 0) {
         character->pos_x += 1;
         isThereAKey(character, map);
         isThereAPotionDamage(character, map);
@@ -351,7 +343,7 @@ char * moveBottom(struct Character * character, struct Map * map){
             return map->directions[1];
         }
     }
-    if (isMovePossible(character->pos_x, character->pos_y+1,map->matrix,character) == 0) {
+    if (isMovePossible(character->pos_x, character->pos_y+1,map->matrix, map->enemy, character) == 0) {
         character->pos_y += 1;
         isThereAKey(character, map);
         isThereAPotionDamage(character, map);
@@ -378,7 +370,7 @@ char * moveLeft(struct Character * character,struct Map * map){
             return map->directions[2];
         }
     }
-    if (isMovePossible(character->pos_x-1, character->pos_y,map->matrix,character) == 0){
+    if (isMovePossible(character->pos_x-1, character->pos_y,map->matrix, map->enemy, character) == 0){
         character->pos_x-=1;
         isThereAKey(character, map);
         isThereAPotionDamage(character, map);
@@ -405,7 +397,7 @@ char * moveTop(struct Character * character,struct Map * map){
             return map->directions[3];
         }
     }
-    if (isMovePossible(character->pos_x, character->pos_y-1,map->matrix,character) == 0) {
+    if (isMovePossible(character->pos_x, character->pos_y-1,map->matrix, map->enemy, character) == 0) {
         character->pos_y -= 1;
         isThereAKey(character, map);
         isThereAPotionDamage(character, map);
