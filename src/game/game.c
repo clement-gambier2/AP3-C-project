@@ -10,7 +10,7 @@
 int launchGame(SDL_Renderer* renderer) {
     struct Node * head = buildMapList();
     struct Map * map = findMapByName(head,"src/map/levels/niveau1.level");
-    struct Character * c = createCharacter(10,10,4,2,0,0);
+    struct Character * c = createCharacter(10,8,4,2,0,0);
     SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
     drawMap(renderer,map->matrix,c,tilemapTexture);
