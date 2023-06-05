@@ -1,5 +1,8 @@
-
 #include "map.h"
+#include "../inventory/inventory.h"
+#include <string.h>
+#include <dirent.h>
+
 
 /**
  * Draw a wall tile
@@ -103,7 +106,8 @@ void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, 
 * Test for displaying an image in the window
 * @param renderer
 */
-void drawMap(SDL_Renderer * renderer, char ** map, struct Character * player, SDL_Texture * tilemap) {
+
+void drawMap(SDL_Renderer * renderer, char ** map, struct Character * c, SDL_Texture * tilemap){
     // TODO: drawMap V2 : Load Tilemap Packed + const every tile for drawing
     for (int y_coord = 0; y_coord < 30; y_coord++) {
         for (int x_coord = 0; x_coord < 30; x_coord++) {
@@ -159,19 +163,20 @@ void drawMap(SDL_Renderer * renderer, char ** map, struct Character * player, SD
             }
         }
 
-        // Drawing player
-        SDL_Rect playerRect = { (player->pos_x * 30), (player->pos_y * 30), 30, 30 };
-        SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
-
-        SDL_RenderPresent(renderer);
+    // Drawing player
+    SDL_Rect playerRect = {(c->pos_x * 30), (c->pos_y * 30), 30, 30 };
+    SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
+    inventory(renderer, tilemap, c);
+    SDL_RenderPresent(renderer);
 }
 
 /**
  *buildMapFromFile build the matrix with the map given in param
  * @param map
  * @return the level you have choice with param map, in a matrix.
+ * finalMap is an object with the matrix and the directions in this order (E,S,O,N)
  */
-struct Map* buildMapFromFile(char * map){
+struct Map * buildMapFromFile(char * map){
     struct Map* finalMap = malloc(sizeof(struct Map));
     char** laMap=(char**)malloc(30 * sizeof(char*));
     FILE *fp;
@@ -264,28 +269,88 @@ struct Map* buildMapFromFile(char * map){
     finalMap->enemy= malloc(sizeof(struct Enemy_));
     finalMap->enemy= saveEnemyFromMap(finalMap);
 
-    fclose(fp);//close the file
+    finalMap->name = malloc(30);
+    strcpy(finalMap->name, map);
+    fclose(fp); //close the file
     return finalMap;
 }
 
 /**
- * initMap set level 1
+ * concatenateLevelName
+ * @param a
+ * @param b
+ * @return
  */
-struct Map* initMap(){
-    return buildMapFromFile("src/map/niveau1Prof.level");
+char* concatenateLevelName(char* a, char* b) {
+    // Allouer suffisamment de mémoire pour la chaîne concaténée
+    int len_a = strlen(a);
+    int len_b = strlen(b);
+    int len_concatenated = len_a + len_b + 1; // +1 pour le caractère nul de fin de chaîne
+    char* concatenated = (char*)malloc(len_concatenated * sizeof(char));
+
+    if (concatenated == NULL) {
+        printf("Erreur lors de l'allocation de mémoire.\n");
+        exit(1);
+    }
+
+    strcpy(concatenated, a);
+    strcat(concatenated, b);
+
+    return concatenated;
 }
 
+//
 /**
- * displayMap dislay each case of the map given in param.
+ * append
+ * @param head
  * @param map
  */
-void displayMap(char ** map){
-    for (int i = 0; i < 30; i++)//for each line of the file
-    {
-        for (int y = 0; y < 30; y++)//for each column of the file
-        {
-            printf("%c",map[i][y]);//display the symbol at this position
-        }
-        printf("\n");
+void append(struct Node** head, struct Map  * map) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = map;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+        return;
     }
+
+    struct Node *current = *head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+    current->next = newNode;
+}
+
+struct Map *findMapByName(struct Node* head, const char *name) {
+    struct Node *current = head;
+    while (current != NULL) {
+        if (strcmp(current->data->name, name) == 0) {
+            return current->data;
+        }
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+struct Node * buildMapList(void){
+    struct Node *head = NULL;
+    DIR *d;
+    struct dirent *dir;
+    d = opendir("src/map/levels");
+    if (d)
+    {
+        while ((dir = readdir(d)) != NULL)
+        {
+            if(strcmp(dir->d_name,".")!=0 && strcmp(dir->d_name,"..")!=0){
+                char* levelName = concatenateLevelName("src/map/levels/", dir->d_name);
+                printf("%s\n", levelName);
+                append(&head, buildMapFromFile(levelName));
+            }
+        }
+        closedir(d);
+    }
+    return head;
 }

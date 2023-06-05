@@ -2,6 +2,7 @@
 // Created by clement on 13/05/23.
 //
 #include "game.h"
+#include "../map/map.h"
 
 
 /**
@@ -9,16 +10,20 @@
  * @param renderer
  */
 int launchGame(SDL_Renderer* renderer) {
-
-    struct Map* map = buildMapFromFile("./src/map/niveau1Prof.level");
+    struct Node * head = buildMapList();
+    struct Map * map = findMapByName(head,"src/map/levels/niveau1.level");
+    struct Character * c = createCharacter(10,8,4,2,0,0);
     SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
+    drawMap(renderer,map->matrix,c,tilemapTexture);
+    SDL_RenderPresent(renderer);
+    char * returnMove;
 
-    struct Character * c = createCharacter(10, 10, 10, 10, 10, 10);
+
+
     // Here we are waiting for events
     SDL_Event event;
     while (1) {
-        drawMap(renderer, map->matrix, c, tilemapTexture);
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
@@ -26,21 +31,44 @@ int launchGame(SDL_Renderer* renderer) {
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
                         case SDLK_UP:
-                            moveTop(c,map->matrix,map->enemy);
+                            returnMove = moveTop(c,map);
+                            if(strcmp(returnMove,"noSwitch") != 0){
+                                printf("changement de niveau vers : %s\n",returnMove);
+                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
+                                fflush(stdout); // Vide le tampon de la sortie standard
+                            }
                             break;
                         case SDLK_LEFT:
-                            moveLeft(c,map->matrix,map->enemy);
+                            returnMove = moveLeft(c,map);
+                            if(strcmp(returnMove,"noSwitch") != 0){
+                                printf("changement de niveau vers : %s\n",returnMove);
+                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
+                                fflush(stdout); // Vide le tampon de la sortie standard
+                            }
                             break;
                         case SDLK_DOWN:
-                            moveBottom(c,map->matrix,map->enemy);
+                            returnMove = moveBottom(c,map);
+                            if(strcmp(returnMove,"noSwitch") != 0){
+                                printf("changement de niveau vers : %s\n",returnMove);
+                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
+                                fflush(stdout); // Vide le tampon de la sortie standard
+                            }
                             break;
                         case SDLK_RIGHT:
-                            moveRight(c,map->matrix,map->enemy);
+                            returnMove = moveRight(c,map);
+                            if(strcmp(returnMove,"noSwitch") != 0){
+                                printf("changement de niveau vers : %s\n",returnMove);
+                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
+                                fflush(stdout); // Vide le tampon de la sortie standard
+                            }
                             break;
                     }
                     break;
             }
         }
+        drawMap(renderer,map->matrix,c,tilemapTexture);
+        // Present the renderer to the screen
+        SDL_RenderPresent(renderer);
         SDL_Delay(10);
     }
     // Delete all texture and images
@@ -69,7 +97,7 @@ SDL_Surface* createText(const char* text, TTF_Font* font, SDL_Color color) {
  * @return int
  */
 int displayMenu(SDL_Renderer* renderer) {
-    TTF_Font* font = TTF_OpenFont("src/assets/fonts/antique.ttf", 25);
+    TTF_Font* font = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 25);
 
     struct TextData {
         const char* text;

@@ -1,7 +1,13 @@
 
-
+#include <stdio.h>
 #include <stdlib.h>
+#include <malloc.h>
 #include "character.h"
+#include "../objects/objects.h"
+#include "../map/map.h"
+
+
+#include "../inventory/inventory.h"
 
 /**
  * Used to create a new playable character
@@ -149,7 +155,7 @@ struct Enemy_ *getEnemyByPosition(struct Enemy_ *enemy, int pos_x, int pos_y) {
  * @param player - The player
  * @param delta - The amount of Health Points to remove
  */
-void char_decrement_hp(struct Character *player, int delta) {
+void char_decrement_hp(struct Character* player, int delta) {
     player->hp -= delta;
 }
 
@@ -159,7 +165,7 @@ void char_decrement_hp(struct Character *player, int delta) {
  * @param player - The player
  * @param delta - The amount of Health Points to add
  */
-void char_increment_hp(struct Character *player, int delta) {
+void char_increment_hp(struct Character * player, int delta) {
     if (player->hp + delta > player->hp_max) {
         player->hp = player->hp_max;
     } else {
@@ -215,6 +221,14 @@ int isMovePossible(int x, int y, char **map, struct Enemy_ *enemy, struct Charac
     if (map[y][x] == '#') {
         return 1;
     }
+    if(map[y][x] == 'o'){
+        if (character->key > 0){
+            character->key -= 1;
+            map[y][x] = 'i';
+            return 0;
+        }
+        return 1;
+    }
     if (map[y][x] == 'A' || map[y][x] == 'B' || map[y][x] == 'C') {
         struct Enemy_ *enemyToFight = getEnemyByPosition(enemy, y, x);//voir si faut pas inverser
         if(enemyToFight!=NULL) {
@@ -246,41 +260,158 @@ int isMovePossible(int x, int y, char **map, struct Enemy_ *enemy, struct Charac
 void moveLeft(struct Character *character, char **map, struct Enemy_ *enemy) {
     if (isMovePossible(character->pos_x - 1, character->pos_y, map, enemy, character) == 0) {
         character->pos_x -= 1;
+void isThereAKey(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '!'){
+        printf("You found a key !\n");
+        character->key += 1;
+        map->matrix[character->pos_y][character->pos_x] = ' ';
+    }
+}
+
+void isThereAPotionDamage(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '1'){
+        printf("You found a Potion Damage !\n");
+        PowerUp powerUp;
+        powerUp.powerUp = DAMAGE;
+        powerUp.powerValue = DAMAGE_POWER_VALUE;
+        apply_power_up(&powerUp, character);
+        map->matrix[character->pos_y][character->pos_x] = ' ';
+    }
+}
+
+void isThereAPotionDefense(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '2'){
+        printf("You found a Potion Defense !\n");
+        PowerUp powerUp;
+        powerUp.powerUp = DEFENSE;
+        powerUp.powerValue = DEFENSE_POWER_VALUE;
+        apply_power_up(&powerUp, character);
+        map->matrix[character->pos_y][character->pos_x] = ' ';
+    }
+}
+
+void isThereAPotionHPMax(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '3'){
+        printf("You found a Potion HP Max !\n");
+        PowerUp powerUp;
+        powerUp.powerUp = HP_MAX;
+        powerUp.powerValue = HP_MAX_POWER_VALUE;
+        apply_power_up(&powerUp, character);
+        map->matrix[character->pos_y][character->pos_x] = ' ';
+    }
+}
+
+void isThereAPotionHeal(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '*'){
+        printf("You found a Potion Heal !\n");
+        use_potion(character);
+        map->matrix[character->pos_y][character->pos_x] = ' ';
     }
 }
 
 /**
  * Used to moveRight the character
- * @param character - The character
- * @param map - The matrix in wich you want to move
- * @param enemy - An enemy from the list, to access all enemies
+ * @param - The character
+ * @param map - The map with the infos you want
+ * @return
  */
-void moveRight(struct Character *character, char **map, struct Enemy_ *enemy) {
-    if (isMovePossible(character->pos_x + 1, character->pos_y, map, enemy, character) == 0) {
-        character->pos_x += 1;
-    }
-}
+char * moveRight(struct Character * character,struct Map * map){
+    //switch map : we are in moveRight so if there is a level it's the EAST one so first cell of the direction array
+    if(map->matrix[character->pos_y][character->pos_x] == '?'){
+        if(character->pos_x == 29){
+            character->pos_x = 0;
+            character->pos_y = 14;
+            return map->directions[0];
+        }
 
-/**
- * Used to moveTop the character
- * @param character - The character
- * @param map - The matrix in wich you want to move
- * @param enemy - An enemy from the list, to access all enemies
- */
-void moveTop(struct Character *character, char **map, struct Enemy_ *enemy) {
-    if (isMovePossible(character->pos_x, character->pos_y - 1, map, enemy, character) == 0) {
-        character->pos_y -= 1;
     }
+    if (isMovePossible(character->pos_x+1, character->pos_y,map->matrix,character) == 0) {
+        character->pos_x += 1;
+        isThereAKey(character, map);
+        isThereAPotionDamage(character, map);
+        isThereAPotionDefense(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
+    }
+    return "noSwitch";
 }
 
 /**
  * Used to moveBottom the character
- * @param character - The character
- * @param map - The matrix in wich you want to move
- * @param enemy - An enemy from the list, to access all enemies
+ * @param - The character
+ * @param map - The map with the infos you want
+ * @return
  */
-void moveBottom(struct Character *character, char **map, struct Enemy_ *enemy) {
-    if (isMovePossible(character->pos_x, character->pos_y + 1, map, enemy, character) == 0) {
-        character->pos_y += 1;
+char * moveBottom(struct Character * character, struct Map * map){
+    //switch map : we are in moveBottom so if there is a level it's the SOUTH one so second cell of the direction array
+    if(map->matrix[character->pos_y][character->pos_x] == '?'){
+        if(character->pos_y == 29){
+            character->pos_x = 15;
+            character->pos_y = 0;;
+            return map->directions[1];
+        }
     }
+    if (isMovePossible(character->pos_x, character->pos_y+1,map->matrix,character) == 0) {
+        character->pos_y += 1;
+        isThereAKey(character, map);
+        isThereAPotionDamage(character, map);
+        isThereAPotionDefense(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
+    }
+
+    return "noSwitch";
+}
+
+/**
+ * moveLeft
+ * @param character
+ * @param map
+ * @return
+ */
+char * moveLeft(struct Character * character,struct Map * map){
+    //switch map : we are in moveLeft so if there is a level it's the WEST one so third cell of the direction array
+    if(map->matrix[character->pos_y][character->pos_x] == '?'){
+        if(character->pos_y == 14 && character->pos_x == 0){
+            character->pos_x = 29;
+            character->pos_y = 14;
+            return map->directions[2];
+        }
+    }
+    if (isMovePossible(character->pos_x-1, character->pos_y,map->matrix,character) == 0){
+        character->pos_x-=1;
+        isThereAKey(character, map);
+        isThereAPotionDamage(character, map);
+        isThereAPotionDefense(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
+    }
+    return "noSwitch";
+
+}
+
+/**
+ * moveTop
+ * @param character
+ * @param map
+ * @return
+ */
+char * moveTop(struct Character * character,struct Map * map){
+    //switch map : we are in moveTop so if there is a level it's the NORTH one so fourth cell of the direction array
+    if(map->matrix[character->pos_y][character->pos_x] == '?'){
+        if(character->pos_y == 0){
+            character->pos_x = 15;
+            character->pos_y = 29;;
+            return map->directions[3];
+        }
+    }
+    if (isMovePossible(character->pos_x, character->pos_y-1,map->matrix,character) == 0) {
+        character->pos_y -= 1;
+        isThereAKey(character, map);
+        isThereAPotionDamage(character, map);
+        isThereAPotionDefense(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
+    }
+    return "noSwitch";
 }
