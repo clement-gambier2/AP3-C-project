@@ -162,9 +162,20 @@ void isThereAPotionDefense(struct Character * character, struct Map * map){
     }
 }
 
-void isThereAPotionHP(struct Character * character, struct Map * map){
+void isThereAPotionHPMax(struct Character * character, struct Map * map){
     if(map->matrix[character->pos_y][character->pos_x] == '3'){
         printf("You found a Potion HP Max !\n");
+        PowerUp powerUp;
+        powerUp.powerUp = HP_MAX;
+        powerUp.powerValue = HP_MAX_POWER_VALUE;
+        apply_power_up(&powerUp, character);
+        map->matrix[character->pos_y][character->pos_x] = ' ';
+    }
+}
+
+void isThereAPotionHeal(struct Character * character, struct Map * map){
+    if(map->matrix[character->pos_y][character->pos_x] == '*'){
+        printf("You found a Potion Heal !\n");
         use_potion(character);
         map->matrix[character->pos_y][character->pos_x] = ' ';
     }
@@ -195,7 +206,8 @@ char * moveRight(struct Character * character,struct Map * map){
         isThereAKey(character, map);
         isThereAPotionDamage(character, map);
         isThereAPotionDefense(character, map);
-        isThereAPotionHP(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
     }
 
     return "noSwitch";
@@ -221,7 +233,8 @@ char * moveBottom(struct Character * character, struct Map * map){
         isThereAKey(character, map);
         isThereAPotionDamage(character, map);
         isThereAPotionDefense(character, map);
-        isThereAPotionHP(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
     }
 
     return "noSwitch";
@@ -247,7 +260,8 @@ char * moveLeft(struct Character * character,struct Map * map){
         isThereAKey(character, map);
         isThereAPotionDamage(character, map);
         isThereAPotionDefense(character, map);
-        isThereAPotionHP(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
     }
     return "noSwitch";
 
@@ -273,7 +287,8 @@ char * moveTop(struct Character * character,struct Map * map){
         isThereAKey(character, map);
         isThereAPotionDamage(character, map);
         isThereAPotionDefense(character, map);
-        isThereAPotionHP(character, map);
+        isThereAPotionHPMax(character, map);
+        isThereAPotionHeal(character, map);
     }
     return "noSwitch";
 }
