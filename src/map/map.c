@@ -1,5 +1,5 @@
 
-#include "../../include/map.h"
+#include "map.h"
 
 /**
  * Draw a wall tile
@@ -171,9 +171,9 @@ void drawMap(SDL_Renderer * renderer, char ** map, struct Character * player, SD
  * @param map
  * @return the level you have choice with param map, in a matrix.
  */
-Map* buildMapFromFile(char * map){
+struct Map* buildMapFromFile(char * map){
     //putInAFile(putInATab(switchCharacter(map)),map);
-    Map* finalMap = malloc(sizeof(Map));
+    struct Map* finalMap = malloc(sizeof(struct Map));
     char** laMap=(char**)malloc(30 * sizeof(char*));
     FILE *fp;
     fp = fopen(map, "r");
@@ -271,7 +271,7 @@ Map* buildMapFromFile(char * map){
 /**
  * initMap set level 1
  */
-Map* initMap(){
+struct Map* initMap(){
     return buildMapFromFile("src/map/niveau1Prof.level");
 }
 

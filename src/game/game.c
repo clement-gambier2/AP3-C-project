@@ -1,7 +1,7 @@
 //
 // Created by clement on 13/05/23.
 //
-#include "../../include/game.h"
+#include "game.h"
 
 
 /**

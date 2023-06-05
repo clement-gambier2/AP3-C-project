@@ -3,8 +3,8 @@
 
 
 
-#include "character.h"
-#include "inventory.h"
+#include "../character/character.h"
+#include "../inventory/inventory.h"
 
 enum powerUp {
     DAMAGE, DEFENSE, HP_MAX

@@ -1,7 +1,7 @@
 
 
 #include <stdlib.h>
-#include "../../include/character.h"
+#include "character.h"
 
 /**
  * Used to create a new playable character
@@ -16,7 +16,7 @@
  * @return Character *
  */
 struct Character *createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion) {
-    struct Character *newCharacter = (Character *) malloc(sizeof(struct Character_));
+    struct Character *newCharacter = (struct Character *) malloc(sizeof(struct Character));
     newCharacter->hp_max = hp_max;
     newCharacter->hp = hp;
     newCharacter->def = def;
@@ -100,7 +100,7 @@ struct Enemy_ * saveEnemyFromMap(struct Map *map) {
             }
         }
     }
-    return enemy
+    return enemy;
 }
 
 struct Enemy_ * getEnemyByPosition(struct Enemy_ * enemy,int pos_x, int pos_y){
@@ -108,7 +108,7 @@ struct Enemy_ * getEnemyByPosition(struct Enemy_ * enemy,int pos_x, int pos_y){
         printf("error");
     }
     while (enemy->previous != NULL) {
-        myEnemy = myEnemy->previous;
+        enemy = enemy->previous;
     }
     while(enemy->next != NULL){
         if(enemy->pos_x==pos_x && enemy->pos_y==pos_y){

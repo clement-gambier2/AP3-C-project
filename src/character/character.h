@@ -1,9 +1,9 @@
 #ifndef AP3_C_PROJECT_CHARACTER_H
 #define AP3_C_PROJECT_CHARACTER_H
-#include "map.h"
+#include "../map/map.h"
 #include "character.h"
-#include "inventory.h"
-#include "combat.h"
+#include "../inventory/inventory.h"
+#include "../combat/combat.h"
 
 struct Character {
     int hp_max;

@@ -7,8 +7,8 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
-#include "Objects.h"
-#include "character.h"
+#include "../objects/Objects.h"
+#include "../character/character.h"
 
 
 void inventory(SDL_Renderer* renderer, struct Character * character);

@@ -3,8 +3,8 @@
 //
 #include "../../include/SDL2/SDL.h"
 #include "../../include/SDL2/SDL_ttf.h"
-#include "../../include/inventory.h"
-#include "../../include/const.h"
+#include "inventory.h"
+#include "../const/const.h"
 
 
 
