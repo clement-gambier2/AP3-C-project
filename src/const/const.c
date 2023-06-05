@@ -94,3 +94,5 @@ const SDL_Rect S_RECT_GREEN_POTION = {6*16, 9*16, 16, 16};
 const SDL_Rect S_RECT_RED_POTION = {7*16, 9*16, 16, 16};
 const SDL_Rect S_RECT_BLUE_POTION = {8*16, 9*16, 16, 16};
 const SDL_Rect S_RECT_KEY = {5*16, 8*16, 16, 16};
+const SDL_Rect S_RECT_HEART = {0*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_SHIELD = {6*16, 8*16, 16, 16};
