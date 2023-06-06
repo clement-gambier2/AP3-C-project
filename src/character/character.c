@@ -134,7 +134,7 @@ struct Enemy_ *getEnemyByPosition(struct Enemy_ *enemy, int pos_x, int pos_y) {
         enemy = enemy->previous;
     }
     while (enemy != NULL) {
-        if (enemy->pos_x == pos_x && enemy->pos_y == pos_y) {
+        if (enemy->pos_x == pos_y && enemy->pos_y == pos_x) {
             return enemy;
         }
         enemy = enemy->next;
