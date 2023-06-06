@@ -256,6 +256,17 @@ void drawDefaultTexture(SDL_Renderer * renderer, SDL_Texture * tilemap) {
     SDL_RenderCopy(renderer, tilemap, &S_RECT_DEFAULT_FLOOR, &rect);
 }
 
+void drawEnemyStats(SDL_Renderer * renderer, int x, int y, struct Enemy_ * enemy, SDL_Texture * tilemap){
+    // use render_text()
+    SDL_Rect rectPV = {(x*30) + 15, (y*30) + 25, 10, 10};
+    SDL_Rect rectDEF = {(x*30) + 15, (y*30) + 15, 10, 10};
+    SDL_Rect rectDMG = {(x*30) + 15, (y*30) + 5, 10, 10};
+
+    render_text(renderer, "", enemy->hp, rectPV, 10);
+    render_text(renderer, "", enemy->def, rectDEF, 10);
+    render_text(renderer, "", enemy->dmg, rectDMG, 10);
+}
+
 /**
  * Used to draw enemy or grave
  * @param renderer
@@ -273,6 +284,7 @@ void drawEnemy(SDL_Renderer * renderer, char type, int x, int y, struct Enemy_ *
         switch (type) {
             case 'A' :
                 SDL_RenderCopy(renderer, tilemap, &S_RECT_VIKING, &rect);
+
                 break;
             case 'B' :
                 SDL_RenderCopy(renderer, tilemap, &S_RECT_SLIME, &rect);
@@ -283,7 +295,6 @@ void drawEnemy(SDL_Renderer * renderer, char type, int x, int y, struct Enemy_ *
             default:
                 SDL_RenderCopy(renderer, tilemap, &S_RECT_LOBSTER, &rect);
                 break;
-
         }
     } else {
         SDL_RenderCopy(renderer, tilemap, &S_RECT_GRAVE_1, &rect);
@@ -355,6 +366,13 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
                 }
             }
         }
+
+    // TODO : Drawing enemy Stats here
+    struct Enemy_ * enemy = map->enemy;
+    while (enemy->next != NULL) {
+        drawEnemyStats(renderer, enemy->pos_y, enemy->pos_x, enemy, tilemap);
+        enemy = enemy->next;
+    }
 
     // Drawing player
     SDL_Rect playerRect = {(c->pos_x * 30), (c->pos_y * 30), 30, 30 };

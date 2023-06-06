@@ -4,17 +4,16 @@
 
 
 #include "inventory.h"
-#include "../const/const.h"
 
 
 
-void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect) {
+void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, int ptSize) {
     if (TTF_Init() == -1) {
         fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
         exit(EXIT_FAILURE);
     }
 
-    TTF_Font *font = TTF_OpenFont("src/assets/fonts/roboto.ttf", 24);
+    TTF_Font *font = TTF_OpenFont("src/assets/fonts/roboto.ttf", ptSize);
     if (!font) {
         fprintf(stderr, "Erreur à l'ouverture de la police : %s\n", TTF_GetError());
     }
@@ -92,7 +91,7 @@ void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character *
     SDL_Rect text_key_dstrect = {0, SCREEN_WINDOW - 85, 60, 60};
     SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &key_dstrect);
 
-    render_text(renderer, "", character->key, text_key_dstrect);
+    render_text(renderer, "", character->key, text_key_dstrect, 24);
 
     SDL_RenderPresent(renderer);
 }
