@@ -1,5 +1,5 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include "../include/SDL2/SDL.h"
+#include "../include/SDL2/SDL_ttf.h"
 #include "game/game.h"
 #include "combat/combat.h"
 #include "const/const.h"

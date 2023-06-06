@@ -2,26 +2,6 @@
 #include "map.h"
 
 
-/*char * switchCharacter(char * map){
-    FILE *fichier;
-    int caractere_a_remplacer = 167; // Code décimal pour le caractère "§"
-    char caractere_de_remplacement = 'p';
-    int caractere;
-
-    fichier = fopen(map, "r+");
-
-    while ((caractere = fgetc(fichier)) != EOF) {
-        if (caractere == caractere_a_remplacer) {
-            fseek(fichier, -1, SEEK_CUR);
-            fputc(caractere_de_remplacement, fichier);
-        }
-    }
-
-    fclose(fichier);
-
-    return map;
-}*/
-
 /**
  * Draw a wall tile
  * @param renderer
@@ -346,30 +326,6 @@ void drawMap(SDL_Renderer * renderer, char ** map, struct Character * c, SDL_Tex
     SDL_RenderPresent(renderer);
 }
 
-/*
-char * putInATab(char * map){
-    FILE *fichier;
-    int cpt=0;
-    char tmp;
-    char * tmp;
-    tmp=(char*)malloc(900 * sizeof(char));
-
-    fichier = fopen(map, "r+");
-    while(cpt<900) {
-        tmp= fgetc(fichier);
-        if(tmp!=EOF){
-            if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '){
-                tmp[cpt]=(char)tmp;
-                printf("%c",(char)tmp);
-                cpt+=1;
-            }
-        }
-    }
-    fclose(fichier);
-    return tmp;
-}
-*/
-
 /**
  *buildMapFromFile build the matrix with the map given in param
  * @param map
@@ -382,15 +338,13 @@ struct Map * buildMapFromFile(char * map){
     FILE *fp;
     fp = fopen(map, "r");
     char tmp;
-    int cpt=0;
-
     for (int i = 0; i < 30; i++)//for each line of the file
     {
         laMap[i]=(char*)malloc(30 * sizeof(char));
-        for (int y = 0; y < 32+cpt; y++)//for each column of the file
+        for (int y = 0; y < 32; y++)//for each column of the file
         {
             tmp = fgetc(fp);
-            if(tmp!=EOF && y< 30+cpt){
+            if(tmp!=EOF && y< 30){
                 if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '||tmp=='?'||tmp=='o'||tmp=='*') {
                     laMap[i][y] = (char) tmp;
                 }
@@ -420,12 +374,62 @@ struct Map * buildMapFromFile(char * map){
             }
         }
     }
+
+    for (int i = 0; i < 15; i++) {
+        if (fgets(line, sizeof(line), fp) != NULL) {
+            line[strcspn(line, "\r\n")] = '\0';  // delete the \n
+            if (strlen(line) > 0) {
+                printf("%s\n", line);
+                char *separator = strchr(line, ':');
+                if (separator != NULL) {
+                    separator++;  // we want the string after the :
+                    if (*separator == ' ') {
+                        separator++;  // we want the string after the space
+                    }
+                    switch (i) {
+                        case 2:
+                            finalMap->A_Pv = atoi(separator);
+                            break;
+                        case 3:
+                            finalMap->A_Force = atoi(separator);
+                            break;
+                        case 4:
+                            finalMap->A_Armure = atoi(separator);
+                            break;
+                        case 7:
+                            finalMap->B_Pv = atoi(separator);
+                            break;
+                        case 8:
+                            finalMap->B_Force = atoi(separator);
+                            break;
+                        case 9:
+                            finalMap->B_Armure = atoi(separator);
+                            break;
+                        case 12:
+                            finalMap->C_Pv = atoi(separator);
+                            break;
+                        case 13:
+                            finalMap->C_Force = atoi(separator);
+                            break;
+                        case 14:
+                            finalMap->C_Armure = atoi(separator);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    finalMap->enemy= malloc(sizeof(struct Enemy_));
+    finalMap->enemy= saveEnemyFromMap(finalMap);
+
     finalMap->name = malloc(30);
     strcpy(finalMap->name, map);
     fclose(fp); //close the file
     return finalMap;
 }
-
 
 /**
  * concatenateLevelName

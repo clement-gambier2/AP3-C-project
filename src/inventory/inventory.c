@@ -4,6 +4,9 @@
 
 
 #include "inventory.h"
+#include "../const/const.h"
+
+
 
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect) {
     if (TTF_Init() == -1) {
@@ -86,9 +89,10 @@ void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character *
     render_def(renderer, tilemap, num_def);
 
     SDL_Rect key_dstrect = {0, SCREEN_WINDOW - 100, 60, 60};
+    SDL_Rect text_key_dstrect = {0, SCREEN_WINDOW - 85, 60, 60};
     SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &key_dstrect);
 
-    render_text(renderer, "", character->key, key_dstrect);
+    render_text(renderer, "", character->key, text_key_dstrect);
 
     SDL_RenderPresent(renderer);
 }
