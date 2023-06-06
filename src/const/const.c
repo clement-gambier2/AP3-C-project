@@ -87,6 +87,7 @@ const SDL_Rect S_RECT_GHOST = {16, 160, 16, 16};
 const SDL_Rect S_RECT_SPIDER = {32, 160, 16, 16};
 const SDL_Rect S_RECT_BROWN_RAT = {48, 160, 16, 16};
 const SDL_Rect S_RECT_GRAY_RAT = {64, 160, 16, 16};
+const SDL_Rect S_RECT_GRAVE_1 = {4*16, 5*16, 16, 16};
 
 // Potions + misc
 const SDL_Rect S_RECT_GRAY_POTION = {5*16, 9*16, 16, 16};
