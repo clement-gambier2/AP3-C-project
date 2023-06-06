@@ -258,9 +258,9 @@ void drawDefaultTexture(SDL_Renderer * renderer, SDL_Texture * tilemap) {
 
 void drawEnemyStats(SDL_Renderer * renderer, int x, int y, struct Enemy_ * enemy, SDL_Texture * tilemap){
     // use render_text()
-    SDL_Rect rectPV = {(x*30) + 15, (y*30) + 25, 10, 10};
-    SDL_Rect rectDEF = {(x*30) + 15, (y*30) + 15, 10, 10};
-    SDL_Rect rectDMG = {(x*30) + 15, (y*30) + 5, 10, 10};
+    SDL_Rect rectPV = {(y*30) + 15, (x*30) - 25, 10, 10};
+    SDL_Rect rectDEF = {(y*30) + 15, (x*30) - 15, 10, 10};
+    SDL_Rect rectDMG = {(y*30) + 15, (x*30) - 5, 10, 10};
 
     render_text(renderer, "", enemy->hp, rectPV, 10);
     render_text(renderer, "", enemy->def, rectDEF, 10);
@@ -369,9 +369,14 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
 
     // TODO : Drawing enemy Stats here
     struct Enemy_ * enemy = map->enemy;
+    if (!enemy->isDead) {
+        drawEnemyStats(renderer, enemy->pos_x, enemy->pos_y, enemy, tilemap);
+    }
     while (enemy->next != NULL) {
-        drawEnemyStats(renderer, enemy->pos_y, enemy->pos_x, enemy, tilemap);
         enemy = enemy->next;
+        if (!enemy->isDead) {
+            drawEnemyStats(renderer, enemy->pos_x, enemy->pos_y, enemy, tilemap);
+        }
     }
 
     // Drawing player

@@ -8,10 +8,10 @@
 
 
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, int ptSize) {
-    if (TTF_Init() == -1) {
+    /*if (TTF_Init() == -1) {
         fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
         exit(EXIT_FAILURE);
-    }
+    }*/
 
     TTF_Font *font = TTF_OpenFont("src/assets/fonts/roboto.ttf", ptSize);
     if (!font) {
@@ -44,7 +44,7 @@ void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect d
     SDL_RenderCopy(renderer, text_texture, NULL, &text_rect);
     SDL_DestroyTexture(text_texture);
 
-    TTF_Quit();
+    //TTF_Quit();
 }
 
 /**
