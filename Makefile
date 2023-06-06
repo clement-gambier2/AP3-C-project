@@ -77,3 +77,4 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 clean:
 	@rm -rf $(OBJDIR)/* $(TARGET)
+

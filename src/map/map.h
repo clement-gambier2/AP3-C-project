@@ -7,6 +7,9 @@
 #include "../const/const.h"
 #include "../character/character.h"
 #include "../inventory/inventory.h"
+#include <string.h>
+#include <dirent.h>
+
 struct Map {
     char * name;
     char ** matrix;

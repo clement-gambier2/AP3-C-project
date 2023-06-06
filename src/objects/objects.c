@@ -47,7 +47,7 @@ void use_potion(struct Character * character) {
  * Used to decrement the number of player's key
  * @param character - The character
  */
-void decrement_key(struct Character * character, SDL_Renderer* renderer) {
+void decrement_key(struct Character * character) {
     character->key -= 1;
 }
 
@@ -55,7 +55,7 @@ void decrement_key(struct Character * character, SDL_Renderer* renderer) {
  * Used to increment the number of player's key
  * @param character - The character
  */
-void increment_key(struct Character * character, SDL_Renderer* renderer) {
+void increment_key(struct Character * character) {
     character->key += 1;
 }
 

@@ -5,14 +5,49 @@ const SDL_Color GREEN_COLOR = { 0, 255, 0, 255};
 
 const SDL_RendererFlip RENDERER_FLIP = SDL_FLIP_HORIZONTAL;
 
+// Default Map with floors
+const SDL_Rect S_RECT_DEFAULT_FLOOR = {16*12, 0, 480, 480};
+
 // Floors
 const SDL_Rect S_RECT_FLOOR_1 = { 0, 64, 16, 16 };
 const SDL_Rect S_RECT_FLOOR_2 = {1*16, 4*16, 16, 16};
 const SDL_Rect S_RECT_FLOOR_3 = {6*16, 3*16, 16, 16};
+const SDL_Rect S_RECT_SINGLE_SIDE_FLOOR = {3*16, 4*16, 16, 16};
+const SDL_Rect S_RECT_SINGLE_SIDE_CORNER = {4*16, 4*16, 16, 16};
+const SDL_Rect S_RECT_MINI_CORNER = {5*16, 4*16, 16, 16};
+const SDL_Rect S_RECT_CUL_DE_SAC = {8*16, 4*16, 16, 16};
+
+// Special floors
+const SDL_Rect S_RECT_DOUBLE_BORDED_FLOOR = {2*16, 4*16, 16, 16};
+const SDL_Rect S_RECT_DOUBLE_BORDED_CORNER_FLOOR = {6*16, 4*16, 16, 16};
 
 // Walls
 const SDL_Rect S_RECT_WALL_1 = {64, 48, 16, 16};
 const SDL_Rect S_RECT_WALL_2 = {64, 32, 16, 16};
+const SDL_Rect S_RECT_DOUBLE_BORDED_WALL_1 = {2*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_DOUBLE_BORDED_WALL_2 = {6*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_DOUBLE_BORDERED_END_WALL_1 = {4*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_DOUBLE_BORDERED_END_WALL_2 = {5*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_DOUBLE_BORDERED_END_WALL_3 = {1*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_DOUBLE_BORDERED_END_WALL_4 = {3*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_SINGLE_WALL = {7*16, 11*16, 16, 16};
+
+
+// Roofs
+const SDL_Rect S_RECT_ROOF_1 = {0, 0, 16, 16};
+const SDL_Rect S_RECT_CRENEL_1 = {2*16, 2*16, 16, 16};
+const SDL_Rect S_RECT_CRENEL_2 = {2*16, 0*16, 16, 16};
+const SDL_Rect S_RECT_CRENEL_3 = {1*16, 1*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_1 = {1*16, 0*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_2 = {3*16, 0*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_3 = {1*16, 2*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_4 = {3*16, 2*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_5 = {4*16, 0*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_6 = {5*16, 1*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_7 = {4*16, 1*16, 16, 16};
+const SDL_Rect S_RECT_CORNER_CRENEL_8 = {5*16, 0*16, 16, 16};
+
+
 
 // Doors
 const SDL_Rect S_RECT_SINGLE_CLOSED_DOOR = {9*16, 3*16, 16, 16};

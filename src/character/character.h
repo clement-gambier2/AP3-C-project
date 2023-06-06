@@ -1,10 +1,16 @@
 #ifndef AP3_C_PROJECT_CHARACTER_H
 #define AP3_C_PROJECT_CHARACTER_H
-#include "../map/map.h"
+
+#include <malloc.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "../inventory/inventory.h"
 #include "../combat/combat.h"
 #include "../objects/objects.h"
- struct Character {
+#include "../map/map.h"
+
+
+struct Character {
     int hp_max;
     int hp;
     int def;

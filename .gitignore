@@ -5,6 +5,7 @@
 bin/
 src/obj/
 cmake-build-debug/
+lib/
 
 # Other
 .idea
