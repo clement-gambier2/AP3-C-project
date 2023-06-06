@@ -245,6 +245,11 @@ void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, 
     }
 }
 
+/**
+ * Used to draw a default texture for the floor for the entire map²
+ * @param renderer
+ * @param tilemap
+ */
 void drawDefaultTexture(SDL_Renderer * renderer, SDL_Texture * tilemap) {
     SDL_Rect rect = { 0, 0, 30*30, 30*30 };
 
@@ -252,67 +257,99 @@ void drawDefaultTexture(SDL_Renderer * renderer, SDL_Texture * tilemap) {
 }
 
 /**
+ * Used to draw enemy or grave
+ * @param renderer
+ * @param type
+ * @param x
+ * @param y
+ * @param enemyList
+ * @param tilemap
+ */
+void drawEnemy(SDL_Renderer * renderer, char type, int x, int y, struct Enemy_ * enemyList, SDL_Texture * tilemap) {
+    struct Enemy_ * enemy = getEnemyByPosition(enemyList, y, x);
+    SDL_Rect rect = {x*30, y*30, 30, 30};
+
+    if (!enemy->isDead) {
+        switch (type) {
+            case 'A' :
+                SDL_RenderCopy(renderer, tilemap, &S_RECT_VIKING, &rect);
+                break;
+            case 'B' :
+                SDL_RenderCopy(renderer, tilemap, &S_RECT_SLIME, &rect);
+                break;
+            case 'C' :
+                SDL_RenderCopy(renderer, tilemap, &S_RECT_BLACK_WIZARD, &rect);
+                break;
+            default:
+                SDL_RenderCopy(renderer, tilemap, &S_RECT_LOBSTER, &rect);
+                break;
+
+        }
+    } else {
+        SDL_RenderCopy(renderer, tilemap, &S_RECT_GRAVE_1, &rect);
+    }
+}
+
+/**
 * Test for displaying an image in the window
 * @param renderer
 */
-void drawMap(SDL_Renderer * renderer, char ** map, struct Character * c, SDL_Texture * tilemap) {
+void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SDL_Texture * tilemap) {
     // Print floor to avoid black screens
     drawDefaultTexture(renderer, tilemap);
     for (int y_coord = 0; y_coord < 30; y_coord++) {
         for (int x_coord = 0; x_coord < 30; x_coord++) {
             SDL_Rect rect = { (x_coord * 30), (y_coord * 30), 30, 30 };
 
-
-            switch (map[y_coord][x_coord]) {
+            switch (map->matrix[y_coord][x_coord]) {
                 case ' ': // Floor
-                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
                     break;
                 case '#': // Wall
-                    //SDL_RenderCopy(renderer, tilemap, &S_RECT_WALL_1, &rect);
-                    drawWall(renderer, x_coord, y_coord, tilemap, rect, map);
+                    drawWall(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
                     break;
                 case 'p': // Potion
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_RED_POTION, &rect);
                     break;
                 case 'A': // Enemy 1
-                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    SDL_RenderCopy(renderer, tilemap, &S_RECT_SLIME, &rect);
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
+                    drawEnemy(renderer, 'A', x_coord, y_coord, map->enemy, tilemap);
                     break;
                 case 'B': // Enemy 2
-                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    SDL_RenderCopy(renderer, tilemap, &S_RECT_VIKING, &rect);
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
+                    drawEnemy(renderer, 'B', x_coord, y_coord, map->enemy, tilemap);
                     break;
                 case 'C': // Enemy 3
-                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
-                    SDL_RenderCopy(renderer, tilemap, &S_RECT_BLACK_WIZARD, &rect);
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
+                    drawEnemy(renderer, 'C', x_coord, y_coord, map->enemy, tilemap);
                     break;
                 case '?': // Room exit
                     drawRoomExit(renderer, x_coord, y_coord, tilemap, rect);
                     break;
                 case '!': // key
-                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &rect);
                     break;
                 case 'o': // closed door
-                    drawDoor(renderer, x_coord, y_coord, tilemap, rect, map, 0);
+                    drawDoor(renderer, x_coord, y_coord, tilemap, rect, map->matrix, 0);
                     break;
                 case 'i': // open door
-                    drawDoor(renderer, x_coord, y_coord, tilemap, rect, map, 1);
+                    drawDoor(renderer, x_coord, y_coord, tilemap, rect, map->matrix, 1);
                     break;
                 case '1': // Power Up Attack
-                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_GRAY_POTION, &rect);
                     break;
                 case '2': // Power Up Defense
-                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_GREEN_POTION, &rect);
                     break;
                 case '3': // Power Up HP Max
-                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_BLUE_POTION, &rect);
                         break;
                 default:
-                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map);
+                    drawFloor(renderer, x_coord, y_coord, tilemap, rect, map->matrix);
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_LOBSTER, &rect);
                     break;
                 }

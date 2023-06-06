@@ -95,6 +95,7 @@ extern const SDL_Rect S_RECT_GHOST;
 extern const SDL_Rect S_RECT_SPIDER;
 extern const SDL_Rect S_RECT_BROWN_RAT;
 extern const SDL_Rect S_RECT_GRAY_RAT;
+extern const SDL_Rect S_RECT_GRAVE_1;
 
 // Potions + misc
 extern const SDL_Rect S_RECT_GRAY_POTION;
