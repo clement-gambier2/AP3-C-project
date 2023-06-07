@@ -7,7 +7,7 @@
 
 
 
-void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, TTF_Font * font) {
+void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, TTF_Font * font, SDL_Color color) {
     /*if (TTF_Init() == -1) {
         fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
         exit(EXIT_FAILURE);
@@ -21,7 +21,7 @@ void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect d
     char text_buffer[32];
     sprintf(text_buffer, "%s %d", text, value);
 
-    SDL_Surface *text_surface = TTF_RenderText_Solid(font, text_buffer, RED_COLOR);
+    SDL_Surface *text_surface = TTF_RenderText_Solid(font, text_buffer, color);
     if (!text_surface) {
         fprintf(stderr, "Erreur à la création du texte : %s\n", TTF_GetError());
     }
@@ -91,7 +91,7 @@ void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character *
     SDL_Rect text_key_dstrect = {0, SCREEN_WINDOW - 85, 60, 60};
     SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &key_dstrect);
 
-    render_text(renderer, "", character->key, text_key_dstrect, font);
+    render_text(renderer, "", character->key, text_key_dstrect, font, WHITE_COLOR);
 
     SDL_RenderPresent(renderer);
 }

@@ -262,9 +262,9 @@ void drawEnemyStats(SDL_Renderer * renderer, int x, int y, struct Enemy_ * enemy
         SDL_Rect rectDEF = {(x*30) + 5, (y*30) - 30, 15, 15};
         SDL_Rect rectDMG = {(x*30) + 5, (y*30) - 15, 15, 15};
 
-        render_text(renderer, "H", enemy->hp, rectPV, font);
-        render_text(renderer, "D", enemy->def, rectDEF, font);
-        render_text(renderer, "A", enemy->dmg, rectDMG, font);
+        render_text(renderer, "H", enemy->hp, rectPV, font, YELLOW_COLOR);
+        render_text(renderer, "D", enemy->def, rectDEF, font, YELLOW_COLOR);
+        render_text(renderer, "A", enemy->dmg, rectDMG, font, YELLOW_COLOR);
     }
 }
 
@@ -371,33 +371,24 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
     SDL_Rect playerRect = {(c->pos_x * 30), (c->pos_y * 30), 30, 30 };
     SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
 
-    /*
-    // TODO : Drawing enemy Stats here
-    struct Enemy_ * enemy = map->enemy;
-    if (!enemy->isDead && enemy != NULL) {
-        drawEnemyStats(renderer, enemy->pos_x, enemy->pos_y, enemy, tilemap, font);
-    }
-    while (enemy->next != NULL) {
-        enemy = enemy->next;
-        if (!enemy->isDead) {
-            drawEnemyStats(renderer, enemy->pos_x, enemy->pos_y, enemy, tilemap, font);
-        }
-    }
-    */
 
     // Search enemies near Player
-    if (map->matrix[c->pos_y-1][c->pos_x] == 'A' || map->matrix[c->pos_y-1][c->pos_x] == 'B' || map->matrix[c->pos_y-1][c->pos_x] == 'C') {
-        drawEnemyStats(renderer, c->pos_x, c->pos_y-1, getEnemyByPosition(map->enemy, c->pos_y-1, c->pos_x), tilemap, font);
+    //printf("isEnemyHPNull on %s %d\n",map->name, map->enemy->hp == NULL);
+    if (map->enemy != NULL) {
+        if (map->matrix[c->pos_y-1][c->pos_x] == 'A' || map->matrix[c->pos_y-1][c->pos_x] == 'B' || map->matrix[c->pos_y-1][c->pos_x] == 'C') {
+            drawEnemyStats(renderer, c->pos_x, c->pos_y-1, map->enemy, tilemap, font);
+        }
+        if (map->matrix[c->pos_y+1][c->pos_x] == 'A' || map->matrix[c->pos_y+1][c->pos_x] == 'B' || map->matrix[c->pos_y+1][c->pos_x] == 'C') {
+            drawEnemyStats(renderer, c->pos_x, c->pos_y+1, map->enemy, tilemap, font);
+        }
+        if (map->matrix[c->pos_y][c->pos_x-1] == 'A' || map->matrix[c->pos_y][c->pos_x-1] == 'B' || map->matrix[c->pos_y][c->pos_x-1] == 'C') {
+            drawEnemyStats(renderer, c->pos_x-1, c->pos_y, map->enemy, tilemap, font);
+        }
+        if (map->matrix[c->pos_y][c->pos_x+1] == 'A' || map->matrix[c->pos_y][c->pos_x+1] == 'B' || map->matrix[c->pos_y][c->pos_x+1] == 'C') {
+            drawEnemyStats(renderer, c->pos_x+1, c->pos_y, map->enemy, tilemap, font);
+        }
     }
-    if (map->matrix[c->pos_y+1][c->pos_x] == 'A' || map->matrix[c->pos_y+1][c->pos_x] == 'B' || map->matrix[c->pos_y+1][c->pos_x] == 'C') {
-        drawEnemyStats(renderer, c->pos_x, c->pos_y+1, getEnemyByPosition(map->enemy, c->pos_y+1, c->pos_x), tilemap, font);
-    }
-    if (map->matrix[c->pos_y][c->pos_x-1] == 'A' || map->matrix[c->pos_y][c->pos_x-1] == 'B' || map->matrix[c->pos_y][c->pos_x-1] == 'C') {
-        drawEnemyStats(renderer, c->pos_x-1, c->pos_y, getEnemyByPosition(map->enemy, c->pos_y, c->pos_x-1), tilemap, font);
-    }
-    if (map->matrix[c->pos_y][c->pos_x+1] == 'A' || map->matrix[c->pos_y][c->pos_x+1] == 'B' || map->matrix[c->pos_y][c->pos_x+1] == 'C') {
-        drawEnemyStats(renderer, c->pos_x+1, c->pos_y, getEnemyByPosition(map->enemy, c->pos_y, c->pos_x+1), tilemap, font);
-    }
+
 
 
     inventory(renderer, tilemap, c, font);
@@ -457,7 +448,6 @@ struct Map * buildMapFromFile(char * map){
         if (fgets(line, sizeof(line), fp) != NULL) {
             line[strcspn(line, "\r\n")] = '\0';  // delete the \n
             if (strlen(line) > 0) {
-                printf("%s\n", line);
                 char *separator = strchr(line, ':');
                 if (separator != NULL) {
                     separator++;  // we want the string after the :
