@@ -256,15 +256,16 @@ void drawDefaultTexture(SDL_Renderer * renderer, SDL_Texture * tilemap) {
     SDL_RenderCopy(renderer, tilemap, &S_RECT_DEFAULT_FLOOR, &rect);
 }
 
-void drawEnemyStats(SDL_Renderer * renderer, int x, int y, struct Enemy_ * enemy, SDL_Texture * tilemap){
-    // use render_text()
-    SDL_Rect rectPV = {(y*30) + 15, (x*30) - 25, 10, 10};
-    SDL_Rect rectDEF = {(y*30) + 15, (x*30) - 15, 10, 10};
-    SDL_Rect rectDMG = {(y*30) + 15, (x*30) - 5, 10, 10};
+void drawEnemyStats(SDL_Renderer * renderer, int x, int y, struct Enemy_ * enemy, SDL_Texture * tilemap, TTF_Font * font){
+    if (!enemy->isDead) {
+        SDL_Rect rectPV = {(x*30) + 5, (y*30) - 45, 15, 15};
+        SDL_Rect rectDEF = {(x*30) + 5, (y*30) - 30, 15, 15};
+        SDL_Rect rectDMG = {(x*30) + 5, (y*30) - 15, 15, 15};
 
-    render_text(renderer, "", enemy->hp, rectPV, 10);
-    render_text(renderer, "", enemy->def, rectDEF, 10);
-    render_text(renderer, "", enemy->dmg, rectDMG, 10);
+        render_text(renderer, "H", enemy->hp, rectPV, font);
+        render_text(renderer, "D", enemy->def, rectDEF, font);
+        render_text(renderer, "A", enemy->dmg, rectDMG, font);
+    }
 }
 
 /**
@@ -284,7 +285,6 @@ void drawEnemy(SDL_Renderer * renderer, char type, int x, int y, struct Enemy_ *
         switch (type) {
             case 'A' :
                 SDL_RenderCopy(renderer, tilemap, &S_RECT_VIKING, &rect);
-
                 break;
             case 'B' :
                 SDL_RenderCopy(renderer, tilemap, &S_RECT_SLIME, &rect);
@@ -305,7 +305,7 @@ void drawEnemy(SDL_Renderer * renderer, char type, int x, int y, struct Enemy_ *
 * Test for displaying an image in the window
 * @param renderer
 */
-void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SDL_Texture * tilemap) {
+void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SDL_Texture * tilemap, TTF_Font * font) {
     // Print floor to avoid black screens
     drawDefaultTexture(renderer, tilemap);
     for (int y_coord = 0; y_coord < 30; y_coord++) {
@@ -367,22 +367,40 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
             }
         }
 
+    // Drawing player
+    SDL_Rect playerRect = {(c->pos_x * 30), (c->pos_y * 30), 30, 30 };
+    SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
+
+    /*
     // TODO : Drawing enemy Stats here
     struct Enemy_ * enemy = map->enemy;
-    if (!enemy->isDead) {
-        drawEnemyStats(renderer, enemy->pos_x, enemy->pos_y, enemy, tilemap);
+    if (!enemy->isDead && enemy != NULL) {
+        drawEnemyStats(renderer, enemy->pos_x, enemy->pos_y, enemy, tilemap, font);
     }
     while (enemy->next != NULL) {
         enemy = enemy->next;
         if (!enemy->isDead) {
-            drawEnemyStats(renderer, enemy->pos_x, enemy->pos_y, enemy, tilemap);
+            drawEnemyStats(renderer, enemy->pos_x, enemy->pos_y, enemy, tilemap, font);
         }
     }
+    */
 
-    // Drawing player
-    SDL_Rect playerRect = {(c->pos_x * 30), (c->pos_y * 30), 30, 30 };
-    SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
-    inventory(renderer, tilemap, c);
+    // Search enemies near Player
+    if (map->matrix[c->pos_y-1][c->pos_x] == 'A' || map->matrix[c->pos_y-1][c->pos_x] == 'B' || map->matrix[c->pos_y-1][c->pos_x] == 'C') {
+        drawEnemyStats(renderer, c->pos_x, c->pos_y-1, getEnemyByPosition(map->enemy, c->pos_y-1, c->pos_x), tilemap, font);
+    }
+    if (map->matrix[c->pos_y+1][c->pos_x] == 'A' || map->matrix[c->pos_y+1][c->pos_x] == 'B' || map->matrix[c->pos_y+1][c->pos_x] == 'C') {
+        drawEnemyStats(renderer, c->pos_x, c->pos_y+1, getEnemyByPosition(map->enemy, c->pos_y+1, c->pos_x), tilemap, font);
+    }
+    if (map->matrix[c->pos_y][c->pos_x-1] == 'A' || map->matrix[c->pos_y][c->pos_x-1] == 'B' || map->matrix[c->pos_y][c->pos_x-1] == 'C') {
+        drawEnemyStats(renderer, c->pos_x-1, c->pos_y, getEnemyByPosition(map->enemy, c->pos_y, c->pos_x-1), tilemap, font);
+    }
+    if (map->matrix[c->pos_y][c->pos_x+1] == 'A' || map->matrix[c->pos_y][c->pos_x+1] == 'B' || map->matrix[c->pos_y][c->pos_x+1] == 'C') {
+        drawEnemyStats(renderer, c->pos_x+1, c->pos_y, getEnemyByPosition(map->enemy, c->pos_y, c->pos_x+1), tilemap, font);
+    }
+
+
+    inventory(renderer, tilemap, c, font);
     SDL_RenderPresent(renderer);
 }
 

@@ -15,7 +15,12 @@ int launchGame(SDL_Renderer* renderer) {
     struct Character * c = createCharacter(10,8,4,2,0,0);
     SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
-    drawMap(renderer,map, c,tilemapTexture);
+
+    TTF_Font *font_15 = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 15);
+    TTF_Font *font_24 = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 24);
+
+
+    drawMap(renderer,map, c,tilemapTexture, font_15);
     SDL_RenderPresent(renderer);
     char * returnMove;
 
@@ -66,7 +71,7 @@ int launchGame(SDL_Renderer* renderer) {
                     break;
             }
         }
-        drawMap(renderer,map, c,tilemapTexture);
+        drawMap(renderer,map, c,tilemapTexture, font_15);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
         SDL_Delay(10);
@@ -74,6 +79,10 @@ int launchGame(SDL_Renderer* renderer) {
     // Delete all texture and images
     SDL_DestroyTexture(tilemapTexture);
     SDL_FreeSurface(tilemapImage);
+
+    // Delete all fonts
+    TTF_CloseFont(font_15);
+    TTF_CloseFont(font_24);
     return 1;
 }
 

@@ -12,8 +12,8 @@
 #include "../character/character.h"
 
 
-void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, int ptSize);
-void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character * character);
+void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, TTF_Font * font);
+void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character * character, TTF_Font * font);
 
 
 #endif //INVENTORY_H

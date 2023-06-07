@@ -7,21 +7,21 @@
 
 
 
-void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, int ptSize) {
+void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, TTF_Font * font) {
     /*if (TTF_Init() == -1) {
         fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
         exit(EXIT_FAILURE);
     }*/
 
-    TTF_Font *font = TTF_OpenFont("src/assets/fonts/roboto.ttf", ptSize);
+    //TTF_Font *font = TTF_OpenFont("src/assets/fonts/roboto.ttf", ptSize);
     if (!font) {
         fprintf(stderr, "Erreur à l'ouverture de la police : %s\n", TTF_GetError());
     }
 
     char text_buffer[32];
-    sprintf(text_buffer, "%s: %d", text, value);
+    sprintf(text_buffer, "%s %d", text, value);
 
-    SDL_Surface *text_surface = TTF_RenderText_Solid(font, text_buffer, WHITE_COLOR);
+    SDL_Surface *text_surface = TTF_RenderText_Solid(font, text_buffer, RED_COLOR);
     if (!text_surface) {
         fprintf(stderr, "Erreur à la création du texte : %s\n", TTF_GetError());
     }
@@ -38,7 +38,7 @@ void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect d
     text_rect.h = text_surface->h;
 
     SDL_FreeSurface(text_surface);
-    TTF_CloseFont(font);
+    //TTF_CloseFont(font);
 
     // render the text texture
     SDL_RenderCopy(renderer, text_texture, NULL, &text_rect);
@@ -79,7 +79,7 @@ void render_def(SDL_Renderer* renderer, SDL_Texture * tilemap, int num_def) {
  * @param tilemap
  * @param character
  */
-void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character * character) {
+void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character * character, TTF_Font * font) {
 
     int num_hearts = get_hearts(character);
     render_hearts(renderer, tilemap, num_hearts);
@@ -91,7 +91,7 @@ void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character *
     SDL_Rect text_key_dstrect = {0, SCREEN_WINDOW - 85, 60, 60};
     SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &key_dstrect);
 
-    render_text(renderer, "", character->key, text_key_dstrect, 24);
+    render_text(renderer, "", character->key, text_key_dstrect, font);
 
     SDL_RenderPresent(renderer);
 }
