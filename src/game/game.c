@@ -9,10 +9,20 @@
  * launchGame is the function that launches the game
  * @param renderer
  */
-int launchGame(SDL_Renderer* renderer) {
+int launchGame(SDL_Renderer* renderer, int characterChoosen) {
     struct Node *head = buildMapList();
     struct Map *map = findMapByName(head, "src/map/levels/niveau1.level");
-    struct Character *c = createCharacter(10, 8, 4, 2, 0, 0);
+    struct Character *c;
+    if(characterChoosen == 1){
+        c = createCharacter(10, 10, 2, 1, 0, characterChoosen);
+    }
+    else if(characterChoosen == 2){
+            c = createCharacter(8, 8, 2, 4, 0, characterChoosen);
+    }
+    else if(characterChoosen == 3){
+        c = createCharacter(12, 12, 4, 1, 0, characterChoosen);
+    }
+
     SDL_Surface *tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture *tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
     drawMap(renderer, map, c, tilemapTexture);
@@ -356,4 +366,88 @@ int credits(SDL_Renderer* renderer) {
         SDL_RenderPresent(renderer);
     }
 
+}
+
+int chooseCharacter(SDL_Renderer* renderer){
+    TTF_Font* font = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 20);
+    struct TextData texts[] = {
+            {"Choisissez un personnage", NULL, NULL, {0, 0, 0, 0}},
+            {"Personnage A complet", NULL, NULL, {0, 100, 0, 0}},
+            {"Personnage B plus d attaque  moins de vie", NULL, NULL, {0, 200, 0, 0}},
+            {"Personnage C moins d attaque plus de vie", NULL, NULL, {0, 300, 0, 0}}
+    };
+
+    int numTexts = sizeof(texts) / sizeof(texts[0]);
+
+    int isSelected = 1;
+
+    for (int i = 0; i < numTexts; i++) {
+        texts[i].surface = createText(texts[i].text, font, WHITE_COLOR);
+        texts[i].texture = SDL_CreateTextureFromSurface(renderer, texts[i].surface);
+
+        texts[i].rect.w = texts[i].surface->w;
+        texts[i].rect.h = texts[i].surface->h;
+    }
+
+    int textHeight = texts[0].rect.h;
+    int totalTextHeight = numTexts * textHeight;
+    int startY = (SCREEN_WINDOW - totalTextHeight) / 2;
+
+    for (int i = 0; i < numTexts; i++) {
+        texts[i].rect.x = (SCREEN_WINDOW - texts[i].rect.w) / 2;
+        texts[i].rect.y = startY + i * textHeight;
+    }
+
+    SDL_Event event;
+
+    while (1) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                return 3;
+            } else if (event.type == SDL_KEYDOWN) {
+                switch (event.key.keysym.sym) {
+                    case SDLK_UP:
+                        if (isSelected == 1){
+                            isSelected = 3;
+                        }
+                        else{
+                            isSelected = (isSelected - 1 + numTexts) % numTexts;
+                        }
+                        break;
+                    case SDLK_DOWN:
+                        if (isSelected == 3){
+                            isSelected = 1;
+                        }
+                        else{
+                            isSelected = (isSelected + 1) % numTexts;
+                        }
+                        break;
+                    case SDLK_RETURN:
+                        return isSelected;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        SDL_RenderClear(renderer);
+
+        for (int i = 0; i < numTexts; i++) {
+            if (i == isSelected) {
+                SDL_FreeSurface(texts[i].surface);
+                texts[i].surface = createText(texts[i].text, font, GREEN_COLOR);
+                SDL_DestroyTexture(texts[i].texture);
+                texts[i].texture = SDL_CreateTextureFromSurface(renderer, texts[i].surface);
+            } else {
+                SDL_FreeSurface(texts[i].surface);
+                texts[i].surface = createText(texts[i].text, font, WHITE_COLOR);
+                SDL_DestroyTexture(texts[i].texture);
+                texts[i].texture = SDL_CreateTextureFromSurface(renderer, texts[i].surface);
+            }
+
+            SDL_RenderCopy(renderer, texts[i].texture, NULL, &(texts[i].rect));
+        }
+
+        SDL_RenderPresent(renderer);
+    }
 }

@@ -18,9 +18,10 @@ struct TextData {
 };
 
 
-int launchGame(SDL_Renderer* renderer);
+int launchGame(SDL_Renderer* renderer, int characterChoosen);
 int isGameOver(struct Character * c, struct Map * map);
 int displayMenu(SDL_Renderer* renderer);
+int chooseCharacter(SDL_Renderer* renderer);
 int credits(SDL_Renderer* renderer);
 int finalScreen(SDL_Renderer* renderer, int gameStatus);
 

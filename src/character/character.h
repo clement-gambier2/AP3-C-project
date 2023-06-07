@@ -16,9 +16,9 @@ struct Character {
     int def;
     int dmg;
     int key;
-    int potion;
     int pos_x;
     int pos_y;
+    int name;
 };
 
 struct Enemy_ {
@@ -35,7 +35,7 @@ struct Enemy_ {
 int get_hearts(struct Character *character);
 int get_def(struct Character *character);
 
-struct Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion);
+struct Character * createCharacter(int hp_max, int hp, int def, int dmg, int key,int name);
 void char_decrement_hp(struct Character * player, int delta);
 
 int isMovePossible(int x, int y, char **map, struct Enemy_ * enemy, struct Character * character);

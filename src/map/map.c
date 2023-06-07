@@ -364,7 +364,16 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
 
     // Drawing player
     SDL_Rect playerRect = {(c->pos_x * 30), (c->pos_y * 30), 30, 30 };
-    SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
+    if (c->name == 1){
+        SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
+    }
+    else if(c->name == 2){
+        SDL_RenderCopy(renderer, tilemap, &S_RECT_WIZARD, &playerRect);
+    }
+    else if(c->name == 3){
+        SDL_RenderCopy(renderer, tilemap, &S_RECT_KNIGHT_1, &playerRect);
+    }
+
     inventory(renderer, tilemap, c);
     SDL_RenderPresent(renderer);
 }
@@ -422,7 +431,6 @@ struct Map * buildMapFromFile(char * map){
         if (fgets(line, sizeof(line), fp) != NULL) {
             line[strcspn(line, "\r\n")] = '\0';  // delete the \n
             if (strlen(line) > 0) {
-                printf("%s\n", line);
                 char *separator = strchr(line, ':');
                 if (separator != NULL) {
                     separator++;  // we want the string after the :
@@ -545,7 +553,6 @@ struct Node * buildMapList(void){
         {
             if(strcmp(dir->d_name,".")!=0 && strcmp(dir->d_name,"..")!=0){
                 char* levelName = concatenateLevelName("src/map/levels/", dir->d_name);
-                printf("%s\n", levelName);
                 append(&head, buildMapFromFile(levelName));
             }
         }
