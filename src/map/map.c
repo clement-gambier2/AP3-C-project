@@ -379,6 +379,7 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
 
 
     // Search enemies near Player
+    // TODO: Le segfault vient du fait que l'on regarde en dessous du joueur, alors que si on a changé de map, on regarde en dessous de nous (RIEN donc segfault)
     //printf("isEnemyHPNull on %s %d\n",map->name, map->enemy->hp == NULL);
     if (map->matrix[c->pos_y-1][c->pos_x] == 'A' || map->matrix[c->pos_y-1][c->pos_x] == 'B' || map->matrix[c->pos_y-1][c->pos_x] == 'C') {
         //drawEnemyStats(renderer, c->pos_x, c->pos_y-1, map->enemy, tilemap, font);
