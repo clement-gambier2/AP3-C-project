@@ -1,7 +1,8 @@
 #include "const.h"
 
 const SDL_Color WHITE_COLOR = { 255, 255, 255, 255};
-const SDL_Color GREEN_COLOR = { 0, 255, 0, 255};
+//const SDL_Color GREEN_COLOR = { 0, 255, 0, 255};
+const SDL_Color GREEN_COLOR = { 234, 164, 109, 255};
 
 const SDL_RendererFlip RENDERER_FLIP = SDL_FLIP_HORIZONTAL;
 
@@ -100,3 +101,11 @@ const SDL_Rect S_RECT_HEART_BLACK = {8*16, 11*16, 16, 16};
 const SDL_Rect S_RECT_HEART_GOLD = {9*16, 11*16, 16, 16};
 const SDL_Rect S_RECT_SHIELD = {6*16, 8*16, 16, 16};
 const SDL_Rect S_RECT_SWORD_1 = {8*16, 8*16, 16, 16};
+const SDL_Rect S_RECT_SHIELD = {6*16, 8*16, 16, 16};
+
+// Final room items
+const SDL_Rect S_RECT_CHEST = {5*16,7*16,16,16};
+const SDL_Rect S_RECT_CHEST_CONNECTED = {2*16,5*16,16,16};
+
+
+

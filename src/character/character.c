@@ -153,19 +153,6 @@ void char_decrement_hp(struct Character* player, int delta) {
 
 
 /**
- * Used to increase Health Points for a character
- * @param player - The player
- * @param delta - The amount of Health Points to add
- */
-void char_increment_hp(struct Character * player, int delta) {
-    if (player->hp + delta > player->hp_max) {
-        player->hp = player->hp_max;
-    } else {
-        player->hp += delta;
-    }
-}
-
-/**
  * Used to reduce Health Points for an enemy
  * @param enemy - The enemy
  * @param delta - The amount of Health Points to remove
@@ -175,15 +162,6 @@ void enemy_decrement_hp(struct Enemy_ *enemy, int delta) {
     if (enemy->hp <= 0) {
         enemy->isDead = 1;
     }
-}
-
-/**
- * Used to add Health Points for an enemy
- * @param enemy - The enemy
- * @param delta - The amount of Health Points to add
- */
-void enemy_increment_hp(struct Enemy_ *enemy, int delta) {
-    enemy->hp += delta;
 }
 
 
@@ -235,7 +213,8 @@ int isMovePossible(int x, int y, char **map, struct Enemy_ *enemy, struct Charac
                 int tmp = fight(character, enemyToFight);
                 if (tmp == 0) {
                     return 1;
-                } else {
+                }
+                else {
                     enemyToFight->isDead = 1;
                     return 1;
                 }
@@ -291,7 +270,7 @@ void isThereAPotionHPMax(struct Character * character, struct Map * map){
 }
 
 void isThereAPotionHeal(struct Character * character, struct Map * map){
-    if(map->matrix[character->pos_y][character->pos_x] == '*'){
+    if(map->matrix[character->pos_y][character->pos_x] == 'p'){
         printf("You found a Potion Heal !\n");
         use_potion(character);
         map->matrix[character->pos_y][character->pos_x] = ' ';

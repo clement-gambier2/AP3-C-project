@@ -28,22 +28,33 @@ int main() {
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
     int choice = displayMenu(renderer); // Call displayMenu with loaded font
-
-    while(choice == 2){
-        choice = credits(renderer);
-        if (choice != 3){
+    int game;
+    int shouldExit = 0;
+    do {
+        if (choice != 1 && choice != 3) {
             choice = displayMenu(renderer);
         }
-    }
-
-    if(choice == 1) {
-      int quitGame = launchGame(renderer);
-        if (quitGame == 0){
-            printf("You quit the game\n");
-            choice = 3;
+        if (choice == 2) {
+            choice = credits(renderer);
+            if (choice != 3) {
+                choice = displayMenu(renderer);
+            }
+        } else if (choice == 1) {
+            game = launchGame(renderer);
+            if (game == 0) {
+                printf("You quit the game\n");
+                shouldExit = 1;
+            } else if (game == 1) {
+                printf("You died\n");
+                choice = finalScreen(renderer, 1);
+            } else if (game == 2) {
+                printf("You won\n");
+                choice = finalScreen(renderer, 2);
+            }
         }
-    }
-    else if(choice == 3){
+    } while (!shouldExit && (choice == 1 || choice == 2));
+
+    if(choice == 3){
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
         SDL_Quit();

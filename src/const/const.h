@@ -109,4 +109,8 @@ extern const SDL_Rect S_RECT_HEART_GOLD;
 extern const SDL_Rect S_RECT_SHIELD;
 extern const SDL_Rect S_RECT_SWORD_1;
 
+// Final room items
+extern const SDL_Rect S_RECT_CHEST;
+extern const SDL_Rect S_RECT_CHEST_CONNECTED;
+
 #endif
