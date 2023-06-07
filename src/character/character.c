@@ -230,7 +230,8 @@ int isMovePossible(int x, int y, char **map, struct Enemy_ *enemy, struct Charac
                 int tmp = fight(character, enemyToFight);
                 if (tmp == 0) {
                     return 1;
-                } else {
+                }
+                else {
                     enemyToFight->isDead = 1;
                     return 1;
                 }
