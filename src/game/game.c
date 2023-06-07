@@ -12,7 +12,7 @@
 int launchGame(SDL_Renderer* renderer) {
     struct Node * head = buildMapList();
     struct Map * map = findMapByName(head,"src/map/levels/niveau1.level");
-    struct Character * c = createCharacter(10,8,4,2,0,0);
+    struct Character * c = createCharacter(100,8,4,20,0,0);
     SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
 
@@ -79,7 +79,7 @@ int launchGame(SDL_Renderer* renderer) {
     TTF_CloseFont(font_24);
     return 1;
 }
-}
+
 
 
 /**

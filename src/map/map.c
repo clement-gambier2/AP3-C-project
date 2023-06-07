@@ -380,24 +380,23 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
 
     // Search enemies near Player
     //printf("isEnemyHPNull on %s %d\n",map->name, map->enemy->hp == NULL);
-    if (map->enemy != NULL) {
-        if (map->matrix[c->pos_y-1][c->pos_x] == 'A' || map->matrix[c->pos_y-1][c->pos_x] == 'B' || map->matrix[c->pos_y-1][c->pos_x] == 'C') {
-            drawEnemyStats(renderer, c->pos_x, c->pos_y-1, map->enemy, tilemap, font);
-        }
-        if (map->matrix[c->pos_y+1][c->pos_x] == 'A' || map->matrix[c->pos_y+1][c->pos_x] == 'B' || map->matrix[c->pos_y+1][c->pos_x] == 'C') {
-            drawEnemyStats(renderer, c->pos_x, c->pos_y+1, map->enemy, tilemap, font);
-        }
-        if (map->matrix[c->pos_y][c->pos_x-1] == 'A' || map->matrix[c->pos_y][c->pos_x-1] == 'B' || map->matrix[c->pos_y][c->pos_x-1] == 'C') {
-            drawEnemyStats(renderer, c->pos_x-1, c->pos_y, map->enemy, tilemap, font);
-        }
-        if (map->matrix[c->pos_y][c->pos_x+1] == 'A' || map->matrix[c->pos_y][c->pos_x+1] == 'B' || map->matrix[c->pos_y][c->pos_x+1] == 'C') {
-            drawEnemyStats(renderer, c->pos_x+1, c->pos_y, map->enemy, tilemap, font);
-        }
+    if (map->matrix[c->pos_y-1][c->pos_x] == 'A' || map->matrix[c->pos_y-1][c->pos_x] == 'B' || map->matrix[c->pos_y-1][c->pos_x] == 'C') {
+        //drawEnemyStats(renderer, c->pos_x, c->pos_y-1, map->enemy, tilemap, font);
+    }
+    if (map->matrix[c->pos_y+1][c->pos_x] == 'A' || map->matrix[c->pos_y+1][c->pos_x] == 'B' || map->matrix[c->pos_y+1][c->pos_x] == 'C') {
+        //drawEnemyStats(renderer, c->pos_x, c->pos_y+1, map->enemy, tilemap, font);
+    }
+    if (map->matrix[c->pos_y][c->pos_x-1] == 'A' || map->matrix[c->pos_y][c->pos_x-1] == 'B' || map->matrix[c->pos_y][c->pos_x-1] == 'C') {
+        //drawEnemyStats(renderer, c->pos_x-1, c->pos_y, map->enemy, tilemap, font);
+    }
+    if (map->matrix[c->pos_y][c->pos_x+1] == 'A' || map->matrix[c->pos_y][c->pos_x+1] == 'B' || map->matrix[c->pos_y][c->pos_x+1] == 'C') {
+        //drawEnemyStats(renderer, c->pos_x+1, c->pos_y, map->enemy, tilemap, font);
     }
 
 
 
-    inventory(renderer, tilemap, c, font);
+
+    //inventory(renderer, tilemap, c, font);
     SDL_RenderPresent(renderer);
 }
 
