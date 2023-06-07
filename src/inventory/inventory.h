@@ -13,6 +13,7 @@
 
 
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, TTF_Font * font, SDL_Color color);
+void renderTextRect(SDL_Renderer* renderer, const char *text, SDL_Rect dstrect, TTF_Font * font, SDL_Color colorRect, SDL_Color colorText);
 void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character * character, TTF_Font * font);
 
 

@@ -6,7 +6,16 @@
 #include "inventory.h"
 
 
-
+/**
+ * Used to render some text with a value.
+ * @param renderer
+ * @param text
+ * @param value
+ * @param dstrect
+ * @param font
+ * @param color
+ * @example "Healthpoints : 14"
+ */
 void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect dstrect, TTF_Font * font, SDL_Color color) {
     /*if (TTF_Init() == -1) {
         fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
@@ -48,6 +57,39 @@ void render_text(SDL_Renderer* renderer, const char *text, int value, SDL_Rect d
 }
 
 /**
+ * Used to render some text in a rectangle.
+ * @param renderer
+ * @param text
+ * @param dstrect
+ * @param font
+ * @param colorRect
+ * @param colorText
+ */
+void renderTextRect(SDL_Renderer* renderer, const char *text, SDL_Rect dstrect, TTF_Font * font, SDL_Color colorRect, SDL_Color colorText) {
+    SDL_Surface* textSurface = TTF_RenderText_Blended(font, text, colorText);
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_FreeSurface(textSurface);
+
+
+    SDL_Rect textRect = { dstrect.x + 5,
+                          dstrect.y,
+                          textSurface->w,
+                          textSurface->h};
+
+
+    // Draw black rectangle
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Noir (RGBA)
+    SDL_Rect rect = { dstrect.x + 2, dstrect.y, dstrect.w + 30, dstrect.h + 2};
+    SDL_RenderFillRect(renderer, &rect);
+
+    // render the text texture
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+
+
+    SDL_DestroyTexture(textTexture);
+}
+
+/**
  * Used to display the character's HP in the HUD
  * @param renderer
  * @param tilemap
@@ -77,7 +119,12 @@ void render_hearts(SDL_Renderer* renderer, SDL_Texture* tilemap, int num_hearts,
     }
 }
 
-
+/**
+ * Used to display the character's Attack in the HUD
+ * @param renderer
+ * @param tilemap
+ * @param num_dmg
+ */
 void render_attack(SDL_Renderer* renderer, SDL_Texture * tilemap, int num_dmg) {
     for (int i = 0; i < num_dmg; i++) {
         SDL_Rect attack_rect = {(i * 40) + 5, 80, 40, 40}; // adjust the position as per your requirement

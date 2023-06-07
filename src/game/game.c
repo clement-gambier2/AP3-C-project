@@ -2,7 +2,6 @@
 // Created by clement on 13/05/23.
 //
 #include "game.h"
-#include "../map/map.h"
 
 
 /**
@@ -19,8 +18,7 @@ int launchGame(SDL_Renderer* renderer) {
     TTF_Font *font_15 = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 15);
     TTF_Font *font_24 = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 24);
 
-
-    drawMap(renderer,map, c,tilemapTexture, font_15);
+    drawMap(renderer,map, c,tilemapTexture, font_15, font_24);
     SDL_RenderPresent(renderer);
     char *returnMove;
     int isGameOverResult;
@@ -65,7 +63,7 @@ int launchGame(SDL_Renderer* renderer) {
             }
         }
 
-        drawMap(renderer,map, c,tilemapTexture, font_15);
+        drawMap(renderer,map, c,tilemapTexture, font_15, font_24);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
         SDL_Delay(10);

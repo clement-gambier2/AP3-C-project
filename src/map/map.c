@@ -256,15 +256,31 @@ void drawDefaultTexture(SDL_Renderer * renderer, SDL_Texture * tilemap) {
     SDL_RenderCopy(renderer, tilemap, &S_RECT_DEFAULT_FLOOR, &rect);
 }
 
+/**
+ * Used to draw Enemy stats at the top right of the enemy.
+ * @param renderer
+ * @param x
+ * @param y
+ * @param enemy
+ * @param tilemap
+ * @param font
+ */
 void drawEnemyStats(SDL_Renderer * renderer, int x, int y, struct Enemy_ * enemy, SDL_Texture * tilemap, TTF_Font * font){
-    if (!enemy->isDead) {
-        SDL_Rect rectPV = {(x*30) + 5, (y*30) - 45, 15, 15};
-        SDL_Rect rectDEF = {(x*30) + 5, (y*30) - 30, 15, 15};
-        SDL_Rect rectDMG = {(x*30) + 5, (y*30) - 15, 15, 15};
 
-        render_text(renderer, "H", enemy->hp, rectPV, font, YELLOW_COLOR);
-        render_text(renderer, "D", enemy->def, rectDEF, font, YELLOW_COLOR);
-        render_text(renderer, "A", enemy->dmg, rectDMG, font, YELLOW_COLOR);
+    if (!enemy->isDead) {
+        SDL_Rect rectPV = {(x*30) + 15, (y*30) - 45, 15, 15};
+        SDL_Rect rectDEF = {(x*30) + 15, (y*30) - 30, 15, 15};
+        SDL_Rect rectDMG = {(x*30) + 15, (y*30) - 15, 15, 15};
+
+        char text_buffer[32];
+
+        sprintf(text_buffer, "H %d", enemy->hp);
+        renderTextRect(renderer, text_buffer, rectPV, font, BLACK_COLOR, WHITE_COLOR);
+        sprintf(text_buffer, "D %d", enemy->def);
+        renderTextRect(renderer, text_buffer, rectDEF, font, BLACK_COLOR, WHITE_COLOR);
+        sprintf(text_buffer, "A %d", enemy->dmg);
+        renderTextRect(renderer, text_buffer, rectDMG, font, BLACK_COLOR, WHITE_COLOR);
+
     }
 }
 
@@ -305,7 +321,7 @@ void drawEnemy(SDL_Renderer * renderer, char type, int x, int y, struct Enemy_ *
 * Test for displaying an image in the window
 * @param renderer
 */
-void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SDL_Texture * tilemap, TTF_Font * font) {
+void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SDL_Texture * tilemap, TTF_Font * font1, TTF_Font * font2) {
     // Print floor to avoid black screens
     drawDefaultTexture(renderer, tilemap);
     for (int y_coord = 0; y_coord < 30; y_coord++) {
@@ -379,25 +395,26 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
 
 
     // Search enemies near Player
-    // TODO: Le segfault vient du fait que l'on regarde en dessous du joueur, alors que si on a changé de map, on regarde en dessous de nous (RIEN donc segfault)
-    //printf("isEnemyHPNull on %s %d\n",map->name, map->enemy->hp == NULL);
-    if (map->matrix[c->pos_y-1][c->pos_x] == 'A' || map->matrix[c->pos_y-1][c->pos_x] == 'B' || map->matrix[c->pos_y-1][c->pos_x] == 'C') {
-        //drawEnemyStats(renderer, c->pos_x, c->pos_y-1, map->enemy, tilemap, font);
-    }
-    if (map->matrix[c->pos_y+1][c->pos_x] == 'A' || map->matrix[c->pos_y+1][c->pos_x] == 'B' || map->matrix[c->pos_y+1][c->pos_x] == 'C') {
-        //drawEnemyStats(renderer, c->pos_x, c->pos_y+1, map->enemy, tilemap, font);
-    }
-    if (map->matrix[c->pos_y][c->pos_x-1] == 'A' || map->matrix[c->pos_y][c->pos_x-1] == 'B' || map->matrix[c->pos_y][c->pos_x-1] == 'C') {
-        //drawEnemyStats(renderer, c->pos_x-1, c->pos_y, map->enemy, tilemap, font);
-    }
-    if (map->matrix[c->pos_y][c->pos_x+1] == 'A' || map->matrix[c->pos_y][c->pos_x+1] == 'B' || map->matrix[c->pos_y][c->pos_x+1] == 'C') {
-        //drawEnemyStats(renderer, c->pos_x+1, c->pos_y, map->enemy, tilemap, font);
+    if ((c->pos_y > 0 && c->pos_y < 29) && (c->pos_x > 0 && c->pos_x < 29)) {
+        if (map->matrix[c->pos_y-1][c->pos_x] == 'A' || map->matrix[c->pos_y-1][c->pos_x] == 'B' || map->matrix[c->pos_y-1][c->pos_x] == 'C') {
+            drawEnemyStats(renderer, c->pos_x, c->pos_y-1, getEnemyByPosition(map->enemy, c->pos_y-1, c->pos_x), tilemap, font1);
+        }
+        if (map->matrix[c->pos_y+1][c->pos_x] == 'A' || map->matrix[c->pos_y+1][c->pos_x] == 'B' || map->matrix[c->pos_y+1][c->pos_x] == 'C') {
+            drawEnemyStats(renderer, c->pos_x, c->pos_y+1, getEnemyByPosition(map->enemy, c->pos_y+1, c->pos_x), tilemap, font1);
+        }
+        if (map->matrix[c->pos_y][c->pos_x-1] == 'A' || map->matrix[c->pos_y][c->pos_x-1] == 'B' || map->matrix[c->pos_y][c->pos_x-1] == 'C') {
+            drawEnemyStats(renderer, c->pos_x-1, c->pos_y, getEnemyByPosition(map->enemy, c->pos_y, c->pos_x-1), tilemap, font1);
+        }
+        if (map->matrix[c->pos_y][c->pos_x+1] == 'A' || map->matrix[c->pos_y][c->pos_x+1] == 'B' || map->matrix[c->pos_y][c->pos_x+1] == 'C') {
+            drawEnemyStats(renderer, c->pos_x+1, c->pos_y, getEnemyByPosition(map->enemy, c->pos_y, c->pos_x+1), tilemap, font1);
+        }
     }
 
 
 
 
-    //inventory(renderer, tilemap, c, font);
+
+    inventory(renderer, tilemap, c, font2);
     SDL_RenderPresent(renderer);
 }
 
