@@ -104,6 +104,9 @@ extern const SDL_Rect S_RECT_RED_POTION;
 extern const SDL_Rect S_RECT_BLUE_POTION;
 extern const SDL_Rect S_RECT_KEY;
 extern const SDL_Rect S_RECT_HEART;
+extern const SDL_Rect S_RECT_HEART_BLACK;
+extern const SDL_Rect S_RECT_HEART_GOLD;
 extern const SDL_Rect S_RECT_SHIELD;
+extern const SDL_Rect S_RECT_SWORD_1;
 
 #endif
