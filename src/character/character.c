@@ -286,7 +286,7 @@ void isThereAPotionHPMax(struct Character * character, struct Map * map){
 }
 
 void isThereAPotionHeal(struct Character * character, struct Map * map){
-    if(map->matrix[character->pos_y][character->pos_x] == '*'){
+    if(map->matrix[character->pos_y][character->pos_x] == 'p'){
         printf("You found a Potion Heal !\n");
         use_potion(character);
         map->matrix[character->pos_y][character->pos_x] = ' ';
