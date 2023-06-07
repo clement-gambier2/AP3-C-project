@@ -10,6 +10,8 @@
 // Text color
 extern const SDL_Color GREEN_COLOR;
 extern const SDL_Color WHITE_COLOR;
+extern const SDL_Color YELLOW_COLOR;
+extern const SDL_Color BLACK_COLOR;
 
 extern const SDL_RendererFlip RENDERER_FLIP;
 
