@@ -8,7 +8,7 @@
  * @param enemy - struct enemy
  * @return -1 = Player's dead | 0 = Nobody's dead | 1 = Enemy's dead
  */
-int fight(struct Character *character, struct Enemy_ *enemy){
+int fight(struct Character *character, struct Enemy_ *enemy) {
     // Player turn
     int enemyHurtPoints = character->dmg - enemy->def;
     if (enemyHurtPoints < 1) {

@@ -4,8 +4,10 @@
 *.exe
 bin/
 src/obj/
+cmake-build-debug/
+lib/
 
 # Other
 .idea
 .vscode
-.Ds_Store
+.DS_Store

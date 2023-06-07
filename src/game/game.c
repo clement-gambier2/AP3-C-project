@@ -15,7 +15,7 @@ int launchGame(SDL_Renderer* renderer) {
     struct Character * c = createCharacter(10,8,4,2,0,0);
     SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
-    drawMap(renderer,map->matrix,c,tilemapTexture);
+    drawMap(renderer,map, c,tilemapTexture);
     SDL_RenderPresent(renderer);
     char * returnMove;
     int isGameOverResult;
@@ -76,7 +76,7 @@ int launchGame(SDL_Renderer* renderer) {
 
         }
 
-        drawMap(renderer,map->matrix,c,tilemapTexture);
+        drawMap(renderer,map, c,tilemapTexture);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
         SDL_Delay(10);

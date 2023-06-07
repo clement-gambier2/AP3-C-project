@@ -1,13 +1,5 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <malloc.h>
 #include "character.h"
-#include "../objects/objects.h"
-#include "../map/map.h"
-
-
-#include "../inventory/inventory.h"
 
 /**
  * Used to create a new playable character

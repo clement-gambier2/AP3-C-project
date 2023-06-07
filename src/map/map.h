@@ -7,6 +7,9 @@
 #include "../const/const.h"
 #include "../character/character.h"
 #include "../inventory/inventory.h"
+#include <string.h>
+#include <dirent.h>
+
 struct Map {
     char * name;
     char ** matrix;
@@ -37,7 +40,8 @@ void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
 void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map, int isOpen);
 void drawFloor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map);
 void drawRoomExit(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect);
-void drawMap(SDL_Renderer * renderer, char ** map, struct Character * c, SDL_Texture * tilemap);
+void drawEnemy(SDL_Renderer * renderer, char type, int x, int y, struct Enemy_ * enemyList, SDL_Texture * tilemap);
+void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SDL_Texture * tilemap);
 
 void append(struct Node** head, struct Map  * map);
 struct Map *findMapByName(struct Node* head, const char *name);
