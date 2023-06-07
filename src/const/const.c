@@ -101,7 +101,6 @@ const SDL_Rect S_RECT_HEART_BLACK = {8*16, 11*16, 16, 16};
 const SDL_Rect S_RECT_HEART_GOLD = {9*16, 11*16, 16, 16};
 const SDL_Rect S_RECT_SHIELD = {6*16, 8*16, 16, 16};
 const SDL_Rect S_RECT_SWORD_1 = {8*16, 8*16, 16, 16};
-const SDL_Rect S_RECT_SHIELD = {6*16, 8*16, 16, 16};
 
 // Final room items
 const SDL_Rect S_RECT_CHEST = {5*16,7*16,16,16};
