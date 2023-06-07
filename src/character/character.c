@@ -153,19 +153,6 @@ void char_decrement_hp(struct Character* player, int delta) {
 
 
 /**
- * Used to increase Health Points for a character
- * @param player - The player
- * @param delta - The amount of Health Points to add
- */
-void char_increment_hp(struct Character * player, int delta) {
-    if (player->hp + delta > player->hp_max) {
-        player->hp = player->hp_max;
-    } else {
-        player->hp += delta;
-    }
-}
-
-/**
  * Used to reduce Health Points for an enemy
  * @param enemy - The enemy
  * @param delta - The amount of Health Points to remove
@@ -177,15 +164,6 @@ void enemy_decrement_hp(struct Enemy_ *enemy, int delta) {
     }
 }
 
-/**
- * Used to add Health Points for an enemy
- * @param enemy - The enemy
- * @param delta - The amount of Health Points to add
- */
-void enemy_increment_hp(struct Enemy_ *enemy, int delta) {
-    enemy->hp += delta;
-}
-
 
 int get_hearts(struct Character *character) {
     int num_hearts = character->hp / 1;
@@ -195,6 +173,11 @@ int get_hearts(struct Character *character) {
 int get_def(struct Character *character) {
     int num_def = character->def / 1;
     return num_def;
+}
+
+int get_dmg(struct Character *character) {
+    int num_dmg = character->dmg / 1;
+    return num_dmg;
 }
 
 /**
@@ -230,7 +213,8 @@ int isMovePossible(int x, int y, char **map, struct Enemy_ *enemy, struct Charac
                 int tmp = fight(character, enemyToFight);
                 if (tmp == 0) {
                     return 1;
-                } else {
+                }
+                else {
                     enemyToFight->isDead = 1;
                     return 1;
                 }
