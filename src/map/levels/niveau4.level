@@ -34,16 +34,16 @@ Ouest :
 Nord : niveau3.level
 
 A
-Pv : 5
+Pv : 10
 Force : 1
-Armure : 1
+Armure : 3
 
 B
-Pv : 10
+Pv : 20
 Force : 2
 Armure : 3
 
 C
-Pv : 20
+Pv : 30
 Force : 5
-Armure : 5
+Armure : 7
