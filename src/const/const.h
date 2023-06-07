@@ -69,4 +69,8 @@ extern const SDL_Rect S_RECT_KEY;
 extern const SDL_Rect S_RECT_HEART;
 extern const SDL_Rect S_RECT_SHIELD;
 
+// Final room items
+extern const SDL_Rect S_RECT_CHEST;
+extern const SDL_Rect S_RECT_CHEST_CONNECTED;
+
 #endif

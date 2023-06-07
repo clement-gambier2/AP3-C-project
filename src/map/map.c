@@ -156,6 +156,12 @@ void drawMap(SDL_Renderer * renderer, char ** map, struct Character * c, SDL_Tex
                 case '3': // Power Up HP Max
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_BLUE_POTION, &rect);
                         break;
+                case 'c':
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_CHEST_CONNECTED, &rect);
+                    break;
+                case 'w':
+                    SDL_RenderCopy(renderer, tilemap, &S_RECT_CHEST, &rect);
+                    break;
                 default:
                     SDL_RenderCopy(renderer, tilemap, &S_RECT_LOBSTER, &rect);
                     break;
@@ -189,7 +195,7 @@ struct Map * buildMapFromFile(char * map){
         {
             tmp = fgetc(fp);
             if(tmp!=EOF && y< 30){
-                if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '||tmp=='?'||tmp=='o'||tmp=='*') {
+                if(tmp=='#'||tmp=='1'||tmp=='2'||tmp=='3'||tmp=='A'||tmp=='B'||tmp=='C'||tmp=='!'||tmp=='p'||tmp=='<'||tmp=='>'||tmp=='^'||tmp=='v'||tmp==' '||tmp=='?'||tmp=='o'||tmp=='*' || tmp=='i' || tmp=='c' || tmp=='w'){
                     laMap[i][y] = (char) tmp;
                 }
                 else if((int)tmp==-62){ //first part of special char

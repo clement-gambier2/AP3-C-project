@@ -6,6 +6,7 @@
  * @param character - The character to powerUp
  */
 void apply_power_up(PowerUp * powerUp, struct Character * character) {
+    printf("PowerUp: %d\n", powerUp->powerValue);
     switch (powerUp->powerUp) {
         case DAMAGE:
             character->dmg += powerUp->powerValue;
@@ -20,50 +21,9 @@ void apply_power_up(PowerUp * powerUp, struct Character * character) {
 }
 
 /**
- * Used to decrement the number of player's potions by one
- * @param character - The character
- */
-void decrement_potion(struct Character * character) {
-    character->potion -= 1;
-}
-
-/**
- * Used to increment the number of player's potions by one
- * @param character - The character
- */
-void increment_potion(struct Character * character) {
-    character->potion += 1;
-}
-
-/**
  * Used to heal the player with a potion
  * @param character - The character
  */
 void use_potion(struct Character * character) {
         character->hp = character->hp_max;
-}
-
-/**
- * Used to decrement the number of player's key
- * @param character - The character
- */
-void decrement_key(struct Character * character, SDL_Renderer* renderer) {
-    character->key -= 1;
-}
-
-/**
- * Used to increment the number of player's key
- * @param character - The character
- */
-void increment_key(struct Character * character, SDL_Renderer* renderer) {
-    character->key += 1;
-}
-
-/**
- * Check if the player has at least on key to open a door
- * @param character - The character
- * @return 1 - 0
- */
-int can_open_door(struct Character * character) {
-   return character->key > 0;
 }
