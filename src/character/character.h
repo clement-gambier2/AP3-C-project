@@ -37,7 +37,6 @@ int get_def(struct Character *character);
 
 struct Character * createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion);
 void char_decrement_hp(struct Character * player, int delta);
-void char_increment_hp(struct Character * player, int delta);
 
 int isMovePossible(int x, int y, char **map, struct Enemy_ * enemy, struct Character * character);
 void isThereAKey(struct Character * character, struct Map * map);
@@ -49,7 +48,6 @@ char * moveTop(struct Character * character,struct Map * map);
 
 struct Enemy_ * createEnemy(int hp, int def, int dmg, int isDead, int pos_x, int pos_y);
 void enemy_decrement_hp(struct Enemy_ * enemy, int delta);
-void enemy_increment_hp(struct Enemy_ * enemy, int delta);
 
 void addEnemy(struct Enemy_ *enemyAdd, struct Enemy_ *myEnemy);
 struct Enemy_ * saveEnemyFromMap(struct Map *map);

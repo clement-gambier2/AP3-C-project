@@ -10,17 +10,15 @@
  * @param renderer
  */
 int launchGame(SDL_Renderer* renderer) {
-    struct Node * head = buildMapList();
-    struct Map * map = findMapByName(head,"src/map/levels/niveau1.level");
-    struct Character * c = createCharacter(10,8,4,2,0,0);
-    SDL_Surface  * tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
-    SDL_Texture * tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
-    drawMap(renderer,map, c,tilemapTexture);
+    struct Node *head = buildMapList();
+    struct Map *map = findMapByName(head, "src/map/levels/niveau1.level");
+    struct Character *c = createCharacter(10, 8, 4, 2, 0, 0);
+    SDL_Surface *tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
+    SDL_Texture *tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
+    drawMap(renderer, map, c, tilemapTexture);
     SDL_RenderPresent(renderer);
-    char * returnMove;
+    char *returnMove;
     int isGameOverResult;
-
-
 
     // Here we are waiting for events
     SDL_Event event;
@@ -28,60 +26,47 @@ int launchGame(SDL_Renderer* renderer) {
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
+                    free(c);
+                    freeMapList(head);
                     return 0;
                 case SDL_KEYDOWN:
+                    isGameOverResult = isGameOver(c, map);
+                    if (isGameOverResult == 1 || isGameOverResult == 2) {
+                        free(c);
+                        freeMapList(head);
+                        return isGameOverResult;
+                    }
                     switch (event.key.keysym.sym) {
                         case SDLK_UP:
-                            isGameOverResult = isGameOver(c,map);
-                            if(isGameOverResult == 1){
-                                return 1;
-                            }
-                            else if(isGameOverResult == 2){
-                                return 2;
-                            }
-                            returnMove = moveTop(c,map);
-                            if(strcmp(returnMove,"noSwitch") != 0){
-                                printf("changement de niveau vers : %s\n",returnMove);
-                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
-                                fflush(stdout); // Vide le tampon de la sortie standard
-                            }
+                            returnMove = moveTop(c, map);
                             break;
                         case SDLK_LEFT:
-                            returnMove = moveLeft(c,map);
-                            if(strcmp(returnMove,"noSwitch") != 0){
-                                printf("changement de niveau vers : %s\n",returnMove);
-                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
-                                fflush(stdout); // Vide le tampon de la sortie standard
-                            }
+                            returnMove = moveLeft(c, map);
                             break;
                         case SDLK_DOWN:
-                            returnMove = moveBottom(c,map);
-                            if(strcmp(returnMove,"noSwitch") != 0){
-                                printf("changement de niveau vers : %s\n",returnMove);
-                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
-                                fflush(stdout); // Vide le tampon de la sortie standard
-                            }
+                            returnMove = moveBottom(c, map);
                             break;
                         case SDLK_RIGHT:
-                            returnMove = moveRight(c,map);
-                            if(strcmp(returnMove,"noSwitch") != 0){
-                                printf("changement de niveau vers : %s\n",returnMove);
-                                map = findMapByName(head,concatenateLevelName("src/map/levels/",returnMove));
-                                fflush(stdout); // Vide le tampon de la sortie standard
-                            }
+                            returnMove = moveRight(c, map);
                             break;
+                        default:
+                            continue; // Ignore other key presses
+                    }
+                    if (strcmp(returnMove, "noSwitch") != 0) {
+                        map = findMapByName(head, concatenateLevelName("src/map/levels/", returnMove));
+                        fflush(stdout); // Vide le tampon de la sortie standard
                     }
                     break;
             }
-
         }
 
-        drawMap(renderer,map, c,tilemapTexture);
+        drawMap(renderer, map, c, tilemapTexture);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
         SDL_Delay(10);
     }
 }
+
 
 /**
  * isGameOver is the function that checks if the game is over
