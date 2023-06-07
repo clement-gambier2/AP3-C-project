@@ -33,8 +33,6 @@ struct Node {
 
 
 struct Map * buildMapFromFile(char * map);
-struct Map * initMap(void);
-void displayMap(char ** map);
 char* concatenateLevelName(char* a, char* b);
 void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map);
 void drawDoor(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_Rect rect, char ** map, int isOpen);
@@ -45,7 +43,7 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
 
 void append(struct Node** head, struct Map  * map);
 struct Map *findMapByName(struct Node* head, const char *name);
-
 struct Node * buildMapList(void);
+void freeMapList(struct Node* head);
 
 #endif //MAP_H
