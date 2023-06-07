@@ -97,6 +97,10 @@ const SDL_Rect S_RECT_RED_POTION = {7*16, 9*16, 16, 16};
 const SDL_Rect S_RECT_BLUE_POTION = {8*16, 9*16, 16, 16};
 const SDL_Rect S_RECT_KEY = {5*16, 8*16, 16, 16};
 const SDL_Rect S_RECT_HEART = {0*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_HEART_BLACK = {8*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_HEART_GOLD = {9*16, 11*16, 16, 16};
+const SDL_Rect S_RECT_SHIELD = {6*16, 8*16, 16, 16};
+const SDL_Rect S_RECT_SWORD_1 = {8*16, 8*16, 16, 16};
 const SDL_Rect S_RECT_SHIELD = {6*16, 8*16, 16, 16};
 
 // Final room items

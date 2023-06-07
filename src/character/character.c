@@ -175,6 +175,11 @@ int get_def(struct Character *character) {
     return num_def;
 }
 
+int get_dmg(struct Character *character) {
+    int num_dmg = character->dmg / 1;
+    return num_dmg;
+}
+
 /**
  * isMovePossible check if the move is possible
  * @param x - Position x you want to go
