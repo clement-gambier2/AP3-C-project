@@ -14,7 +14,7 @@ plement afficher en console un tableau de 30x30 caractères en fonction du conte
 — Mur : #
 — Porte:o
 — Clé:!
-— Potion : § //pour l'instant p
+— Potion : § dans matrice, remplacer par p pour le jeu
 — Bonus d’attaque, défense, points de vie : 1, 2, 3 respectivement
 — Monstres : A, B, C...
 — Sortiedepièce:?
