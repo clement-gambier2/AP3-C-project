@@ -294,7 +294,7 @@ void drawEnemyStats(SDL_Renderer * renderer, int x, int y, struct Enemy_ * enemy
  * @param tilemap
  */
 void drawEnemy(SDL_Renderer * renderer, char type, int x, int y, struct Enemy_ * enemyList, SDL_Texture * tilemap) {
-    struct Enemy_ * enemy = getEnemyByPosition(enemyList, y, x);
+    struct Enemy_ * enemy = getEnemyByPosition(enemyList, x, y);
     SDL_Rect rect = {x*30, y*30, 30, 30};
 
     if (!enemy->isDead) {
