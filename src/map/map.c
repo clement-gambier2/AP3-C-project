@@ -50,6 +50,10 @@ void drawWall(SDL_Renderer * renderer, int x, int y, SDL_Texture * tilemap, SDL_
                 SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDERED_END_WALL_4, &rect, 0.00, NULL, RENDERER_FLIP);
             }
         }
+        // Hotfix double bordered end wall to right
+        if (map[y-1][x] != '#' && map[y+1][x] != '#' && map[y][x+1] != '#') {
+            SDL_RenderCopyEx(renderer, tilemap, &S_RECT_DOUBLE_BORDERED_END_WALL_1, &rect, 0.00, NULL, RENDERER_FLIP);
+        }
 
 
         // External corners
