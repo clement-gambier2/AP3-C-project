@@ -24,7 +24,11 @@ int launchGame(SDL_Renderer* renderer, int characterChoosen) {
 
     SDL_Surface *tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture *tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
-    drawMap(renderer, map, c, tilemapTexture);
+    TTF_Font *font_15 = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 15);
+    TTF_Font *font_24 = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 24);
+
+    drawMap(renderer,map, c,tilemapTexture, font_15, font_24);
+
     SDL_RenderPresent(renderer);
     char *returnMove;
     int isGameOverResult;

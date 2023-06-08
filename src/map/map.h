@@ -25,7 +25,6 @@ struct Map {
     int C_Armure;
     struct Enemy_ * enemy;
 };
-
 struct Node {
     struct Map * data;
     struct Node *next;

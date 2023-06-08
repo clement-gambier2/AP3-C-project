@@ -401,8 +401,6 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
         SDL_RenderCopy(renderer, tilemap, &S_RECT_KNIGHT_1, &playerRect);
     }
 
-    inventory(renderer, tilemap, c);
-
     // Search enemies near Player
     if ((c->pos_y > 0 && c->pos_y < 29) && (c->pos_x > 0 && c->pos_x < 29)) {
         if (map->matrix[c->pos_y-1][c->pos_x] == 'A' || map->matrix[c->pos_y-1][c->pos_x] == 'B' || map->matrix[c->pos_y-1][c->pos_x] == 'C') {

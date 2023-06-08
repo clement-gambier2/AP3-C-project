@@ -158,9 +158,8 @@ void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character *
 
     int num_def = get_def(character);
     render_def(renderer, tilemap, num_def);
-
-    int num_attack = get_dmg(character);
-    render_attack(renderer, tilemap, num_attack);
+    
+    render_attack(renderer, tilemap, character->dmg);
 
     SDL_Rect key_dstrect = {0, SCREEN_WINDOW - 100, 60, 60};
     SDL_Rect text_key_dstrect = {0, SCREEN_WINDOW - 85, 60, 60};
