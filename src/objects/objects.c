@@ -6,7 +6,6 @@
  * @param character - The character to powerUp
  */
 void apply_power_up(PowerUp * powerUp, struct Character * character) {
-    printf("PowerUp: %d\n", powerUp->powerValue);
     switch (powerUp->powerUp) {
         case DAMAGE:
             character->dmg += powerUp->powerValue;

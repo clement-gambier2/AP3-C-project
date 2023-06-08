@@ -391,7 +391,15 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
 
     // Drawing player
     SDL_Rect playerRect = {(c->pos_x * 30), (c->pos_y * 30), 30, 30 };
-    SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
+    if (c->name == 1){
+        SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
+    }
+    else if(c->name == 2){
+        SDL_RenderCopy(renderer, tilemap, &S_RECT_WIZARD, &playerRect);
+    }
+    else if(c->name == 3){
+        SDL_RenderCopy(renderer, tilemap, &S_RECT_KNIGHT_1, &playerRect);
+    }
 
     // Search enemies near Player
     if ((c->pos_y > 0 && c->pos_y < 29) && (c->pos_x > 0 && c->pos_x < 29)) {
@@ -589,7 +597,6 @@ struct Node * buildMapList(void){
         {
             if(strcmp(dir->d_name,".")!=0 && strcmp(dir->d_name,"..")!=0){
                 char* levelName = concatenateLevelName("src/map/levels/", dir->d_name);
-                printf("%s\n", levelName);
                 append(&head, buildMapFromFile(levelName));
             }
         }

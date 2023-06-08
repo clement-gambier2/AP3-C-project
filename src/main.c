@@ -29,6 +29,7 @@ int main() {
 
     int choice = displayMenu(renderer); // Call displayMenu with loaded font
     int game;
+    int characterChoosen;
     int shouldExit = 0;
     do {
         if (choice != 1 && choice != 3) {
@@ -40,15 +41,13 @@ int main() {
                 choice = displayMenu(renderer);
             }
         } else if (choice == 1) {
-            game = launchGame(renderer);
+            characterChoosen = chooseCharacter(renderer);
+            game = launchGame(renderer, characterChoosen);
             if (game == 0) {
-                printf("You quit the game\n");
                 shouldExit = 1;
             } else if (game == 1) {
-                printf("You died\n");
                 choice = finalScreen(renderer, 1);
             } else if (game == 2) {
-                printf("You won\n");
                 choice = finalScreen(renderer, 2);
             }
         }

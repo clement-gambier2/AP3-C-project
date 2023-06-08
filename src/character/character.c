@@ -13,16 +13,16 @@
  * @param pos_y - Position on y of the character
  * @return Character *
  */
-struct Character *createCharacter(int hp_max, int hp, int def, int dmg, int key, int potion) {
+struct Character * createCharacter(int hp_max, int hp, int def, int dmg, int key,int name){
     struct Character *newCharacter = (struct Character *) malloc(sizeof(struct Character));
     newCharacter->hp_max = hp_max;
     newCharacter->hp = hp;
     newCharacter->def = def;
     newCharacter->dmg = dmg;
     newCharacter->key = key;
-    newCharacter->potion = potion;
     newCharacter->pos_x = 15;
     newCharacter->pos_y = 15;
+    newCharacter->name = name;
     return newCharacter;
 }
 
@@ -230,7 +230,6 @@ int isMovePossible(int x, int y, char **map, struct Enemy_ *enemy, struct Charac
 
 void isThereAKey(struct Character * character, struct Map * map){
     if(map->matrix[character->pos_y][character->pos_x] == '!'){
-        printf("You found a key !\n");
         character->key += 1;
         map->matrix[character->pos_y][character->pos_x] = ' ';
     }
@@ -238,7 +237,6 @@ void isThereAKey(struct Character * character, struct Map * map){
 
 void isThereAPotionDamage(struct Character * character, struct Map * map){
     if(map->matrix[character->pos_y][character->pos_x] == '1'){
-        printf("You found a Potion Damage !\n");
         PowerUp powerUp;
         powerUp.powerUp = DAMAGE;
         powerUp.powerValue = DAMAGE_POWER_VALUE;
@@ -249,7 +247,6 @@ void isThereAPotionDamage(struct Character * character, struct Map * map){
 
 void isThereAPotionDefense(struct Character * character, struct Map * map){
     if(map->matrix[character->pos_y][character->pos_x] == '2'){
-        printf("You found a Potion Defense !\n");
         PowerUp powerUp;
         powerUp.powerUp = DEFENSE;
         powerUp.powerValue = DEFENSE_POWER_VALUE;
@@ -260,7 +257,6 @@ void isThereAPotionDefense(struct Character * character, struct Map * map){
 
 void isThereAPotionHPMax(struct Character * character, struct Map * map){
     if(map->matrix[character->pos_y][character->pos_x] == '3'){
-        printf("You found a Potion HP Max !\n");
         PowerUp powerUp;
         powerUp.powerUp = HP_MAX;
         powerUp.powerValue = HP_MAX_POWER_VALUE;
@@ -271,7 +267,6 @@ void isThereAPotionHPMax(struct Character * character, struct Map * map){
 
 void isThereAPotionHeal(struct Character * character, struct Map * map){
     if(map->matrix[character->pos_y][character->pos_x] == 'p'){
-        printf("You found a Potion Heal !\n");
         use_potion(character);
         map->matrix[character->pos_y][character->pos_x] = ' ';
     }
