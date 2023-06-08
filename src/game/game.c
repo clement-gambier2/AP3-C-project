@@ -2,7 +2,6 @@
 // Created by clement on 13/05/23.
 //
 #include "game.h"
-#include "../map/map.h"
 
 
 /**
@@ -70,12 +69,21 @@ int launchGame(SDL_Renderer* renderer, int characterChoosen) {
             }
         }
 
-        drawMap(renderer, map, c, tilemapTexture);
+        drawMap(renderer,map, c,tilemapTexture, font_15, font_24);
         // Present the renderer to the screen
         SDL_RenderPresent(renderer);
         SDL_Delay(10);
     }
+    // Delete all texture and images
+    SDL_DestroyTexture(tilemapTexture);
+    SDL_FreeSurface(tilemapImage);
+
+    // Delete all fonts
+    TTF_CloseFont(font_15);
+    TTF_CloseFont(font_24);
+    return 1;
 }
+
 
 
 /**

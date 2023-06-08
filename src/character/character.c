@@ -134,7 +134,7 @@ struct Enemy_ *getEnemyByPosition(struct Enemy_ *enemy, int pos_x, int pos_y) {
         enemy = enemy->previous;
     }
     while (enemy != NULL) {
-        if (enemy->pos_x == pos_x && enemy->pos_y == pos_y) {
+        if (enemy->pos_x == pos_y && enemy->pos_y == pos_x) {
             return enemy;
         }
         enemy = enemy->next;
@@ -205,7 +205,7 @@ int isMovePossible(int x, int y, char **map, struct Enemy_ *enemy, struct Charac
         return 1;
     }
     if (map[y][x] == 'A' || map[y][x] == 'B' || map[y][x] == 'C') {
-        struct Enemy_ *enemyToFight = getEnemyByPosition(enemy, y, x);//voir si faut pas inverser
+        struct Enemy_ *enemyToFight = getEnemyByPosition(enemy, x, y);//voir si faut pas inverser
         if(enemyToFight!=NULL) {
             if (enemyToFight->isDead == 1) {
                 return 0;
