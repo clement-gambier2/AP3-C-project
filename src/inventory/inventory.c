@@ -78,7 +78,7 @@ void renderTextRect(SDL_Renderer* renderer, const char *text, SDL_Rect dstrect, 
 
 
     // Draw black rectangle
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Noir (RGBA)
+    SDL_SetRenderDrawColor(renderer, colorRect.r, colorRect.g, colorRect.b, colorRect.a); // Noir (RGBA)
     SDL_Rect rect = { dstrect.x + 2, dstrect.y, dstrect.w + 30, dstrect.h + 2};
     SDL_RenderFillRect(renderer, &rect);
 
@@ -100,23 +100,9 @@ void render_hearts(SDL_Renderer* renderer, SDL_Texture* tilemap, int num_hearts,
     int red_hearts = character->hp % 10;
     int max_hearts = character->hp_max;
 
-    // Affichage des coeurs jaunes
-    for (int i = 0; i < yellow_hearts; i++) {
-        SDL_Rect heart_rect = {(i * 40) + 5, 0, 40, 40};
-        SDL_RenderCopy(renderer, tilemap, &S_RECT_HEART_GOLD, &heart_rect);
-    }
-
-    // Affichage des coeurs rouges
-    for (int i = 0; i < red_hearts; i++) {
-        SDL_Rect heart_rect = {((i + yellow_hearts) * 40) + 5, 0, 40, 40};
+        SDL_Rect heart_rect = {10 + 5, 25, 40, 40};
         SDL_RenderCopy(renderer, tilemap, &S_RECT_HEART, &heart_rect);
-    }
 
-    // Affichage des coeurs noirs (HPMAX - HP actuels)
-    for (int i = 0; i < max_hearts - character->hp; i++) {
-        SDL_Rect heart_rect = {((i + yellow_hearts + red_hearts) * 40) + 5, 0, 40, 40};
-        SDL_RenderCopy(renderer, tilemap, &S_RECT_HEART_BLACK, &heart_rect);
-    }
 }
 
 /**
@@ -126,10 +112,8 @@ void render_hearts(SDL_Renderer* renderer, SDL_Texture* tilemap, int num_hearts,
  * @param num_dmg
  */
 void render_attack(SDL_Renderer* renderer, SDL_Texture * tilemap, int num_dmg) {
-    for (int i = 0; i < num_dmg; i++) {
-        SDL_Rect attack_rect = {(i * 40) + 5, 80, 40, 40}; // adjust the position as per your requirement
+        SDL_Rect attack_rect = {10 + 5, 110, 40, 40}; // adjust the position as per your requirement
         SDL_RenderCopy(renderer, tilemap, &S_RECT_SWORD_1, &attack_rect);
-    }
 }
 
 /**
@@ -139,10 +123,8 @@ void render_attack(SDL_Renderer* renderer, SDL_Texture * tilemap, int num_dmg) {
  * @param num_def
  */
 void render_def(SDL_Renderer* renderer, SDL_Texture * tilemap, int num_def) {
-    for (int i = 0; i < num_def; i++) {
-        SDL_Rect def_rect = {(i*40)+5, 40, 40, 40};
+        SDL_Rect def_rect = {10+5, 65, 40, 40};
         SDL_RenderCopy(renderer, tilemap, &S_RECT_SHIELD, &def_rect);
-    }
 }
 
 /**
@@ -156,13 +138,28 @@ void inventory(SDL_Renderer* renderer, SDL_Texture * tilemap, struct Character *
     int num_hearts = get_hearts(character);
     render_hearts(renderer, tilemap, num_hearts, character);
 
+    SDL_Rect PV = {20 , 35, 40, 30};
+    SDL_Rect PV_MAX = {60, 35, 40, 30};
+
+
+    render_text(renderer, " ", character->hp, PV, font, WHITE_COLOR);
+    render_text(renderer, "   / ", character->hp_max, PV_MAX, font, WHITE_COLOR);
+
     int num_def = get_def(character);
     render_def(renderer, tilemap, num_def);
-    
+
+    SDL_Rect DEF = {40, 72, 20, 30};
+
+    render_text(renderer, "", character->def, DEF, font, WHITE_COLOR);
+
+    SDL_Rect DMG = {40, 118, 20, 30};
+
+    render_text(renderer, "", character->dmg, DMG, font, WHITE_COLOR);
+
     render_attack(renderer, tilemap, character->dmg);
 
-    SDL_Rect key_dstrect = {0, SCREEN_WINDOW - 100, 60, 60};
-    SDL_Rect text_key_dstrect = {0, SCREEN_WINDOW - 85, 60, 60};
+    SDL_Rect key_dstrect = {0, 150, 60, 60};
+    SDL_Rect text_key_dstrect = {0, 168, 60, 60};
     SDL_RenderCopy(renderer, tilemap, &S_RECT_KEY, &key_dstrect);
 
     render_text(renderer, "", character->key, text_key_dstrect, font, WHITE_COLOR);
