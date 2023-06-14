@@ -4,6 +4,7 @@ const SDL_Color WHITE_COLOR = { 255, 255, 255, 255};
 const SDL_Color GREEN_COLOR = { 234, 164, 109, 255};
 const SDL_Color YELLOW_COLOR = {255, 255, 0, 255};
 const SDL_Color BLACK_COLOR = {0, 0, 0, 255};
+const SDL_Color GREY_COLOR = {71, 234, 0, 0};
 
 const SDL_RendererFlip RENDERER_FLIP = SDL_FLIP_HORIZONTAL;
 
