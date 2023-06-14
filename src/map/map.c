@@ -404,6 +404,20 @@ void drawMap(SDL_Renderer * renderer, struct Map * map, struct Character * c, SD
     else if(c->name == 3){
         SDL_RenderCopy(renderer, tilemap, &S_RECT_KNIGHT_1, &playerRect);
     }
+    switch (c->name) {
+        case 1:
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_CIV_1, &playerRect);
+            break;
+        case 2:
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_WIZARD, &playerRect);
+            break;
+        case 3:
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_KNIGHT_1, &playerRect);
+            break;
+        default:
+            SDL_RenderCopy(renderer, tilemap, &S_RECT_LOBSTER, &playerRect);
+            break;
+    }
 
     // Search enemies near Player
     if ((c->pos_y > 0 && c->pos_y < 29) && (c->pos_x > 0 && c->pos_x < 29)) {

@@ -22,6 +22,24 @@ int launchGame(SDL_Renderer* renderer, int characterChoosen) {
         c = createCharacter(12, 12, 4, 1, 0, characterChoosen);
     }
 
+    switch (characterChoosen) {
+        case 1:
+            c = createCharacter(10, 10, 2, 1, 0, characterChoosen);
+            break;
+        case 2:
+            c = createCharacter(8, 8, 2, 4, 0, characterChoosen);
+            break;
+        case 3:
+            c = createCharacter(12, 12, 4, 1, 0, characterChoosen);
+            break;
+        case 4:
+            c = createCharacter(100, 100, 100, 100, 100, characterChoosen);
+            break;
+        default:
+            c = createCharacter(10, 10, 2, 1, 0, 1);
+            break;
+    }
+
     SDL_Surface *tilemapImage = SDL_LoadBMP("src/assets/img/bmp/tilemap_packed.bmp");
     SDL_Texture *tilemapTexture = SDL_CreateTextureFromSurface(renderer, tilemapImage);
     TTF_Font *font_15 = TTF_OpenFont("src/assets/fonts/pixelart.ttf", 15);
@@ -386,7 +404,8 @@ int chooseCharacter(SDL_Renderer* renderer){
             {"Choisissez un personnage", NULL, NULL, {0, 0, 0, 0}},
             {"Personnage A complet", NULL, NULL, {0, 100, 0, 0}},
             {"Personnage B plus d attaque  moins de vie", NULL, NULL, {0, 200, 0, 0}},
-            {"Personnage C moins d attaque plus de vie", NULL, NULL, {0, 300, 0, 0}}
+            {"Personnage C moins d attaque plus de vie", NULL, NULL, {0, 300, 0, 0}},
+            {"Cheat Mode", NULL, NULL, {0, 400, 0, 0}},
     };
 
     int numTexts = sizeof(texts) / sizeof(texts[0]);
@@ -420,14 +439,14 @@ int chooseCharacter(SDL_Renderer* renderer){
                 switch (event.key.keysym.sym) {
                     case SDLK_UP:
                         if (isSelected == 1){
-                            isSelected = 3;
+                            isSelected = 4;
                         }
                         else{
                             isSelected = (isSelected - 1 + numTexts) % numTexts;
                         }
                         break;
                     case SDLK_DOWN:
-                        if (isSelected == 3){
+                        if (isSelected == 4){
                             isSelected = 1;
                         }
                         else{
