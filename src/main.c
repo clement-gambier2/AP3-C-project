@@ -32,10 +32,9 @@ int main() {
     int characterChoosen;
     int shouldExit = 0;
     do {
-        if (choice != 1 && choice != 3) {
-            choice = displayMenu(renderer);
-        }
+
         if (choice == 2) {
+            printf("hello");
             choice = credits(renderer);
             if (choice != 3) {
                 choice = displayMenu(renderer);
@@ -50,6 +49,9 @@ int main() {
             } else if (game == 2) {
                 choice = finalScreen(renderer, 2);
             }
+        }
+        if (choice != 1 && choice != 3) {
+            choice = displayMenu(renderer);
         }
     } while (!shouldExit && (choice == 1 || choice == 2));
 

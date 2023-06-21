@@ -335,7 +335,7 @@ int credits(SDL_Renderer* renderer) {
             {"Gine Alexandre", NULL, NULL, {0, 300, 0, 0}},
             {"Gressier Gabriel", NULL, NULL, {SCREEN_WINDOW/2, 400, 0, 0}},
             {"Date de derniere modification : ", NULL, NULL, {0, 500, 0, 0}},
-            {"le 7 juin 2023", NULL, NULL, {0, 600, 0, 0}},
+            {"le 21 juin 2023", NULL, NULL, {0, 600, 0, 0}},
             {"Retour", NULL, NULL, {0, 700, 0, 0}}
     };
 
